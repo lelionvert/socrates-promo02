@@ -3,13 +3,13 @@ package fr.socrates.sponsor;
 /**
  * Created by lenovo_13 on 08/08/2017.
  */
-public class Sponsor {
-    private String name;
-    private String SIRET;
-    private String SIREN;
-    private String contractRepresentative;
-    private String contact;
-    private double amountOfSponsoring;
+class Sponsor {
+    private final String name;
+    private final String SIRET;
+    private final String SIREN;
+    private final String contractRepresentative;
+    private final String contact;
+    private final double amountOfSponsoring;
 
 
     public Sponsor(String name, String SIRET, String SIREN, String contractRepresentative, String contact, double amountOfSponsoring) {

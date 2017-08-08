@@ -6,10 +6,10 @@ import java.util.List;
 /**
  * Created by lenovo_13 on 08/08/2017.
  */
-public class SponsorList {
-    private Printer printer;
-    List<Sponsor> sponsorsList;
-    private SponsorConnector sponsorConnector;
+class SponsorList {
+    private final Printer printer;
+    private final List<Sponsor> sponsorsList;
+    private final SponsorConnector sponsorConnector;
 
     public SponsorList(SponsorConnector sponsorConnector, Printer printer) {
         this.printer = printer;
