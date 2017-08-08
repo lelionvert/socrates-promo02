@@ -16,7 +16,7 @@ public class Checkin {
     }
 
     public void addCheckinParticipant(int participantID, LocalDateTime checkinDate) {
-        if (checkinDate.getHour()> COLD_FOOD_HOUR) {
+        if (checkinDate.getHour()>= COLD_FOOD_HOUR) {
             coldFood.add(participantID);
         }
     }

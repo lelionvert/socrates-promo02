@@ -30,18 +30,42 @@ public class CheckinTest {
     }
 
     @Test
-    public void should_return_an_empty_list_when_add_participant_after_twenty_one() {
+    public void should_return_an_empty_list_when_add_participant_before_twenty_one() {
 
-        LocalDateTime CheckinDate = LocalDateTime.of(2017, 8, 12, 12, 14);
-        try {
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM dd yyyy hh:mm a");
-            String landing = CheckinDate.format(format);
-            checkin.addCheckinParticipant(1, CheckinDate);
-        } catch (DateTimeException ex) {
-            System.out.printf("%s can't be formatted!%n", CheckinDate);
-            ex.printStackTrace();
-        }
+        addNewCheckinDate(20);
 
         assertThat(checkin.getColdFoodCount()).isEmpty();
     }
+
+    @Test
+    public void should_return_one_result_list_when_add_participant_after_twenty_one() {
+
+
+        addNewCheckinDate(22);
+        assertThat(checkin.getColdFoodCount()).hasSize(1);
+    }
+
+
+    @Test
+    public void should_return_two_result_list_when_add_participant_after_twenty_one() {
+
+
+        addNewCheckinDate(22);
+        addNewCheckinDate(23);
+        assertThat(checkin.getColdFoodCount()).hasSize(2);
+    }
+
+    public void addNewCheckinDate(int hour)
+    {
+        LocalDateTime checkinDate = LocalDateTime.of(2017, 8, 12, hour, 14);
+        try {
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM dd yyyy hh:mm a");
+            checkin.addCheckinParticipant(1, checkinDate);
+        } catch (DateTimeException ex) {
+            System.out.printf("%s can't be formatted!%n", checkinDate);
+            ex.printStackTrace();
+        }
+
+    }
+
 }
