@@ -81,7 +81,6 @@ public class ListSponsorTest {
 
     @Test
     public void should_write_in_console() throws Exception {
-        Printer consoleWriter = new FakeConsoleWriter();
         SponsorList sponsorList = new SponsorList(new FakeSponsorConnector(), new FakeConsoleWriter());
         String name = "name";
         String SIRET = "siret";
