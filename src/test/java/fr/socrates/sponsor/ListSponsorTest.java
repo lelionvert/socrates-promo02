@@ -20,7 +20,7 @@ public class ListSponsorTest {
     public void should_return_empty_list_sponsors_zero(){
         SponsorList emptyListOfSponsors = new SponsorList(new FakeSponsorConnector());
         List<Sponsor> fetchedSponsors = emptyListOfSponsors.getSponsorsList();
-        assertThat(0).isEqualTo(fetchedSponsors.size());
+        assertThat(fetchedSponsors).isEmpty();
     }
 
     @Test
@@ -34,13 +34,14 @@ public class ListSponsorTest {
         double amountOfSponsoring = 123;
         listOfOneSponsor.addSponsor(new Sponsor(name,SIRET,SIREN,contractRepresentative,contact,amountOfSponsoring));
         List<Sponsor> fetchedSponsors = listOfOneSponsor.getSponsorsList();
-        assertThat(1).isEqualTo(fetchedSponsors.size());
-        assertThat(name).isEqualTo(fetchedSponsors.get(0).getName());
-        assertThat(SIRET).isEqualTo(fetchedSponsors.get(0).getSIRET());
-        assertThat(SIREN).isEqualTo(fetchedSponsors.get(0).getSIREN());
-        assertThat(contractRepresentative).isEqualTo(fetchedSponsors.get(0).getContractRepresentative());
-        assertThat(contact).isEqualTo(fetchedSponsors.get(0).getContact());
-        assertThat(amountOfSponsoring).isEqualTo(fetchedSponsors.get(0).getAmountOfSponsoring());
+        Sponsor sponsor = fetchedSponsors.get(0);
+        assertThat(fetchedSponsors.size()).isEqualTo(1);
+        assertThat(sponsor.getName()).isEqualTo(name);
+        assertThat(sponsor.getSIRET()).isEqualTo(SIRET);
+        assertThat(sponsor.getSIREN()).isEqualTo(SIREN);
+        assertThat(sponsor.getContractRepresentative()).isEqualTo(contractRepresentative);
+        assertThat(sponsor.getContact()).isEqualTo(contact);
+        assertThat(sponsor.getAmountOfSponsoring()).isEqualTo(amountOfSponsoring);
     }
 
     @Test
@@ -63,21 +64,22 @@ public class ListSponsorTest {
         listOfOneSponsor.addSponsor(new Sponsor(name,SIRET,SIREN,contractRepresentative,contact,amountOfSponsoring));
         listOfOneSponsor.addSponsor(new Sponsor(nameSponsorTwo, SIRETSponsorTwo, SIRENSponsorTwo, contractRepresentativeSponsorTwo, contactSponsorTwo, amountOfSponsoringSponsorTwo));
         List<Sponsor> fetchedSponsors = listOfOneSponsor.getSponsorsList();
+        Sponsor sponsor = fetchedSponsors.get(0);
+        assertThat(fetchedSponsors.size()).isEqualTo(2);
+        assertThat(sponsor.getName()).isEqualTo(name);
+        assertThat(sponsor.getSIRET()).isEqualTo(SIRET);
+        assertThat(sponsor.getSIREN()).isEqualTo(SIREN);
+        assertThat(sponsor.getContractRepresentative()).isEqualTo(contractRepresentative);
+        assertThat(sponsor.getContact()).isEqualTo(contact);
+        assertThat(sponsor.getAmountOfSponsoring()).isEqualTo(amountOfSponsoring);
 
-        assertThat(2).isEqualTo(fetchedSponsors.size());
-        assertThat(name).isEqualTo(fetchedSponsors.get(0).getName());
-        assertThat(SIRET).isEqualTo(fetchedSponsors.get(0).getSIRET());
-        assertThat(SIREN).isEqualTo(fetchedSponsors.get(0).getSIREN());
-        assertThat(contractRepresentative).isEqualTo(fetchedSponsors.get(0).getContractRepresentative());
-        assertThat(contact).isEqualTo(fetchedSponsors.get(0).getContact());
-        assertThat(amountOfSponsoring).isEqualTo(fetchedSponsors.get(0).getAmountOfSponsoring());
-
-        assertThat(nameSponsorTwo).isEqualTo(fetchedSponsors.get(1).getName());
-        assertThat(SIRETSponsorTwo).isEqualTo(fetchedSponsors.get(1).getSIRET());
-        assertThat(SIRENSponsorTwo).isEqualTo(fetchedSponsors.get(1).getSIREN());
-        assertThat(contractRepresentativeSponsorTwo).isEqualTo(fetchedSponsors.get(1).getContractRepresentative());
-        assertThat(contactSponsorTwo).isEqualTo(fetchedSponsors.get(1).getContact());
-        assertThat(amountOfSponsoringSponsorTwo).isEqualTo(fetchedSponsors.get(1).getAmountOfSponsoring());
+        Sponsor sponsor1 = fetchedSponsors.get(1);
+        assertThat(sponsor1.getName()).isEqualTo(nameSponsorTwo);
+        assertThat(sponsor1.getSIRET()).isEqualTo(SIRETSponsorTwo);
+        assertThat(sponsor1.getSIREN()).isEqualTo(SIRENSponsorTwo);
+        assertThat(sponsor1.getContractRepresentative()).isEqualTo(contractRepresentativeSponsorTwo);
+        assertThat(sponsor1.getContact()).isEqualTo(contactSponsorTwo);
+        assertThat(sponsor1.getAmountOfSponsoring()).isEqualTo(amountOfSponsoringSponsorTwo);
     }
 
     private class FakeSponsorConnector implements SponsorConnector {
