@@ -2,7 +2,18 @@ package fr.socrates.domain.candidate;
 
 import java.util.List;
 
-public interface CandidateService {
+class CandidateService {
+    private final CandidateConnector connector;
 
-    List getList();
+    CandidateService(CandidateConnector connector) {
+        this.connector = connector;
+    }
+
+    List<Candidate> getList() {
+        return connector.getList();
+    }
+
+    void add(Candidate candidate) {
+        connector.add(candidate);
+    }
 }
