@@ -1,5 +1,6 @@
 package fr.socrates.domain.checkin;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -14,14 +15,9 @@ public class Checkin {
         return coldFood;
     }
 
-    public void addCheckinParticipant(Date entranceDate, int participantID) {
-
-        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-        calendar.setTime(entranceDate);   // assigns calendar to given date
-        if (calendar.get(Calendar.HOUR_OF_DAY) > COLD_FOOD_HOUR) {
+    public void addCheckinParticipant(int participantID, LocalDateTime checkinDate) {
+        if (checkinDate.getHour()> COLD_FOOD_HOUR) {
             coldFood.add(participantID);
         }
-
-
     }
 }
