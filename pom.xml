@@ -26,5 +26,10 @@
         </dependency>
     </dependencies>
 
-
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus</id>
+            <url>http://nexus-lacombe.westeurope.cloudapp.azure.com:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
