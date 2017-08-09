@@ -17,11 +17,11 @@ import static org.assertj.core.api.Assertions.*;
  * Created by lenovo_14 on 08/08/2017.
  */
 public class CheckinTest {
-    Checkin checkin;
+    CheckinService checkin;
 
     @Before
     public void set_initialization() {
-        checkin = new Checkin();
+        checkin = new CheckinServiceImplementation();
     }
 
     @Test
