@@ -29,17 +29,17 @@ public class CandidateServiceTest {
         final String email = "test@test.net";
 
         // Act
-        candidateService.add(new Candidate(email));
+        candidateService.add(Candidate.withEmail(EMail.of(email)));
 
         // Assert
-        Set<Candidate> expectedCandidates = Collections.singleton(new Candidate(email));
+        Set<Candidate> expectedCandidates = Collections.singleton(Candidate.withEmail(EMail.of(email)));
         assertThat(candidateService.getCandidates()).isEqualTo(expectedCandidates);
     }
 
     @Test
     public void should_guaranty_unicity_of_candidates() throws Exception {
-        candidateService.add(new Candidate("test@test.net"));
-        candidateService.add(new Candidate("test@test.net"));
+        candidateService.add(Candidate.withEmail(EMail.of("test@test.net")));
+        candidateService.add(Candidate.withEmail(EMail.of("test@test.net")));
         assertThat(candidateService.size()).isEqualTo(1);
     }
 

@@ -1,17 +1,7 @@
 package fr.socrates.domain.candidate;
 
 class Candidate {
-    private final String email;
-    private EMail emailToKeep;
-
-    Candidate(String email) {
-        this.email = email;
-    }
-
-    public Candidate(EMail email) {
-        emailToKeep = email;
-        this.email = null;
-    }
+    private final EMail email;
 
     @Override
     public boolean equals(Object o) {
@@ -20,15 +10,19 @@ class Candidate {
 
         Candidate candidate = (Candidate) o;
 
-        return email != null ? email.equals(candidate.email) : candidate.email == null;
+        return email.equals(candidate.email);
     }
 
     @Override
     public int hashCode() {
-        return email != null ? email.hashCode() : 0;
+        return email.hashCode();
     }
 
-    public static Candidate withEmail(EMail email) {
+    private Candidate(EMail email) {
+        this.email = email;
+    }
+
+    static Candidate withEmail(EMail email) {
         if (email == null) {
             throw new IllegalStateException();
         }

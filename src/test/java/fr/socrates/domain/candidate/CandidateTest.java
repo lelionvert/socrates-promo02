@@ -12,7 +12,8 @@ public class CandidateTest {
 
     @Test
     public void should_create_a_valid_candidate() throws Exception {
-        Candidate candidate = Candidate.withEmail(EMail.of("test@hello.com"));
-        assertThat(candidate).isNotNull();
+        Candidate candidate1 = Candidate.withEmail(EMail.of("test@hello.com"));
+        Candidate candidate2 = Candidate.withEmail(EMail.of("testtutu@hello.com"));
+        assertThat(candidate1).isNotEqualTo(candidate2);
     }
 }
