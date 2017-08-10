@@ -25,4 +25,8 @@ class Candidate {
     String getEmail() {
         return email;
     }
+
+    public static Candidate withEmail(EMail email) {
+        throw new IllegalStateException();
+    }
 }
