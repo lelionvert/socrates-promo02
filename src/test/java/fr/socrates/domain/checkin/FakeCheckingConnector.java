@@ -5,24 +5,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by lenovo_14 on 10/08/2017.
- */
-class FakeCheckingConnector implements CheckinConnector {
-    Map<ParticipantId, Checkin> chekings;
+class FakeCheckingConnector implements CheckInConnector {
+    private final Map<ParticipantId, CheckIn> checkIns;
 
-    public FakeCheckingConnector() {
-        this.chekings = new HashMap<>();
+    FakeCheckingConnector() {
+        this.checkIns = new HashMap<>();
     }
 
     @Override
-    public void save(ParticipantId participantId) {
-
-        chekings.put(participantId, new Checkin(participantId));
+    public void save(CheckIn checkin) {
+        checkIns.put(checkin.getParticipantId(), checkin);
     }
 
     @Override
-    public List<Checkin> getCheckings() {
-        return new ArrayList<>(chekings.values());
+    public List<CheckIn> getCheckIns() {
+        return new ArrayList<>(checkIns.values());
     }
 }

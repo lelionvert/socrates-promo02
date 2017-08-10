@@ -6,19 +6,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckinServiceImplementation implements CheckinService {
+public class CheckInServiceImpl implements CheckInService {
     List coldFood = new ArrayList();
-    private CheckinConnector checkinConnector;
-    private Printer printer;
+    private final CheckInConnector checkInConnector;
+    private final Printer printer;
 
-    public CheckinServiceImplementation(CheckinConnector checkinConnector, Printer printer) {
-        this.checkinConnector = checkinConnector;
+    public CheckInServiceImpl(CheckInConnector checkInConnector, Printer printer) {
+        this.checkInConnector = checkInConnector;
         this.printer = printer;
     }
 
     @Override
     public int getColdFoodCount() {
-        return this.checkinConnector.getCheckings().size();
+        return this.checkInConnector.getCheckIns().size();
     }
 
     @Override
@@ -26,7 +26,7 @@ public class CheckinServiceImplementation implements CheckinService {
         LocalDateTime checkinDate = LocalDateTime.of(2017, 8, 12, hour, 14);
         try {
             DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM dd yyyy hh:mm a");
-            if (isHourValid(checkinDate)) this.checkinConnector.save(participantId);
+            if (isHourValid(checkinDate)) this.checkInConnector.save(new CheckIn(participantId));
         } catch (DateTimeException ex) {
             System.out.printf("%s can't be formatted!%n", checkinDate);
             ex.printStackTrace();
@@ -39,6 +39,6 @@ public class CheckinServiceImplementation implements CheckinService {
     }
 
     private boolean isHourValid(LocalDateTime checkinDate) {
-        return checkinDate.getHour() >= Checkin.COLD_FOOD_HOUR;
+        return checkinDate.getHour() >= CheckIn.COLD_FOOD_HOUR;
     }
 }

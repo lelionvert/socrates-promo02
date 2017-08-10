@@ -1,10 +1,7 @@
 package fr.socrates.domain.checkin;
 
-/**
- * Created by lenovo_14 on 10/08/2017.
- */
-public class ParticipantId {
-    private String id;
+class ParticipantId {
+    private final String id;
 
     public ParticipantId(String s) {
         id = s;
