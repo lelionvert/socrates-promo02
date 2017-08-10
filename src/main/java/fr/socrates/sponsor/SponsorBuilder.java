@@ -8,32 +8,32 @@ public class SponsorBuilder {
     private String contact;
     private double amountOfSponsoring;
 
-    public SponsorBuilder setName(String name) {
+    public SponsorBuilder withName(String name) {
         this.name = name;
         return this;
     }
 
-    public SponsorBuilder setSIRET(String siret) {
+    public SponsorBuilder withSIRET(String siret) {
         this.siret = siret;
         return this;
     }
 
-    public SponsorBuilder setSIREN(String siren) {
+    public SponsorBuilder withSIREN(String siren) {
         this.siren = siren;
         return this;
     }
 
-    public SponsorBuilder setContractRepresentative(String contractRepresentative) {
+    public SponsorBuilder withContractRepresentative(String contractRepresentative) {
         this.contractRepresentative = contractRepresentative;
         return this;
     }
 
-    public SponsorBuilder setContact(String contact) {
+    public SponsorBuilder withContact(String contact) {
         this.contact = contact;
         return this;
     }
 
-    public SponsorBuilder setAmountOfSponsoring(double amountOfSponsoring) {
+    public SponsorBuilder withAmountOfSponsoring(double amountOfSponsoring) {
         this.amountOfSponsoring = amountOfSponsoring;
         return this;
     }

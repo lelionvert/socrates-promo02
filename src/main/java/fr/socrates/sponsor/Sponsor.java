@@ -21,27 +21,37 @@ class Sponsor {
         this.amountOfSponsoring = amountOfSponsoring;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Sponsor sponsor = (Sponsor) o;
+
+        if (Double.compare(sponsor.amountOfSponsoring, amountOfSponsoring) != 0) return false;
+        if (name != null ? !name.equals(sponsor.name) : sponsor.name != null) return false;
+        if (SIRET != null ? !SIRET.equals(sponsor.SIRET) : sponsor.SIRET != null) return false;
+        if (SIREN != null ? !SIREN.equals(sponsor.SIREN) : sponsor.SIREN != null) return false;
+        if (contractRepresentative != null ? !contractRepresentative.equals(sponsor.contractRepresentative) : sponsor.contractRepresentative != null)
+            return false;
+        return contact != null ? contact.equals(sponsor.contact) : sponsor.contact == null;
     }
 
-    public String getSIRET() {
-        return SIRET;
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (SIRET != null ? SIRET.hashCode() : 0);
+        result = 31 * result + (SIREN != null ? SIREN.hashCode() : 0);
+        result = 31 * result + (contractRepresentative != null ? contractRepresentative.hashCode() : 0);
+        result = 31 * result + (contact != null ? contact.hashCode() : 0);
+        temp = Double.doubleToLongBits(amountOfSponsoring);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
     }
 
-    public String getSIREN() {
-        return SIREN;
-    }
-
-    public String getContractRepresentative() {
-        return contractRepresentative;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public double getAmountOfSponsoring() {
-        return amountOfSponsoring;
+    void print(Printer printer) {
+        printer.print(contact);
     }
 }

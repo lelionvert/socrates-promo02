@@ -8,13 +8,11 @@ import java.util.List;
  */
 class SponsorList {
     private final Printer printer;
-    private final List<Sponsor> sponsorsList;
     private final SponsorConnector sponsorConnector;
 
     public SponsorList(SponsorConnector sponsorConnector, Printer printer) {
         this.printer = printer;
         this.sponsorConnector = sponsorConnector;
-        this.sponsorsList = new ArrayList<Sponsor>();
     }
 
     public void addSponsor(Sponsor sponsor) {
@@ -25,7 +23,9 @@ class SponsorList {
         return this.sponsorConnector.getSponsorsList();
     }
 
-    public String print() {
-        return this.printer.print(getSponsorsList());
+    public void print() {
+      for (Sponsor sponsor : getSponsorsList()) {
+        sponsor.print(printer);
+      }
     }
 }
