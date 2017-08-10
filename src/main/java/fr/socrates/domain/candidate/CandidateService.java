@@ -1,19 +1,23 @@
 package fr.socrates.domain.candidate;
 
-import java.util.List;
+import java.util.Set;
 
 class CandidateService {
-    private final CandidateConnector connector;
+    private final CandidateRepository candidateRepository;
 
-    CandidateService(CandidateConnector connector) {
-        this.connector = connector;
+    CandidateService(CandidateRepository candidateRepository) {
+        this.candidateRepository = candidateRepository;
     }
 
-    List<Candidate> getList() {
-        return connector.getList();
+    Set<Candidate> getCandidates() {
+        return candidateRepository.findAll();
     }
 
     void add(Candidate candidate) {
-        connector.add(candidate);
+        candidateRepository.save(candidate);
+    }
+
+    public int size() {
+        return candidateRepository.size();
     }
 }
