@@ -22,20 +22,22 @@ public class CheckingServiceImplementation implements CheckingService {
 
     @Override
     public int getColdFoodCount() {
-        return this.checkingStorage.getCheckings();
+        return this.checkingStorage.getCheckings().size();
     }
 
     @Override
-    public void addNewCheckinDate(ParticipantID participantID, int hour) {
+    public void addNewCheckinDate(ParticipantId participantId, int hour) {
         LocalDateTime checkinDate = LocalDateTime.of(2017, 8, 12, hour, 14);
         try {
             DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM dd yyyy hh:mm a");
-            if (checkinDate.getHour() >= Checking.COLD_FOOD_HOUR) {
-                this.checkingStorage.add(participantID);
-            }
+            if (isHourValid(checkinDate)) this.checkingStorage.save(participantId);
         } catch (DateTimeException ex) {
             System.out.printf("%s can't be formatted!%n", checkinDate);
             ex.printStackTrace();
         }
+    }
+
+    private boolean isHourValid(LocalDateTime checkinDate) {
+        return checkinDate.getHour() >= Checking.COLD_FOOD_HOUR;
     }
 }

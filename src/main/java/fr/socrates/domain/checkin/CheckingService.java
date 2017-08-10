@@ -6,5 +6,5 @@ package fr.socrates.domain.checkin;
 public interface CheckingService {
 
     public int getColdFoodCount();
-    public void addNewCheckinDate(ParticipantID participantID, int hour);
+    public void addNewCheckinDate(ParticipantId participantId, int hour);
 }
