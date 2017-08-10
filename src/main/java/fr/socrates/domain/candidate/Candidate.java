@@ -2,9 +2,15 @@ package fr.socrates.domain.candidate;
 
 class Candidate {
     private final String email;
+    private EMail emailToKeep;
 
     Candidate(String email) {
         this.email = email;
+    }
+
+    public Candidate(EMail email) {
+        emailToKeep = email;
+        this.email = null;
     }
 
     @Override
@@ -22,11 +28,10 @@ class Candidate {
         return email != null ? email.hashCode() : 0;
     }
 
-    String getEmail() {
-        return email;
-    }
-
     public static Candidate withEmail(EMail email) {
-        throw new IllegalStateException();
+        if (email == null) {
+            throw new IllegalStateException();
+        }
+        return new Candidate(email);
     }
 }
