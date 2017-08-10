@@ -3,7 +3,6 @@ package fr.socrates.domain.candidate;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,12 +18,25 @@ public class CandidateServiceTest {
     }
 
     @Test
-    public void should_return_an_empty_list() {
-        assertThat(candidateService.getCandidates()).isEmpty();
+    public void should_have_no_candidates_at_the_beginning() {
+        assertThat(candidateService.hasCandidates()).isFalse();
     }
 
     @Test
-    public void should_return_one_candidate() {
+    public void should_have_candidates_when_adding_candidates() throws Exception {
+        candidateService.add(Candidate.withEmail(EMail.of("test@test.net")));
+
+        assertThat(candidateService.hasCandidates()).isTrue();
+    }
+
+    @Test
+    public void should_have_one_candidate_when_adding_one_candidate() throws Exception {
+        candidateService.add(Candidate.withEmail(EMail.of("test@test.net")));
+        assertThat(candidateService.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void should_contains_the_candidate_I_have_added() {
         // Arrange
         final String email = "test@test.net";
 
@@ -32,8 +44,7 @@ public class CandidateServiceTest {
         candidateService.add(Candidate.withEmail(EMail.of(email)));
 
         // Assert
-        Set<Candidate> expectedCandidates = Collections.singleton(Candidate.withEmail(EMail.of(email)));
-        assertThat(candidateService.getCandidates()).isEqualTo(expectedCandidates);
+        assertThat(candidateService.contains(Candidate.withEmail(EMail.of(email)))).isTrue();
     }
 
     @Test

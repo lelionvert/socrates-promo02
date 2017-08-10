@@ -1,16 +1,10 @@
 package fr.socrates.domain.candidate;
 
-import java.util.Set;
-
 class CandidateService {
     private final CandidateRepository candidateRepository;
 
     CandidateService(CandidateRepository candidateRepository) {
         this.candidateRepository = candidateRepository;
-    }
-
-    Set<Candidate> getCandidates() {
-        return candidateRepository.findAll();
     }
 
     void add(Candidate candidate) {
@@ -19,5 +13,13 @@ class CandidateService {
 
     public int size() {
         return candidateRepository.size();
+    }
+
+    public boolean hasCandidates() {
+        return !candidateRepository.findAll().isEmpty();
+    }
+
+    public boolean contains(Candidate candidate) {
+        return candidateRepository.findAll().contains(candidate);
     }
 }
