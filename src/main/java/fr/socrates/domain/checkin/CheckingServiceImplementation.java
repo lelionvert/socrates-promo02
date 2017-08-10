@@ -26,7 +26,7 @@ public class CheckingServiceImplementation implements CheckingService {
     }
 
     @Override
-    public void addNewCheckinDate(String participantID, int hour) {
+    public void addNewCheckinDate(ParticipantID participantID, int hour) {
         LocalDateTime checkinDate = LocalDateTime.of(2017, 8, 12, hour, 14);
         try {
             DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM dd yyyy hh:mm a");

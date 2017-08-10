@@ -9,9 +9,9 @@ import java.util.*;
 public class Checking {
 
     public static final int COLD_FOOD_HOUR = 21;
-    private String participantID;
+    private ParticipantID participantID;
 
-    public Checking(String participantID) {
+    public Checking(ParticipantID participantID) {
         this.participantID = participantID;
     }
 }
