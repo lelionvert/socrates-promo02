@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by lenovo_14 on 10/08/2017.
  */
-public interface CheckinStorage {
+public interface CheckinConnector {
     void save(ParticipantId participantId);
     List<Checkin> getCheckings();
 }

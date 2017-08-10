@@ -3,21 +3,16 @@ package fr.socrates.domain.checkin;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import static org.assertj.core.api.Assertions.*;
 
 public class CheckinTest {
-    CheckinStorage checkinStorage;
+    CheckinConnector checkinConnector;
     CheckinService checkinService;
 
     @Before
     public void set_initialization() {
-        checkinStorage = new FakeCheckingStorage();
-        checkinService = new CheckinServiceImplementation(checkinStorage);
+        checkinConnector = new FakeCheckingConnector();
+        checkinService = new CheckinServiceImplementation(checkinConnector, new FakePrinter());
     }
 
     @Test
@@ -51,22 +46,4 @@ public class CheckinTest {
         assertThat(checkinService.getColdFoodCount()).isEqualTo(1);
     }
 
-    private class FakeCheckingStorage implements CheckinStorage {
-        Map<ParticipantId,Checkin> chekings;
-
-        public FakeCheckingStorage() {
-            this.chekings = new HashMap<>();
-        }
-
-        @Override
-        public void save(ParticipantId participantId) {
-
-            chekings.put(participantId,new Checkin(participantId));
-        }
-
-        @Override
-        public List<Checkin> getCheckings() {
-            return new ArrayList<>(chekings.values());
-        }
-    }
 }

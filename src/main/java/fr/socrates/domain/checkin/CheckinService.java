@@ -7,4 +7,5 @@ public interface CheckinService {
 
     public int getColdFoodCount();
     public void addNewCheckinDate(ParticipantId participantId, int hour);
+    public String print();
 }
