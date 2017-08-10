@@ -35,14 +35,14 @@ public class ListSponsorTest {
 
   @Test
   public void should_return_empty_list_sponsors_zero() {
-    SponsorList emptyListOfSponsors = new SponsorList(new FakeSponsorConnector(), new FakeConsoleWriter());
+    SponsorService emptyListOfSponsors = new SponsorService(new FakeSponsorConnector(), new FakeConsoleWriter());
     List<Sponsor> fetchedSponsors = emptyListOfSponsors.getSponsorsList();
     assertThat(fetchedSponsors).isEmpty();
   }
 
   @Test
   public void should_return_size_1_when_adding_a_sponsor() {
-    SponsorList listOfOneSponsor = new SponsorList(new FakeSponsorConnector(), new FakeConsoleWriter());
+    SponsorService listOfOneSponsor = new SponsorService(new FakeSponsorConnector(), new FakeConsoleWriter());
     listOfOneSponsor.addSponsor(new SponsorBuilder().withName("name").withSIRET("siret").withSIREN("siren").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123).createSponsor());
     List<Sponsor> fetchedSponsors = listOfOneSponsor.getSponsorsList();
 
@@ -55,7 +55,7 @@ public class ListSponsorTest {
 
   @Test
   public void should_return_two_sponsors_when_adding_a_sponsor() {
-    SponsorList listOfOneSponsor = new SponsorList(new FakeSponsorConnector(), new FakeConsoleWriter());
+    SponsorService listOfOneSponsor = new SponsorService(new FakeSponsorConnector(), new FakeConsoleWriter());
 
     listOfOneSponsor.addSponsor(new SponsorBuilder().withName("name").withSIRET("siret").withSIREN("siren").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor());
     listOfOneSponsor.addSponsor(new SponsorBuilder().withName("Sponsor").withSIRET("siret 2").withSIREN("siren 2").withContractRepresentative("contractRepresentative 2").withContact("contact 2").withAmountOfSponsoring(1234d).createSponsor());
@@ -75,12 +75,12 @@ public class ListSponsorTest {
   public void should_write_in_console() throws Exception {
     init_list_of_sponsors();
     FakeConsoleWriter printer = new FakeConsoleWriter();
-    SponsorList sponsorList = new SponsorList(new FakeSponsorConnector(), printer);
+    SponsorService sponsorService = new SponsorService(new FakeSponsorConnector(), printer);
 
-    sponsorList.addSponsor(new SponsorBuilder().withName("name").withSIRET("siret").withSIREN("siren").withContractRepresentative("contractRepresentative").withContact("mail1@gmail.com").withAmountOfSponsoring(123d).createSponsor());
-    sponsorList.addSponsor(new SponsorBuilder().withName("Sponsor").withSIRET("siret 2").withSIREN("siren 2").withContractRepresentative("contractRepresentative 2").withContact("mail2@gmail.com").withAmountOfSponsoring(1234d).createSponsor());
+    sponsorService.addSponsor(new SponsorBuilder().withName("name").withSIRET("siret").withSIREN("siren").withContractRepresentative("contractRepresentative").withContact("mail1@gmail.com").withAmountOfSponsoring(123d).createSponsor());
+    sponsorService.addSponsor(new SponsorBuilder().withName("Sponsor").withSIRET("siret 2").withSIREN("siren 2").withContractRepresentative("contractRepresentative 2").withContact("mail2@gmail.com").withAmountOfSponsoring(1234d).createSponsor());
 
-    sponsorList.print();
+    sponsorService.print();
 
     assertThat(printer.flush()).isEqualTo("mail1@gmail.com; mail2@gmail.com");
   }
@@ -89,7 +89,7 @@ public class ListSponsorTest {
   public void should_call_sponsor_connector() {
     init_list_of_sponsors();
     FakeSponsorConnector sponsorConnector = new FakeSponsorConnector(sponsors);
-    SponsorList listOfTwoSponsors = new SponsorList(sponsorConnector, new FakeConsoleWriter());
+    SponsorService listOfTwoSponsors = new SponsorService(sponsorConnector, new FakeConsoleWriter());
     assertThat(sponsorConnector.getSponsorsList()).isEqualTo(sponsors);
     assertThat(listOfTwoSponsors.getSponsorsList().size()).isEqualTo(2);
   }

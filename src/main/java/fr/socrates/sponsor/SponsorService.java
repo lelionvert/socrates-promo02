@@ -6,11 +6,11 @@ import java.util.List;
 /**
  * Created by lenovo_13 on 08/08/2017.
  */
-class SponsorList {
+class SponsorService {
     private final Printer printer;
     private final SponsorConnector sponsorConnector;
 
-    public SponsorList(SponsorConnector sponsorConnector, Printer printer) {
+    public SponsorService(SponsorConnector sponsorConnector, Printer printer) {
         this.printer = printer;
         this.sponsorConnector = sponsorConnector;
     }
