@@ -39,6 +39,8 @@ public class SponsorBuilder {
     }
 
     public Sponsor createSponsor() {
+        if(siren==null)
+            throw new IllegalStateException();
         return new Sponsor(name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
     }
 }

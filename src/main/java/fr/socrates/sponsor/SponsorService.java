@@ -15,7 +15,9 @@ class SponsorService {
     }
 
     public void addSponsor(Sponsor sponsor) {
-        this.sponsorRespository.addSponsor(sponsor);
+        if (!this.sponsorRespository.getSponsorsList().contains(sponsor)) {
+            this.sponsorRespository.addSponsor(sponsor);
+        }
     }
 
     public List<Sponsor> getSponsorsList() {
