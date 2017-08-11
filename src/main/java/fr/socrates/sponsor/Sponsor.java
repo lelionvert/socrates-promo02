@@ -24,7 +24,7 @@ class Sponsor {
         return SIREN.hashCode();
     }
 
-    Sponsor(String name, String SIRET, String SIREN, String contractRepresentative, String contact, double amountOfSponsoring) {
+    private Sponsor(String name, String SIRET, String SIREN, String contractRepresentative, String contact, double amountOfSponsoring) {
         this.name = name;
         this.SIRET = SIRET;
         this.SIREN = SIREN;
@@ -35,5 +35,50 @@ class Sponsor {
 
     void print(Printer printer) {
         printer.print(contact);
+    }
+
+    public static class SponsorBuilder {
+        private String name;
+        private String siret;
+        private String siren;
+        private String contractRepresentative;
+        private String contact;
+        private double amountOfSponsoring;
+
+        public SponsorBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public SponsorBuilder withSIRET(String siret) {
+            this.siret = siret;
+            return this;
+        }
+
+        public SponsorBuilder withSIREN(String siren) {
+            this.siren = siren;
+            return this;
+        }
+
+        public SponsorBuilder withContractRepresentative(String contractRepresentative) {
+            this.contractRepresentative = contractRepresentative;
+            return this;
+        }
+
+        public SponsorBuilder withContact(String contact) {
+            this.contact = contact;
+            return this;
+        }
+
+        public SponsorBuilder withAmountOfSponsoring(double amountOfSponsoring) {
+            this.amountOfSponsoring = amountOfSponsoring;
+            return this;
+        }
+
+        public Sponsor createSponsor() {
+            if(siren==null)
+                throw new IllegalStateException();
+            return new Sponsor(name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
+        }
     }
 }
