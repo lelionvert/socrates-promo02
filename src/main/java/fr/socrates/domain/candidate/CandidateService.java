@@ -9,5 +9,5 @@ public interface CandidateService {
 
     boolean contains(Candidate candidate);
 
-    String print();
+    void print();
 }

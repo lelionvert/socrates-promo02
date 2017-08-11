@@ -1,5 +1,6 @@
 package fr.socrates.domain.candidate;
 
+import fr.socrates.common.FakePrinter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,10 +12,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CandidateServiceTest {
 
     private CandidateService candidateService;
+    private FakePrinter printer;
 
     @Before
     public void setUp() throws Exception {
-        candidateService = new CandidateServiceImpl(new FakeCandidateRepository());
+        printer = new FakePrinter();
+        candidateService = new CandidateServiceImpl(new FakeCandidateRepository(), printer);
     }
 
     @Test
@@ -56,15 +59,16 @@ public class CandidateServiceTest {
 
     @Test
     public void should_print_no_candidates_at_the_beginning() throws Exception {
-        assertThat(candidateService.print()).isEqualTo("No email to print");
+        candidateService.print();
+        assertThat(printer.flush()).isEqualTo("No email to print");
     }
 
     @Test
     public void should_print_one_email_when_adding_one_candidate() throws Exception {
         candidateService.add(Candidate.withEmail("test@test.net"));
-        assertThat(candidateService.print()).isEqualTo("test@test.net");
+        candidateService.print();
+        assertThat(printer.flush()).isEqualTo("test@test.net");
     }
-
 
     private class FakeCandidateRepository implements CandidateRepository {
 

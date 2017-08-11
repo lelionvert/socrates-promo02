@@ -1,10 +1,14 @@
 package fr.socrates.domain.candidate;
 
+import fr.socrates.common.Printer;
+
 class CandidateServiceImpl implements CandidateService {
     private final CandidateRepository candidateRepository;
+    private final Printer printer;
 
-    CandidateServiceImpl(CandidateRepository candidateRepository) {
+    CandidateServiceImpl(CandidateRepository candidateRepository, Printer printer) {
         this.candidateRepository = candidateRepository;
+        this.printer = printer;
     }
 
     @Override
@@ -28,11 +32,12 @@ class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public String print() {
-        return candidateRepository.findAll()
+    public void print() {
+        String emailToPrint = candidateRepository.findAll()
                 .stream()
                 .map(Candidate::toString)
                 .findFirst()
                 .orElse("No email to print");
+        printer.print(emailToPrint);
     }
 }
