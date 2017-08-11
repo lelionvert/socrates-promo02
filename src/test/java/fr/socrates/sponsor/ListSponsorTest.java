@@ -2,10 +2,10 @@ package fr.socrates.sponsor;
 
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ListSponsorTest {
 
@@ -28,7 +28,7 @@ public class ListSponsorTest {
                 .withContact("mail2@gmail.com")
                 .withAmountOfSponsoring(1234d).createSponsor();
 
-        sponsors = new ArrayList<Sponsor>();
+        sponsors = new ArrayList<>();
         sponsors.add(sponsor1);
         sponsors.add(sponsor2);
     }
@@ -109,21 +109,21 @@ public class ListSponsorTest {
     }
 
     private class FakeConsolePrinter implements Printer {
-        final List<String> console = new ArrayList<String>();
+        final List<String> console = new ArrayList<>();
 
         public void print(String toPrint) {
             console.add(toPrint);
         }
 
         public String flush() {
-            String consoleToString = "";
+            StringBuilder consoleToString = new StringBuilder();
             for (int i = 0; i < console.size(); i++) {
-                consoleToString += console.get(i);
+                consoleToString.append(console.get(i));
                 if (i != console.size() - 1) {
-                    consoleToString += "; ";
+                    consoleToString.append("; ");
                 }
             }
-            return consoleToString;
+            return consoleToString.toString();
         }
     }
 
@@ -131,7 +131,7 @@ public class ListSponsorTest {
         private final List<Sponsor> sponsors;
 
         public FakeSponsorRespository() {
-            sponsors = new ArrayList<Sponsor>();
+            sponsors = new ArrayList<>();
         }
 
         public FakeSponsorRespository(List<Sponsor> sponsors) {
