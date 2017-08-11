@@ -1,4 +1,6 @@
-package fr.socrates.sponsor;
+package fr.socrates.domain.sponsor;
+
+import fr.socrates.common.Printer;
 
 class Sponsor {
     private final String name;

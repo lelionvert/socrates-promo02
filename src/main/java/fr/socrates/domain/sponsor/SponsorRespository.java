@@ -1,10 +1,7 @@
-package fr.socrates.sponsor;
+package fr.socrates.domain.sponsor;
 
 import java.util.List;
 
-/**
- * Created by lenovo_13 on 08/08/2017.
- */
 interface SponsorRespository {
     void addSponsor(Sponsor sponsor);
     List<Sponsor> getSponsorsList();

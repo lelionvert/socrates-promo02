@@ -1,10 +1,9 @@
-package fr.socrates.sponsor;
+package fr.socrates.domain.sponsor;
+
+import fr.socrates.common.Printer;
 
 import java.util.List;
 
-/**
- * Created by lenovo_13 on 08/08/2017.
- */
 class SponsorService {
     private final Printer printer;
     private final SponsorRespository sponsorRespository;
