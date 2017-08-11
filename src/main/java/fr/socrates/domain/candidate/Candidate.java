@@ -18,6 +18,11 @@ class Candidate {
         return email.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return email.toString();
+    }
+
     private Candidate(EMail email) {
         this.email = email;
     }

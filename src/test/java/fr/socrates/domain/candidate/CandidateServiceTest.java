@@ -54,6 +54,18 @@ public class CandidateServiceTest {
         assertThat(candidateService.size()).isEqualTo(1);
     }
 
+    @Test
+    public void should_print_no_candidates_at_the_beginning() throws Exception {
+        assertThat(candidateService.print()).isEqualTo("No email to print");
+    }
+
+    @Test
+    public void should_print_one_email_when_adding_one_candidate() throws Exception {
+        candidateService.add(Candidate.withEmail(EMail.of("test@test.net")));
+        assertThat(candidateService.print()).isEqualTo("test@test.net");
+    }
+
+
     private class FakeCandidateRepository implements CandidateRepository {
 
         private final Set<Candidate> list = new HashSet<>();

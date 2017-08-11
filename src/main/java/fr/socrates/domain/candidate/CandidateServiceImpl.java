@@ -26,4 +26,13 @@ class CandidateServiceImpl implements CandidateService {
     public boolean contains(Candidate candidate) {
         return candidateRepository.findAll().contains(candidate);
     }
+
+    @Override
+    public String print() {
+        return candidateRepository.findAll()
+                .stream()
+                .map(Candidate::toString)
+                .findFirst()
+                .orElse("No email to print");
+    }
 }

@@ -7,6 +7,11 @@ public class EMail {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return email;
+    }
+
     static EMail of(String email) {
         if (email == null) {
             throw new IllegalStateException();

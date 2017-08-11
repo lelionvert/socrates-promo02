@@ -8,4 +8,6 @@ public interface CandidateService {
     boolean hasCandidates();
 
     boolean contains(Candidate candidate);
+
+    String print();
 }
