@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class FakeCheckInConnector implements CheckInConnector {
+class FakeCheckInRepository implements CheckInRepository {
     private final Map<ParticipantId, CheckIn> checkIns;
 
-    FakeCheckInConnector() {
+    FakeCheckInRepository() {
         this.checkIns = new HashMap<>();
     }
 

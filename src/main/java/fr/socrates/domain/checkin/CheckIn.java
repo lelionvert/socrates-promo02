@@ -1,7 +1,6 @@
 package fr.socrates.domain.checkin;
 
 class CheckIn {
-    public static final int COLD_FOOD_HOUR = 21;
     private final ParticipantId participantId;
 
     public CheckIn(ParticipantId participantId) {

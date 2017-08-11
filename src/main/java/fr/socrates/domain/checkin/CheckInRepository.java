@@ -2,7 +2,7 @@ package fr.socrates.domain.checkin;
 
 import java.util.List;
 
-interface CheckInConnector {
+interface CheckInRepository {
     void save(CheckIn participantId);
     List<CheckIn> getCheckIns();
 }
