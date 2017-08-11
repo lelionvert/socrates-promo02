@@ -2,7 +2,7 @@ package fr.socrates.domain.sponsor;
 
 import fr.socrates.common.Printer;
 
-class Sponsor {
+public class Sponsor {
     private final String name;
     private final String SIRET;
     private final String SIREN;
