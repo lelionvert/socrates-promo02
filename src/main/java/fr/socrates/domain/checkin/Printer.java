@@ -1,5 +1,5 @@
 package fr.socrates.domain.checkin;
 
 interface Printer {
-    String print(int coldFoodCount);
+    String print(long coldFoodCount);
 }

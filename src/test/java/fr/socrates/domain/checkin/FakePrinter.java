@@ -2,7 +2,7 @@ package fr.socrates.domain.checkin;
 
 public class FakePrinter implements Printer {
     @Override
-    public String print(int coldFoodCount) {
+    public String print(long coldFoodCount) {
         if (coldFoodCount == 0)
             return "No participant for the cold meal";
         else
