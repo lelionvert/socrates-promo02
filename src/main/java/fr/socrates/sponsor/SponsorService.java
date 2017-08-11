@@ -7,19 +7,19 @@ import java.util.List;
  */
 class SponsorService {
     private final Printer printer;
-    private final SponsorConnector sponsorConnector;
+    private final SponsorRespository sponsorRespository;
 
-    public SponsorService(SponsorConnector sponsorConnector, Printer printer) {
+    public SponsorService(SponsorRespository sponsorRespository, Printer printer) {
         this.printer = printer;
-        this.sponsorConnector = sponsorConnector;
+        this.sponsorRespository = sponsorRespository;
     }
 
     public void addSponsor(Sponsor sponsor) {
-        this.sponsorConnector.addSponsor(sponsor);
+        this.sponsorRespository.addSponsor(sponsor);
     }
 
     public List<Sponsor> getSponsorsList() {
-        return this.sponsorConnector.getSponsorsList();
+        return this.sponsorRespository.getSponsorsList();
     }
 
     public void print() {
