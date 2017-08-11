@@ -25,7 +25,6 @@ public class CheckInServiceImpl implements CheckInService {
     public void addNewCheckinDate(ParticipantId participantId, int hour) {
         LocalDateTime checkinDate = LocalDateTime.of(2017, 8, 12, hour, 14);
         try {
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM dd yyyy hh:mm a");
             if (isHourValid(checkinDate)) this.checkInConnector.save(new CheckIn(participantId));
         } catch (DateTimeException ex) {
             System.out.printf("%s can't be formatted!%n", checkinDate);

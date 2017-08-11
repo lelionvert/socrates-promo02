@@ -6,6 +6,6 @@ public class FakePrinter implements Printer {
         if (coldFoodCount == 0)
             return "No participant for the cold meal";
         else
-            return coldFoodCount + " participants for the cold meal";
+            return coldFoodCount + " participant(s) for the cold meal";
     }
 }

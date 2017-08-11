@@ -21,6 +21,6 @@ public class PrinterTest {
     @Test
     public void should_print_one_cold_meal_when_one_cold_meal() {
         checkInService.addNewCheckinDate(new ParticipantId("1"),22);
-        assertThat(checkInService.print()).isEqualTo("1 participants for the cold meal");
+        assertThat(checkInService.print()).isEqualTo("1 participant(s) for the cold meal");
     }
 }
