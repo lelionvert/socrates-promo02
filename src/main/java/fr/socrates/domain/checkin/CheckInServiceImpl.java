@@ -14,7 +14,7 @@ public class CheckInServiceImpl implements CheckInService {
         return this.checkInRepository
                 .getCheckIns()
                 .stream()
-                .filter(checkIn -> checkIn.isCheckInDateForColdMeal())
+                .filter(CheckIn::isCheckInDateForColdMeal)
                 .count();
     }
 
@@ -24,7 +24,10 @@ public class CheckInServiceImpl implements CheckInService {
     }
 
     @Override
-    public String print() {
-        return printer.print(getColdFoodCount());
+    public void print() {
+        if (getColdFoodCount() > 0)
+            printer.print(getColdFoodCount() + " participant(s) for the cold meal");
+        else
+            printer.print("No participant for the cold meal");
     }
 }

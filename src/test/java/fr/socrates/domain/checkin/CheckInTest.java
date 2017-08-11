@@ -10,11 +10,13 @@ import static org.assertj.core.api.Assertions.*;
 
 public class CheckInTest {
     private CheckInService checkInService;
+    private FakePrinter printer;
 
     @Before
     public void set_initialization() {
         CheckInRepository checkInRepository = new FakeCheckInRepository();
-        checkInService = new CheckInServiceImpl(checkInRepository, new FakePrinter());
+        printer = new FakePrinter();
+        checkInService = new CheckInServiceImpl(checkInRepository, printer);
     }
 
     @Test
@@ -65,14 +67,16 @@ public class CheckInTest {
 
     @Test
     public void should_print_zero_cold_meal_when_no_cold_meal() {
-        assertThat(checkInService.print()).isEqualTo("No participant for the cold meal");
+        checkInService.print();
+        assertThat(printer.flush()).isEqualTo("No participant for the cold meal");
     }
 
     @Test
     public void should_print_one_cold_meal_when_one_cold_meal() {
         CheckIn checkIn = new CheckIn(new ParticipantId("1"),dateTimeFirstDay(22, 0));
         checkInService.addNewCheckIn(checkIn);
-        assertThat(checkInService.print()).isEqualTo("1 participant(s) for the cold meal");
+        checkInService.print();
+        assertThat(printer.flush()).isEqualTo("1 participant(s) for the cold meal");
     }
 
     private LocalDateTime dateTimeFirstDay(int hour, int minutes) {
