@@ -27,10 +27,10 @@ class Candidate {
         this.email = email;
     }
 
-    static Candidate withEmail(EMail email) {
+    public static Candidate withEmail(String email) {
         if (email == null) {
             throw new IllegalStateException();
         }
-        return new Candidate(email);
+        return new Candidate(EMail.of(email));
     }
 }

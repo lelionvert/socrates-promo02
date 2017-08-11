@@ -24,14 +24,14 @@ public class CandidateServiceTest {
 
     @Test
     public void should_have_candidates_when_adding_candidates() throws Exception {
-        candidateService.add(Candidate.withEmail(EMail.of("test@test.net")));
+        candidateService.add(Candidate.withEmail("test@test.net"));
 
         assertThat(candidateService.hasCandidates()).isTrue();
     }
 
     @Test
     public void should_have_one_candidate_when_adding_one_candidate() throws Exception {
-        candidateService.add(Candidate.withEmail(EMail.of("test@test.net")));
+        candidateService.add(Candidate.withEmail("test@test.net"));
         assertThat(candidateService.size()).isEqualTo(1);
     }
 
@@ -41,16 +41,16 @@ public class CandidateServiceTest {
         final String email = "test@test.net";
 
         // Act
-        candidateService.add(Candidate.withEmail(EMail.of(email)));
+        candidateService.add(Candidate.withEmail(email));
 
         // Assert
-        assertThat(candidateService.contains(Candidate.withEmail(EMail.of(email)))).isTrue();
+        assertThat(candidateService.contains(Candidate.withEmail(email))).isTrue();
     }
 
     @Test
     public void should_guaranty_unicity_of_candidates() throws Exception {
-        candidateService.add(Candidate.withEmail(EMail.of("test@test.net")));
-        candidateService.add(Candidate.withEmail(EMail.of("test@test.net")));
+        candidateService.add(Candidate.withEmail("test@test.net"));
+        candidateService.add(Candidate.withEmail("test@test.net"));
         assertThat(candidateService.size()).isEqualTo(1);
     }
 
@@ -61,7 +61,7 @@ public class CandidateServiceTest {
 
     @Test
     public void should_print_one_email_when_adding_one_candidate() throws Exception {
-        candidateService.add(Candidate.withEmail(EMail.of("test@test.net")));
+        candidateService.add(Candidate.withEmail("test@test.net"));
         assertThat(candidateService.print()).isEqualTo("test@test.net");
     }
 
