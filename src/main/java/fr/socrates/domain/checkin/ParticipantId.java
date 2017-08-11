@@ -3,8 +3,8 @@ package fr.socrates.domain.checkin;
 class ParticipantId {
     private final String id;
 
-    public ParticipantId(String s) {
-        id = s;
+    public ParticipantId(String id) {
+        this.id = id;
     }
 
     @Override

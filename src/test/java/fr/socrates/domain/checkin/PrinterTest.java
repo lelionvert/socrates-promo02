@@ -10,7 +10,7 @@ public class PrinterTest {
 
     @Before
     public void setUp() throws Exception {
-        checkInService = new CheckInServiceImpl(new FakeCheckingConnector(), new FakePrinter());
+        checkInService = new CheckInServiceImpl(new FakeCheckInConnector(), new FakePrinter());
     }
 
     @Test

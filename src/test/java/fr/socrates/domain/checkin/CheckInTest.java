@@ -10,7 +10,7 @@ public class CheckInTest {
 
     @Before
     public void set_initialization() {
-        CheckInConnector checkInConnector = new FakeCheckingConnector();
+        CheckInConnector checkInConnector = new FakeCheckInConnector();
         checkInService = new CheckInServiceImpl(checkInConnector, new FakePrinter());
     }
 
