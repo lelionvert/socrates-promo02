@@ -1,6 +1,6 @@
 package fr.socrates.domain.checkin;
 
-class ParticipantId {
+public class ParticipantId {
     private final String id;
 
     public ParticipantId(String id) {

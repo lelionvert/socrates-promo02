@@ -1,6 +1,7 @@
 package fr.socrates.domain.checkin;
 
 import fr.socrates.common.FakePrinter;
+import fr.socrates.infra.repositories.InMemoryCheckInRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ public class CheckInTest {
 
     @Before
     public void set_initialization() {
-        CheckInRepository checkInRepository = new FakeCheckInRepository();
+        CheckInRepository checkInRepository = new InMemoryCheckInRepository();
         printer = new FakePrinter();
         checkInService = new CheckInServiceImpl(checkInRepository, printer);
     }

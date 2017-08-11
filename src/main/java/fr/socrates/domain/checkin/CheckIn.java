@@ -2,7 +2,7 @@ package fr.socrates.domain.checkin;
 
 import java.time.LocalDateTime;
 
-class CheckIn {
+public class CheckIn {
     private final ParticipantId participantId;
     private final LocalDateTime checkInDate;
     int COLD_FOOD_HOUR = 21;

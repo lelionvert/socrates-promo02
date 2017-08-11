@@ -1,14 +1,18 @@
-package fr.socrates.domain.checkin;
+package fr.socrates.infra.repositories;
+
+import fr.socrates.domain.checkin.CheckIn;
+import fr.socrates.domain.checkin.CheckInRepository;
+import fr.socrates.domain.checkin.ParticipantId;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class FakeCheckInRepository implements CheckInRepository {
+public class InMemoryCheckInRepository implements CheckInRepository {
     private final Map<ParticipantId, CheckIn> checkIns;
 
-    FakeCheckInRepository() {
+    public InMemoryCheckInRepository() {
         this.checkIns = new HashMap<>();
     }
 

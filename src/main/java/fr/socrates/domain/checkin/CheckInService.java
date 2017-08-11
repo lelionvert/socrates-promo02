@@ -1,6 +1,6 @@
 package fr.socrates.domain.checkin;
 
-interface CheckInService {
+public interface CheckInService {
     long getColdFoodCount();
     void addNewCheckIn(CheckIn checkIn);
     void print();
