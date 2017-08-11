@@ -2,12 +2,8 @@ package fr.socrates.domain.checkin;
 
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CheckInServiceImpl implements CheckInService {
-    List coldFood = new ArrayList();
     private final CheckInConnector checkInConnector;
     private final Printer printer;
 
@@ -22,12 +18,12 @@ public class CheckInServiceImpl implements CheckInService {
     }
 
     @Override
-    public void addNewCheckinDate(ParticipantId participantId, int hour) {
-        LocalDateTime checkinDate = LocalDateTime.of(2017, 8, 12, hour, 14);
+    public void addNewCheckInDate(ParticipantId participantId, int hour) {
+        LocalDateTime checkInDate = LocalDateTime.of(2017, 8, 12, hour, 14);
         try {
-            if (isHourValid(checkinDate)) this.checkInConnector.save(new CheckIn(participantId));
+            if (isHourValid(checkInDate)) this.checkInConnector.save(new CheckIn(participantId));
         } catch (DateTimeException ex) {
-            System.out.printf("%s can't be formatted!%n", checkinDate);
+            System.out.printf("%s can't be formatted!%n", checkInDate);
             ex.printStackTrace();
         }
     }
@@ -37,7 +33,7 @@ public class CheckInServiceImpl implements CheckInService {
         return printer.print(getColdFoodCount());
     }
 
-    private boolean isHourValid(LocalDateTime checkinDate) {
-        return checkinDate.getHour() >= CheckIn.COLD_FOOD_HOUR;
+    private boolean isHourValid(LocalDateTime checkInDate) {
+        return checkInDate.getHour() >= CheckIn.COLD_FOOD_HOUR;
     }
 }
