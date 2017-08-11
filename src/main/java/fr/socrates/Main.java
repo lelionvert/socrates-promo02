@@ -12,27 +12,38 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        SponsorService sponsorService = new SponsorService(new FakeSponsorRespository(), new FakePrinter());
+        List<Sponsor> sponsors = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Yo Houssam, tu veux ajouter un candidat (1) ou les lister (2), un sponsor (3) ou les lister(4) ou un checkin (5) ou le nombre de repas froids (6) ? (0) si tu veux sortir !");
+        final String menu = "Yo Houssam, tu veux ajouter un candidat (1) ou les lister (2), un sponsor (3) ou les lister(4) ou un checkin (5) ou le nombre de repas froids (6) ? (0) si tu veux sortir !";
+        System.out.println(menu);
         String choice = scanner.next();
-        switch (choice) {
-            case "2":
-                listerSponsors();
-                break;
-            case "3":
-                createSponsor(scanner);
-                break;
-
-            default:
-                System.out.println("N'importe quoi Houssam, concentre toi.");
+        while(choice != "0"){
+            switch (choice) {
+                case "2":
+                    listerSponsors(sponsorService);
+                    System.out.println(menu);
+                    choice = scanner.next();
+                    break;
+                case "3":
+                    sponsors.add(createSponsor(scanner));
+                    System.out.println(menu);
+                    choice = scanner.next();
+                    break;
+                default:
+                    System.out.println(menu);
+                    choice = scanner.next();
+                    break;
+            }
         }
-    }
-
-    private static void listerSponsors() {
 
     }
 
-    private static void createSponsor(Scanner scanner) {
+    private static void listerSponsors(SponsorService sponsorService) {
+        sponsorService.print();
+    }
+
+    private static Sponsor createSponsor(Scanner scanner) {
         String[] sponsorInfos = {"Nom", "SIRET", "SIREN", "Représentant", "Contact Email", "Montant du sponsoring"};
         List<String> sponsorInputs = new ArrayList<>();
 
@@ -43,15 +54,15 @@ public class Main {
         FakePrinter printer = new FakePrinter();
         SponsorService sponsorService = new SponsorService(new FakeSponsorRespository(), printer);
 
-        SponsorService listOfSponsors = new SponsorService(new FakeSponsorRespository(), new FakePrinter());
-        listOfSponsors.add(new Sponsor.SponsorBuilder()
+
+        return new Sponsor.SponsorBuilder()
                 .withName(sponsorInputs.get(0))
                 .withSIRET(sponsorInputs.get(1))
                 .withSIREN(sponsorInputs.get(2))
                 .withContractRepresentative(sponsorInputs.get(3))
                 .withContact(sponsorInputs.get(4))
                 .withAmountOfSponsoring(Double.parseDouble(sponsorInputs.get(5)))
-                .createSponsor());
+                .createSponsor();
 
     }
 
@@ -60,11 +71,6 @@ public class Main {
 
         public FakeSponsorRespository() {
             sponsors = new ArrayList<>();
-        }
-
-        public FakeSponsorRespository(List<Sponsor> sponsors) {
-
-            this.sponsors = sponsors;
         }
 
         public void addSponsor(Sponsor sponsor) {
