@@ -4,6 +4,7 @@ import fr.socrates.common.Printer;
 import fr.socrates.domain.sponsor.Sponsor;
 import fr.socrates.domain.sponsor.SponsorRespository;
 import fr.socrates.domain.sponsor.SponsorService;
+import fr.socrates.infra.printers.ConsolePrinter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +13,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        SponsorService sponsorService = new SponsorService(new FakeSponsorRespository(), new FakePrinter());
-        List<Sponsor> sponsors = new ArrayList<>();
+        SponsorService sponsorService = new SponsorService(new FakeSponsorRespository(), new ConsolePrinter());
         Scanner scanner = new Scanner(System.in);
         final String menu = "Yo Houssam, tu veux ajouter un candidat (1) ou les lister (2), un sponsor (3) ou les lister(4) ou un checkin (5) ou le nombre de repas froids (6) ? (0) si tu veux sortir !";
         System.out.println(menu);
@@ -26,7 +26,7 @@ public class Main {
                     choice = scanner.next();
                     break;
                 case "3":
-                    sponsors.add(createSponsor(scanner));
+                    sponsorService.addSponsor(createSponsor(scanner));
                     System.out.println(menu);
                     choice = scanner.next();
                     break;
