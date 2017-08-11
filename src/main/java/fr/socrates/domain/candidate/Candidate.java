@@ -1,6 +1,6 @@
 package fr.socrates.domain.candidate;
 
-class Candidate {
+public class Candidate {
     private final EMail email;
 
     @Override

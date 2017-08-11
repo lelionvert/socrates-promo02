@@ -2,13 +2,13 @@ package fr.socrates;
 
 import fr.socrates.common.Printer;
 import fr.socrates.domain.checkin.*;
-import fr.socrates.infra.repositories.ConsolePrinter;
+import fr.socrates.infra.printers.ConsolePrinter;
 import fr.socrates.infra.repositories.InMemoryCheckInRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Main {
+public class CheckinMain {
     // main argument ==> john=2017-12-03T23:15:30 houssam=2017-12-03T20:15:30
     public static void main(String[] args) {
         CheckInRepository inMemoryCheckInRepository = new InMemoryCheckInRepository();

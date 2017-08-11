@@ -1,4 +1,4 @@
-package fr.socrates.infra.repositories;
+package fr.socrates.infra.printers;
 
 import fr.socrates.common.Printer;
 

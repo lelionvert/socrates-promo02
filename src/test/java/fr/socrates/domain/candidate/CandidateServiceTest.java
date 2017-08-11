@@ -1,11 +1,9 @@
 package fr.socrates.domain.candidate;
 
 import fr.socrates.common.FakePrinter;
+import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,7 +15,7 @@ public class CandidateServiceTest {
     @Before
     public void setUp() throws Exception {
         printer = new FakePrinter();
-        candidateService = new CandidateServiceImpl(new FakeCandidateRepository(), printer);
+        candidateService = new CandidateServiceImpl(new InMemoryCandidateRepository(), printer);
     }
 
     @Test
@@ -73,23 +71,4 @@ public class CandidateServiceTest {
         assertThat(printer.flush()).isEqualTo("test@test.net; test2@test.net");
     }
 
-    private class FakeCandidateRepository implements CandidateRepository {
-
-        private final Set<Candidate> list = new LinkedHashSet<>();
-
-        @Override
-        public Set<Candidate> findAll() {
-            return list;
-        }
-
-        @Override
-        public void save(Candidate candidate) {
-            list.add(candidate);
-        }
-
-        @Override
-        public int size() {
-            return list.size();
-        }
-    }
 }

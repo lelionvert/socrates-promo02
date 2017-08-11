@@ -2,7 +2,7 @@ package fr.socrates.domain.candidate;
 
 import java.util.Set;
 
-interface CandidateRepository {
+public interface CandidateRepository {
 
     Set<Candidate> findAll();
 
