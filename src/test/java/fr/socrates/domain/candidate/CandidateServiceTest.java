@@ -4,7 +4,7 @@ import fr.socrates.common.FakePrinter;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -70,9 +70,17 @@ public class CandidateServiceTest {
         assertThat(printer.flush()).isEqualTo("test@test.net");
     }
 
+    @Test
+    public void should_print_two_emails_when_adding_two_candidates() throws Exception {
+        candidateService.add(Candidate.withEmail("test@test.net"));
+        candidateService.add(Candidate.withEmail("test2@test.net"));
+        candidateService.print();
+        assertThat(printer.flush()).isEqualTo("test@test.net; test2@test.net");
+    }
+
     private class FakeCandidateRepository implements CandidateRepository {
 
-        private final Set<Candidate> list = new HashSet<>();
+        private final Set<Candidate> list = new LinkedHashSet<>();
 
         @Override
         public Set<Candidate> findAll() {

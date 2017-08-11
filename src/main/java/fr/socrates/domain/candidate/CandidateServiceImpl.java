@@ -33,11 +33,13 @@ class CandidateServiceImpl implements CandidateService {
 
     @Override
     public void print() {
-        String emailToPrint = candidateRepository.findAll()
-                .stream()
-                .map(Candidate::toString)
-                .findFirst()
-                .orElse("No email to print");
-        printer.print(emailToPrint);
+        if (candidateRepository.size() == 0) {
+            printer.print("No email to print");
+        } else {
+            candidateRepository.findAll()
+                    .stream()
+                    .map(Candidate::toString)
+                    .forEach(printer::print);
+        }
     }
 }
