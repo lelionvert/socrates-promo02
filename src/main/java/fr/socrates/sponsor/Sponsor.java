@@ -32,9 +32,7 @@ class Sponsor {
         if (name != null ? !name.equals(sponsor.name) : sponsor.name != null) return false;
         if (SIRET != null ? !SIRET.equals(sponsor.SIRET) : sponsor.SIRET != null) return false;
         if (SIREN != null ? !SIREN.equals(sponsor.SIREN) : sponsor.SIREN != null) return false;
-        if (contractRepresentative != null ? !contractRepresentative.equals(sponsor.contractRepresentative) : sponsor.contractRepresentative != null)
-            return false;
-        return contact != null ? contact.equals(sponsor.contact) : sponsor.contact == null;
+        return (contractRepresentative != null ? contractRepresentative.equals(sponsor.contractRepresentative) : sponsor.contractRepresentative == null) && (contact != null ? contact.equals(sponsor.contact) : sponsor.contact == null);
     }
 
     @Override

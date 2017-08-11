@@ -95,7 +95,7 @@ public class ListSponsorTest {
   }
 
   private class FakeConsoleWriter implements Printer {
-    List<String> console = new ArrayList<String>();
+    final List<String> console = new ArrayList<String>();
 
     public void print(String toPrint) {
        console.add(toPrint);
@@ -114,7 +114,7 @@ public class ListSponsorTest {
   }
 
   private class FakeSponsorConnector implements SponsorConnector {
-    private List<Sponsor> sponsors;
+    private final List<Sponsor> sponsors;
 
     public FakeSponsorConnector() {
       sponsors = new ArrayList<Sponsor>();

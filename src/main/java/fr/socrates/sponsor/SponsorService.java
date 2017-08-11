@@ -1,6 +1,5 @@
 package fr.socrates.sponsor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
