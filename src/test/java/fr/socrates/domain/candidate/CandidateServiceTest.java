@@ -14,7 +14,7 @@ public class CandidateServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        candidateService = new CandidateService(new FakeCandidateRepository());
+        candidateService = new CandidateServiceImpl(new FakeCandidateRepository());
     }
 
     @Test

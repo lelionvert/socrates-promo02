@@ -1,25 +1,11 @@
 package fr.socrates.domain.candidate;
 
-class CandidateService {
-    private final CandidateRepository candidateRepository;
+public interface CandidateService {
+    void add(Candidate candidate);
 
-    CandidateService(CandidateRepository candidateRepository) {
-        this.candidateRepository = candidateRepository;
-    }
+    int size();
 
-    void add(Candidate candidate) {
-        candidateRepository.save(candidate);
-    }
+    boolean hasCandidates();
 
-    public int size() {
-        return candidateRepository.size();
-    }
-
-    public boolean hasCandidates() {
-        return !candidateRepository.findAll().isEmpty();
-    }
-
-    public boolean contains(Candidate candidate) {
-        return candidateRepository.findAll().contains(candidate);
-    }
+    boolean contains(Candidate candidate);
 }
