@@ -40,13 +40,8 @@ public class CandidateServiceTest {
 
     @Test
     public void should_contains_the_candidate_I_have_added() {
-        // Arrange
         final String email = "test@test.net";
-
-        // Act
         candidateService.add(Candidate.withEmail(email));
-
-        // Assert
         assertThat(candidateService.contains(Candidate.withEmail(email))).isTrue();
     }
 
