@@ -1,4 +1,6 @@
-package fr.socrates.domain.checkin;
+package fr.socrates.common;
+
+import fr.socrates.common.Printer;
 
 import java.util.ArrayList;
 import java.util.List;

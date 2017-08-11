@@ -1,5 +1,7 @@
 package fr.socrates.domain.checkin;
 
+import fr.socrates.common.Printer;
+
 public class CheckInServiceImpl implements CheckInService {
     private final CheckInRepository checkInRepository;
     private final Printer printer;

@@ -1,5 +1,6 @@
 package fr.socrates.domain.checkin;
 
+import fr.socrates.common.FakePrinter;
 import org.junit.Before;
 import org.junit.Test;
 
