@@ -42,26 +42,4 @@ public class CandidateServiceImplTest {
                 .containsExactly(Candidate.withEmail(email));
     }
 
-    @Test
-    public void should_print_no_candidates_at_the_beginning() throws Exception {
-
-        candidateService.print();
-        assertThat(printer.flush()).isEqualTo("No email to print");
-    }
-
-    @Test
-    public void should_print_one_email_when_adding_one_candidate() throws Exception {
-        candidateService.add(Candidate.withEmail("test@test.net"));
-        candidateService.print();
-        assertThat(printer.flush()).isEqualTo("test@test.net");
-    }
-
-    @Test
-    public void should_print_two_emails_when_adding_two_candidates() throws Exception {
-        candidateService.add(Candidate.withEmail("test@test.net"));
-        candidateService.add(Candidate.withEmail("test2@test.net"));
-        candidateService.print();
-        assertThat(printer.flush()).isEqualTo("test@test.net; test2@test.net");
-    }
-
 }

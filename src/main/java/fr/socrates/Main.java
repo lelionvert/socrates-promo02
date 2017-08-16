@@ -1,10 +1,7 @@
 package fr.socrates;
 
 import fr.socrates.common.Printer;
-import fr.socrates.domain.candidate.Candidate;
-import fr.socrates.domain.candidate.CandidateRepository;
-import fr.socrates.domain.candidate.CandidateService;
-import fr.socrates.domain.candidate.CandidateServiceImpl;
+import fr.socrates.domain.candidate.*;
 import fr.socrates.domain.checkin.*;
 import fr.socrates.domain.sponsor.Sponsor;
 import fr.socrates.domain.sponsor.SponsorRespository;
@@ -25,7 +22,6 @@ public class Main {
     public static void main(String[] args) {
         final String MENU_MESSAGE = "Yo Houssam, tu veux: \n 1- Ajouter un candidat \n 2- Lister les candidats \n 3- Ajouter un sponsor \n 4- Lister les sponsors \n 5- Ajouter un checkin \n 6- Le nombre de repas froids (6) ? \n 0- Quitter!";
         final String ENDING_MESSAGE = "Merci d'avoir utilisé ce programme des Mi-Ours, Mi-Scorpions, et re mi-ours derrière !";
-        final String CHECKIN_FORMAT_MESSAGE = "Format de saisie: john=2017-12-03T23:15:30";
         final String ZERO = "0";
         final String ONE = "1";
         final String TWO = "2";
@@ -56,7 +52,8 @@ public class Main {
                     choice = scanner.next();
                     break;
                 case TWO:
-                    listCandidate(candidateService);
+                    CandidateFormatter candidateFormatter = new CandidateFormatter();
+                    consolePrinter.print(candidateFormatter.format(candidateService.getRegisteredCandidates()));
                     System.out.println(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -111,10 +108,6 @@ public class Main {
             candidateInputs.add(scanner.next());
         }
         return Candidate.withEmail(candidateInputs.get(0));
-    }
-
-    private static void listCandidate(CandidateService candidateService) {
-        candidateService.print();
     }
 
     private static void listCheckin(CheckInService checkInService) {

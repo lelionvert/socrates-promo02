@@ -15,6 +15,11 @@ public class FakePrinter implements Printer {
         buf.add(toPrint);
     }
 
+    @Override
+    public void print(List<String> toPrint) {
+        buf.addAll(toPrint);
+    }
+
     public String flush() {
         StringBuilder stringToFlush = new StringBuilder();
         for (int i = 0; i < buf.size(); i++) {

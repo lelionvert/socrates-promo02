@@ -2,7 +2,9 @@ package fr.socrates.domain.candidate;
 
 import fr.socrates.common.Printer;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class CandidateServiceImpl implements CandidateService {
     private final CandidateRepository candidateRepository;
@@ -31,7 +33,9 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public Collection<Candidate> getRegisteredCandidates() {
-        return candidateRepository.findAll();
+    public List<Candidate> getRegisteredCandidates() {
+        List<Candidate> candidates = new ArrayList<>();
+        candidates.addAll(candidateRepository.findAll());
+        return candidates;
     }
 }
