@@ -37,7 +37,7 @@ public class Main {
         Printer consolePrinter = new ConsolePrinter();
 
         SponsorService sponsorService = new SponsorService(inMemorySponsorRepository, consolePrinter);
-        CandidateService candidateService = new CandidateServiceImpl(inMemoryCandidateRepository, consolePrinter);
+        CandidateService candidateService = new CandidateServiceImpl(inMemoryCandidateRepository);
         CheckInService checkInService = new CheckInServiceImpl(inMemoryCheckInRepository, consolePrinter);
 
         Scanner scanner = new Scanner(System.in);
