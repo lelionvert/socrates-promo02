@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 
 public class CandidateFormatter {
     public List<String> format(List<Candidate> candidateList) {
-        if(candidateList.isEmpty()) { return Collections.singletonList("No email to print"); }
+        if(candidateList.isEmpty()) {
+            return Collections.singletonList("No email to print");
+        }
         return candidateList
                 .stream()
                 .map(Candidate::toString)
