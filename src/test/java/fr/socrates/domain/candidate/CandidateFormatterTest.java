@@ -1,6 +1,8 @@
 package fr.socrates.domain.candidate;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.internal.cglib.core.CollectionUtils;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -23,6 +25,16 @@ public class CandidateFormatterTest {
         final String email = "test@test.com";
         assertThat(candidateFormatter.format(Collections.singletonList(Candidate.withEmail(email))))
                 .containsExactly(email);
+    }
+
+    @Test
+    public void should_keep_candidate_list_order() throws Exception {
+        final CandidateFormatter candidateFormatter = new CandidateFormatter();
+        final String email = "test@test.com";
+        final String email2 = "test2@test.com";
+
+        assertThat(candidateFormatter.format(Lists.newArrayList(Candidate.withEmail(email), Candidate.withEmail(email2))))
+                .containsExactly(email, email2);
     }
 
 }
