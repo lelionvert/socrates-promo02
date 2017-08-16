@@ -5,9 +5,11 @@ import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collection;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CandidateServiceTest {
+public class CandidateServiceImplTest {
 
     private CandidateService candidateService;
     private FakePrinter printer;
@@ -20,38 +22,29 @@ public class CandidateServiceTest {
 
     @Test
     public void should_have_no_candidates_at_the_beginning() {
-        assertThat(candidateService.hasCandidates()).isFalse();
+        assertThat(candidateService.getRegisteredCandidates()).isEmpty();
     }
 
     @Test
-    public void should_have_candidates_when_adding_candidates() throws Exception {
-        candidateService.add(Candidate.withEmail("test@test.net"));
-
-        assertThat(candidateService.hasCandidates()).isTrue();
-    }
-
-    @Test
-    public void should_have_one_candidate_when_adding_one_candidate() throws Exception {
-        candidateService.add(Candidate.withEmail("test@test.net"));
-        assertThat(candidateService.size()).isEqualTo(1);
-    }
-
-    @Test
-    public void should_contains_the_candidate_I_have_added() {
+    public void should_have_candidate_when_adding_candidate() throws Exception {
         final String email = "test@test.net";
         candidateService.add(Candidate.withEmail(email));
-        assertThat(candidateService.contains(Candidate.withEmail(email))).isTrue();
+        assertThat(candidateService.getRegisteredCandidates())
+                .containsExactly(Candidate.withEmail(email));
     }
 
     @Test
     public void should_guaranty_unicity_of_candidates() throws Exception {
-        candidateService.add(Candidate.withEmail("test@test.net"));
-        candidateService.add(Candidate.withEmail("test@test.net"));
-        assertThat(candidateService.size()).isEqualTo(1);
+        final String email = "test@test.net";
+        candidateService.add(Candidate.withEmail(email));
+        candidateService.add(Candidate.withEmail(email));
+        assertThat(candidateService.getRegisteredCandidates())
+                .containsExactly(Candidate.withEmail(email));
     }
 
     @Test
     public void should_print_no_candidates_at_the_beginning() throws Exception {
+
         candidateService.print();
         assertThat(printer.flush()).isEqualTo("No email to print");
     }

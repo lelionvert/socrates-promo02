@@ -1,13 +1,12 @@
 package fr.socrates.domain.candidate;
 
+import java.util.Collection;
+
 public interface CandidateService {
     void add(Candidate candidate);
 
-    int size();
-
-    boolean hasCandidates();
-
-    boolean contains(Candidate candidate);
-
+    @Deprecated
     void print();
+
+    Collection<Candidate> getRegisteredCandidates();
 }
