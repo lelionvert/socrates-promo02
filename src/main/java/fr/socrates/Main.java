@@ -1,10 +1,7 @@
 package fr.socrates;
 
 import fr.socrates.common.Printer;
-import fr.socrates.domain.candidate.Candidate;
-import fr.socrates.domain.candidate.CandidateRepository;
-import fr.socrates.domain.candidate.CandidateService;
-import fr.socrates.domain.candidate.CandidateServiceImpl;
+import fr.socrates.domain.candidate.*;
 import fr.socrates.domain.checkin.*;
 import fr.socrates.domain.sponsor.Sponsor;
 import fr.socrates.domain.sponsor.SponsorRespository;
@@ -23,9 +20,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        final String MENU_MESSAGE = "Yo Houssam, tu veux: \n 1- Ajouter un candidat \n 2- Lister les candidats \n 3- Ajouter un sponsor \n 4- Lister les sponsors \n 5- Ajouter un checkin \n 6- Le nombre de repas froids (6) ? \n 0- Quitter!";
+        final String MENU_MESSAGE = "Yo Houssam, tu veux: \n 1- Ajouter un candidat \n 2- Lister les candidats \n 3- Ajouter un sponsor \n 4- Lister les sponsors \n 5- Ajouter un checkin \n 6- Le nombre de repas froids ? \n 0- Quitter!";
         final String ENDING_MESSAGE = "Merci d'avoir utilisé ce programme des Mi-Ours, Mi-Scorpions, et re mi-ours derrière !";
-        final String CHECKIN_FORMAT_MESSAGE = "Format de saisie: john=2017-12-03T23:15:30";
         final String ZERO = "0";
         final String ONE = "1";
         final String TWO = "2";
@@ -46,46 +42,54 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println(MENU_MESSAGE);
+        final String menu_message = MENU_MESSAGE;
+        consolePrinter.print(menu_message);
         String choice = scanner.next();
         while (choice != ZERO) {
             switch (choice) {
                 case ONE:
-                    candidateService.add(createCandidate(scanner));
-                    System.out.println(MENU_MESSAGE);
+                    consolePrinter.print("Ajouter un candidat : ");
+                    candidateService.add(createCandidate(scanner, consolePrinter));
+                    consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
                 case TWO:
-                    listCandidate(candidateService);
-                    System.out.println(MENU_MESSAGE);
+                    consolePrinter.print("Liste des candidats :");
+                    CandidateFormatter candidateFormatter = new CandidateFormatter();
+                    consolePrinter.print(candidateFormatter.format(candidateService.getRegisteredCandidates()));
+                    consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
                 case THREE:
-                    sponsorService.addSponsor(createSponsor(scanner));
-                    System.out.println(MENU_MESSAGE);
+                    consolePrinter.print("Ajouter un sponsor : ");
+                    sponsorService.addSponsor(createSponsor(scanner, consolePrinter));
+                    consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
                 case FOUR:
+                    consolePrinter.print("Liste des sponsors :");
                     listSponsors(sponsorService);
-                    System.out.println(MENU_MESSAGE);
+                    consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
                 case FIVE:
-                    checkInService.addNewCheckIn(createCheckin(scanner));
-                    System.out.println(MENU_MESSAGE);
+                    consolePrinter.print("Ajouter un checkin :");
+                    checkInService.addNewCheckIn(createCheckin(scanner, consolePrinter));
+                    consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
                 case SIX:
+                    consolePrinter.print("Nombre de repas froids :");
                     listCheckin(checkInService);
-                    System.out.println(MENU_MESSAGE);
+                    consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
                 case ZERO:
-                    System.out.println(ENDING_MESSAGE);
+                    consolePrinter.print(ENDING_MESSAGE);
                     choice = ZERO;
                     break;
                 default:
-                    System.out.println(MENU_MESSAGE);
+                    consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
             }
@@ -93,8 +97,8 @@ public class Main {
     }
 
 
-    private static CheckIn createCheckin(Scanner scanner) {
-        System.out.println("Format de saisie: john=2017-12-03T23:15:30");
+    private static CheckIn createCheckin(Scanner scanner, Printer consolePrinter) {
+        consolePrinter.print("Format de saisie: john=2017-12-03T23:15:30");
 
         String[] checkInArgument = scanner.next().split("=");
         ParticipantId participantId = new ParticipantId(checkInArgument[0]);
@@ -102,19 +106,15 @@ public class Main {
         return new CheckIn(participantId, checkInDateTime);
 }
 
-    private static Candidate createCandidate(Scanner scanner) {
+    private static Candidate createCandidate(Scanner scanner, Printer consolePrinter) {
         String[] candidateInfos = {"eMail"};
         List<String> candidateInputs = new ArrayList<>();
 
         for (String candidateInfo : candidateInfos) {
-            System.out.println(candidateInfo + ":");
+            consolePrinter.print(candidateInfo + ":");
             candidateInputs.add(scanner.next());
         }
         return Candidate.withEmail(candidateInputs.get(0));
-    }
-
-    private static void listCandidate(CandidateService candidateService) {
-        candidateService.print();
     }
 
     private static void listCheckin(CheckInService checkInService) {
@@ -124,12 +124,12 @@ public class Main {
         sponsorService.print();
     }
 
-    private static Sponsor createSponsor(Scanner scanner) {
+    private static Sponsor createSponsor(Scanner scanner, Printer consolePrinter) {
         String[] sponsorInfos = {"Nom", "SIRET", "SIREN", "Représentant", "Contact Email", "Montant du sponsoring"};
         List<String> sponsorInputs = new ArrayList<>();
 
         for (String sponsorInfo : sponsorInfos) {
-            System.out.println(sponsorInfo + ":");
+            consolePrinter.print(sponsorInfo + ":");
             sponsorInputs.add(scanner.next());
         }
 
