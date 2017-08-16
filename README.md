@@ -6,7 +6,7 @@ Télécharger le JAR sur le repository:
 
 
 Pour tester avec la version interactive : 
-  - Lancer le jar via l'invite de commande windows en se positionnant dans le répertoire contenant le jar précédemment téléchargé : java -cp <NOM DU JAR>.jar fr.socrates.Main
+  - Lancer le jar via l'invite de commande windows en se positionnant dans le répertoire contenant le jar précédemment téléchargé : `java -cp <NOM DU JAR>.jar fr.socrates.Main`
   - Suivre les instructions à l'écran.
   
 Remarques : 
