@@ -7,6 +7,11 @@
     <groupId>socrates-team2</groupId>
     <artifactId>socrates-team2</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.assertj</groupId>
@@ -21,5 +26,10 @@
         </dependency>
     </dependencies>
 
-
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus</id>
+            <url>http://nexus-lacombe.westeurope.cloudapp.azure.com:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
