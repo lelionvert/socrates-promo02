@@ -4,7 +4,7 @@ import fr.socrates.common.Printer;
 
 import java.util.List;
 
-class SponsorService {
+public class SponsorService {
     private final Printer printer;
     private final SponsorRespository sponsorRespository;
 
