@@ -17,6 +17,7 @@ import fr.socrates.infra.repositories.InMemorySponsorRepository;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -113,9 +114,6 @@ public class Main {
         LocalDateTime checkInDateTime = LocalDateTime.parse(checkInArgument[1], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         return new CheckIn(attendeeId, checkInDateTime);
     }
-    private static void displayColdMealCount(MealService mealService, Printer consolePrinter) {
-        consolePrinter.print(String.valueOf(mealService.countColdMeal()));
-    }
 
     private static Candidate createCandidate(Scanner scanner, Printer consolePrinter) {
         String[] candidateInfos = {"eMail"};
@@ -129,8 +127,13 @@ public class Main {
     }
 
     private static List<String> listSponsors(SponsorService sponsorService) {
-        return sponsorService.getSponsorsList().stream().map(Sponsor::toString).collect(Collectors.toList());
+        final List<Sponsor> sponsorsList = sponsorService.getSponsorsList();
+        if (sponsorsList.isEmpty())
+            return Collections.singletonList("Aucun element dans la liste");
+        else
+            return sponsorsList.stream().map(Sponsor::toString).collect(Collectors.toList());
     }
+
 
     private static Sponsor createSponsor(Scanner scanner, Printer consolePrinter) {
         String[] sponsorInfos = {"Nom", "SIRET", "SIREN", "Représentant", "Contact Email", "Montant du sponsoring"};
