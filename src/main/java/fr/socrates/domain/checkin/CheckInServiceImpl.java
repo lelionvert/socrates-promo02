@@ -5,7 +5,6 @@ import fr.socrates.common.Printer;
 public class CheckInServiceImpl implements CheckInService {
     private final CheckInRepository checkInRepository;
     private final Printer printer;
-    int COLD_FOOD_HOUR = 21;
 
     public CheckInServiceImpl(CheckInRepository checkInRepository, Printer printer) {
         this.checkInRepository = checkInRepository;
@@ -13,11 +12,11 @@ public class CheckInServiceImpl implements CheckInService {
     }
 
     @Override
-    public long getColdFoodCount() {
+    public long countCheckinAfter(int hour) {
         return this.checkInRepository
                 .getCheckIns()
                 .stream()
-                .filter(checkIn -> isCheckInDateForColdMeal(checkIn))
+                .filter(checkIn -> checkIn.getCheckInHour() >= hour)
                 .count();
     }
 
@@ -26,15 +25,4 @@ public class CheckInServiceImpl implements CheckInService {
         return this.checkInRepository.save(checkIn);
     }
 
-    @Override
-    public void print() {
-        if (getColdFoodCount() > 0)
-            printer.print(getColdFoodCount() + " participant(s) for the cold meal");
-        else
-            printer.print("No participant for the cold meal");
-    }
-
-    public boolean isCheckInDateForColdMeal(CheckIn checkin) {
-        return checkin.getCheckInHour() >= COLD_FOOD_HOUR;
-    }
 }

@@ -3,6 +3,8 @@ package fr.socrates;
 import fr.socrates.common.Printer;
 import fr.socrates.domain.candidate.*;
 import fr.socrates.domain.checkin.*;
+import fr.socrates.domain.meal.MealService;
+import fr.socrates.domain.meal.MealServiceImpl;
 import fr.socrates.domain.sponsor.Sponsor;
 import fr.socrates.domain.sponsor.SponsorRespository;
 import fr.socrates.domain.sponsor.SponsorService;
@@ -39,6 +41,7 @@ public class Main {
         SponsorService sponsorService = new SponsorService(inMemorySponsorRepository, consolePrinter);
         CandidateService candidateService = new CandidateServiceImpl(inMemoryCandidateRepository, consolePrinter);
         CheckInService checkInService = new CheckInServiceImpl(inMemoryCheckInRepository, consolePrinter);
+        MealService mealService = new MealServiceImpl(checkInService);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -75,7 +78,7 @@ public class Main {
                 case FIVE:
                     consolePrinter.print("Ajouter un checkin :");
                     boolean exists = checkInService.addNewCheckIn(createCheckin(scanner, consolePrinter));
-                    if (exists){
+                    if (exists) {
                         consolePrinter.print("Checkin mis à jour.");
                     }
                     consolePrinter.print(MENU_MESSAGE);
@@ -83,7 +86,7 @@ public class Main {
                     break;
                 case SIX:
                     consolePrinter.print("Nombre de repas froids :");
-                    listCheckin(checkInService);
+                    displayColdMealCount(mealService, consolePrinter);
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -107,7 +110,10 @@ public class Main {
         AttendeeId attendeeId = new AttendeeId(checkInArgument[0]);
         LocalDateTime checkInDateTime = LocalDateTime.parse(checkInArgument[1], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         return new CheckIn(attendeeId, checkInDateTime);
-}
+    }
+    private static void displayColdMealCount(MealService mealService, Printer consolePrinter) {
+        consolePrinter.print(String.valueOf(mealService.countColdMeal()));
+    }
 
     private static Candidate createCandidate(Scanner scanner, Printer consolePrinter) {
         String[] candidateInfos = {"eMail"};
@@ -120,9 +126,6 @@ public class Main {
         return Candidate.withEmail(candidateInputs.get(0));
     }
 
-    private static void listCheckin(CheckInService checkInService) {
-        checkInService.print();
-    }
     private static void listSponsors(SponsorService sponsorService) {
         sponsorService.print();
     }
