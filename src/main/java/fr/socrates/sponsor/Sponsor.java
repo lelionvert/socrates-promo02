@@ -21,6 +21,14 @@ public class Sponsor {
         this.amountOfSponsoring = amountOfSponsoring;
     }
 
+    @Override
+    public String toString() {
+        return "Sponsor{" +
+                "name='" + name + '\'' +
+                ", contact='" + contact + '\'' +
+                '}';
+    }
+
     public String getName() {
         return name;
     }
