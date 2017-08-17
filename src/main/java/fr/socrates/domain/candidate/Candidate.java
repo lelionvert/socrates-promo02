@@ -20,7 +20,9 @@ public class Candidate {
 
     @Override
     public String toString() {
-        return email.toString();
+        return "Candidate{" +
+                "email=" + email +
+                '}';
     }
 
     private Candidate(EMail email) {
