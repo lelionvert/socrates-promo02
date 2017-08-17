@@ -14,10 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConfirmationServiceImplTest {
   private CandidateService candidateService;
+  private ConfirmationServiceImpl confirmationServiceImpl;
 
   @Before
   public void setUp() throws Exception {
     candidateService = Mockito.spy(new CandidateServiceImpl(null, null));
+    confirmationServiceImpl = new ConfirmationServiceImpl(candidateService, new InMemoryConfirmationRepository());
   }
 
   @Test
@@ -28,7 +30,6 @@ public class ConfirmationServiceImplTest {
   @Test
   public void should_not_confirm_candidate_who_does_not_exists() throws Exception {
     Mockito.doReturn(Optional.empty()).when(candidateService).findCandidate(Candidate.withEmail("john@doe.fr"));
-    ConfirmationServiceImpl confirmationServiceImpl = new ConfirmationServiceImpl(candidateService, new InMemoryConfirmationRepository());
     assertThat(confirmationServiceImpl.confirm(Candidate.withEmail("john@doe.fr"))).isFalse();
     assertThat(confirmationServiceImpl.getListAttendee()).isEmpty();
   }
@@ -36,9 +37,16 @@ public class ConfirmationServiceImplTest {
   @Test
   public void should_confirm_one_existing_candidate() throws Exception {
     Mockito.doReturn(Optional.of(Candidate.withEmail("test@test.fr"))).when(candidateService).findCandidate(Candidate.withEmail("test@test.fr"));
-    ConfirmationServiceImpl confirmationServiceImpl = new ConfirmationServiceImpl(candidateService, new InMemoryConfirmationRepository());
     assertThat(confirmationServiceImpl.confirm(Candidate.withEmail("test@test.fr")))
         .isTrue();
+    assertThat(confirmationServiceImpl.getListAttendee()).containsExactly(Candidate.withEmail("test@test.fr"));
+  }
+
+  @Test
+  public void should_not_confirm_a_candidate_twice() throws Exception {
+    Mockito.doReturn(Optional.of(Candidate.withEmail("test@test.fr"))).when(candidateService).findCandidate(Candidate.withEmail("test@test.fr"));
+    assertThat(confirmationServiceImpl.confirm(Candidate.withEmail("test@test.fr"))).isTrue();
+    assertThat(confirmationServiceImpl.confirm(Candidate.withEmail("test@test.fr"))).isFalse();
     assertThat(confirmationServiceImpl.getListAttendee()).containsExactly(Candidate.withEmail("test@test.fr"));
   }
 }
