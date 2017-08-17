@@ -16,16 +16,16 @@ public class ListSponsorTest {
     private void init_list_of_sponsors() {
         Sponsor sponsor1 = new Sponsor.SponsorBuilder()
                 .withName("name")
-                .withSIRET("siret")
-                .withSIREN("siren")
+                .withSIRET("82322757400014")
+                .withSIREN("823227574")
                 .withContractRepresentative("contractRepresentative")
                 .withContact("mail1@gmail.com")
                 .withAmountOfSponsoring(123d).createSponsor();
 
         Sponsor sponsor2 = new Sponsor.SponsorBuilder()
                 .withName("name2")
-                .withSIRET("siret2")
-                .withSIREN("siren2")
+                .withSIRET("51922005700011")
+                .withSIREN("519220057")
                 .withContractRepresentative("contractRepresentative2")
                 .withContact("mail2@gmail.com")
                 .withAmountOfSponsoring(1234d).createSponsor();
@@ -45,11 +45,11 @@ public class ListSponsorTest {
     @Test
     public void should_return_size_1_when_adding_a_sponsor() {
         SponsorService listOfOneSponsor = new SponsorService(new FakeSponsorRespository(), new FakePrinter());
-        listOfOneSponsor.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("siret").withSIREN("siren").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123).createSponsor());
+        listOfOneSponsor.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123).createSponsor());
         List<Sponsor> sponsors = listOfOneSponsor.getSponsorsList();
 
 
-        Sponsor sponsorExpected = new Sponsor.SponsorBuilder().withName("name").withSIRET("siret").withSIREN("siren").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor();
+        Sponsor sponsorExpected = new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor();
         Sponsor sponsor = sponsors.get(0);
         assertThat(sponsors.size()).isEqualTo(1);
         assertThat(sponsor).isEqualTo(sponsorExpected);
@@ -58,8 +58,8 @@ public class ListSponsorTest {
     @Test
     public void should_return_one_sponsor_when_adding_two_identical_sponsors() throws Exception {
         SponsorService listOfTwoSponsors = new SponsorService(new FakeSponsorRespository(), new FakePrinter());
-        Sponsor sponsor1 = new Sponsor.SponsorBuilder().withName("Sponsor").withSIRET("siret").withSIREN("siren").withContractRepresentative("contractRepresentative 2").withContact("contact 2").withAmountOfSponsoring(1234d).createSponsor();
-        Sponsor sponsor2 = new Sponsor.SponsorBuilder().withName("name").withSIRET("siret").withSIREN("siren").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor();
+        Sponsor sponsor1 = new Sponsor.SponsorBuilder().withName("Sponsor").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative 2").withContact("contact 2").withAmountOfSponsoring(1234d).createSponsor();
+        Sponsor sponsor2 = new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor();
 
         listOfTwoSponsors.addSponsor(sponsor1);
         listOfTwoSponsors.addSponsor(sponsor2);
@@ -73,16 +73,16 @@ public class ListSponsorTest {
     public void should_return_two_sponsors_when_adding_two_sponsors() {
         SponsorService listOfOneSponsor = new SponsorService(new FakeSponsorRespository(), new FakePrinter());
 
-        listOfOneSponsor.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("siret").withSIREN("siren").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor());
-        listOfOneSponsor.addSponsor(new Sponsor.SponsorBuilder().withName("Sponsor").withSIRET("siret 2").withSIREN("siren 2").withContractRepresentative("contractRepresentative 2").withContact("contact 2").withAmountOfSponsoring(1234d).createSponsor());
+        listOfOneSponsor.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor());
+        listOfOneSponsor.addSponsor(new Sponsor.SponsorBuilder().withName("Sponsor").withSIRET("51922005700011").withSIREN("519220057").withContractRepresentative("contractRepresentative 2").withContact("contact 2").withAmountOfSponsoring(1234d).createSponsor());
         List<Sponsor> sponsors = listOfOneSponsor.getSponsorsList();
 
-        Sponsor sponsor1Expected = new Sponsor.SponsorBuilder().withName("name").withSIRET("siret").withSIREN("siren").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor();
+        Sponsor sponsor1Expected = new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor();
         Sponsor sponsor = sponsors.get(0);
         assertThat(sponsors.size()).isEqualTo(2);
         assertThat(sponsor).isEqualTo(sponsor1Expected);
 
-        Sponsor sponsor2Expected = new Sponsor.SponsorBuilder().withName("Sponsor").withSIRET("siret 2").withSIREN("siren 2").withContractRepresentative("contractRepresentative 2").withContact("contact 2").withAmountOfSponsoring(1234d).createSponsor();
+        Sponsor sponsor2Expected = new Sponsor.SponsorBuilder().withName("Sponsor").withSIRET("51922005700011").withSIREN("519220057").withContractRepresentative("contractRepresentative 2").withContact("contact 2").withAmountOfSponsoring(1234d).createSponsor();
         Sponsor sponsor1 = sponsors.get(1);
         assertThat(sponsor1).isEqualTo(sponsor2Expected);
     }
@@ -93,8 +93,8 @@ public class ListSponsorTest {
         FakePrinter printer = new FakePrinter();
         SponsorService sponsorService = new SponsorService(new FakeSponsorRespository(), printer);
 
-        sponsorService.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("siret").withSIREN("siren").withContractRepresentative("contractRepresentative").withContact("mail1@gmail.com").withAmountOfSponsoring(123d).createSponsor());
-        sponsorService.addSponsor(new Sponsor.SponsorBuilder().withName("Sponsor").withSIRET("siret 2").withSIREN("siren 2").withContractRepresentative("contractRepresentative 2").withContact("mail2@gmail.com").withAmountOfSponsoring(1234d).createSponsor());
+        sponsorService.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("mail1@gmail.com").withAmountOfSponsoring(123d).createSponsor());
+        sponsorService.addSponsor(new Sponsor.SponsorBuilder().withName("Sponsor").withSIRET("51922005700011").withSIREN("519220057").withContractRepresentative("contractRepresentative 2").withContact("mail2@gmail.com").withAmountOfSponsoring(1234d).createSponsor());
 
         sponsorService.print();
 
