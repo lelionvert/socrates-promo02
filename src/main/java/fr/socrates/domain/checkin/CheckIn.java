@@ -3,21 +3,19 @@ package fr.socrates.domain.checkin;
 import java.time.LocalDateTime;
 
 public class CheckIn {
-    private final ParticipantId participantId;
+    private final AttendeeId attendeeId;
     private final LocalDateTime checkInDate;
-    int COLD_FOOD_HOUR = 21;
 
-    public CheckIn(ParticipantId participantId, LocalDateTime checkInDate) {
-        this.participantId = participantId;
+    public CheckIn(AttendeeId attendeeId, LocalDateTime checkInDate) {
+        this.attendeeId = attendeeId;
         this.checkInDate = checkInDate;
     }
 
-    public ParticipantId getParticipantId() {
-        return participantId;
+    public AttendeeId getAttendeeId() {
+        return attendeeId;
     }
 
-
-    public boolean isCheckInDateForColdMeal() {
-        return checkInDate.getHour() >= COLD_FOOD_HOUR;
+    public int getCheckInHour() {
+        return checkInDate.getHour();
     }
 }

@@ -1,9 +1,9 @@
 package fr.socrates.domain.checkin;
 
-public class ParticipantId {
+public class AttendeeId {
     private final String id;
 
-    public ParticipantId(String id) {
+    public AttendeeId(String id) {
         this.id = id;
     }
 
@@ -12,7 +12,7 @@ public class ParticipantId {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ParticipantId that = (ParticipantId) o;
+        AttendeeId that = (AttendeeId) o;
 
         return id != null ? id.equals(that.id) : that.id == null;
     }

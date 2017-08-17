@@ -74,7 +74,10 @@ public class Main {
                     break;
                 case FIVE:
                     consolePrinter.print("Ajouter un checkin :");
-                    checkInService.addNewCheckIn(createCheckin(scanner, consolePrinter));
+                    boolean exists = checkInService.addNewCheckIn(createCheckin(scanner, consolePrinter));
+                    if (exists){
+                        consolePrinter.print("Checkin mis à jour.");
+                    }
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -101,9 +104,9 @@ public class Main {
         consolePrinter.print("Format de saisie: john=2017-12-03T23:15:30");
 
         String[] checkInArgument = scanner.next().split("=");
-        ParticipantId participantId = new ParticipantId(checkInArgument[0]);
+        AttendeeId attendeeId = new AttendeeId(checkInArgument[0]);
         LocalDateTime checkInDateTime = LocalDateTime.parse(checkInArgument[1], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        return new CheckIn(participantId, checkInDateTime);
+        return new CheckIn(attendeeId, checkInDateTime);
 }
 
     private static Candidate createCandidate(Scanner scanner, Printer consolePrinter) {
