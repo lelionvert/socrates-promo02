@@ -1,18 +1,18 @@
 package fr.socrates.domain.attendee;
 
 import fr.socrates.domain.candidate.Candidate;
-import fr.socrates.domain.candidate.CandidateRepository;
+import fr.socrates.domain.candidate.CandidateService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class ConfirmationService {
-  private CandidateRepository candidateRepository;
   private List<Candidate> listAttendees;
+  private CandidateService candidateService;
 
-  public ConfirmationService(CandidateRepository candidateRepository) {
-    this.candidateRepository = candidateRepository;
+  public ConfirmationService(CandidateService candidateService) {
+    this.candidateService = candidateService;
     listAttendees = new ArrayList<>();
   }
 
@@ -21,9 +21,9 @@ public class ConfirmationService {
   }
 
   public boolean confirm(Candidate candidate) {
-    List<Candidate> foundCandidates = candidateRepository.findAll().stream().filter(e -> e.equals(candidate)).collect(Collectors.toList());
-    if (foundCandidates.size() > 0) {
-      listAttendees.add(foundCandidates.get(0));
+    Optional<Candidate> foundCandidate = candidateService.findCandidate(candidate);
+    if (foundCandidate.isPresent()) {
+      foundCandidate.ifPresent(c -> listAttendees.add(c));
       return true;
     }
     return false;
