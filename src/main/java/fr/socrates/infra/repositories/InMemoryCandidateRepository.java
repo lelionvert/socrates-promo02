@@ -23,4 +23,5 @@ public class InMemoryCandidateRepository implements CandidateRepository {
     public int size() {
         return list.size();
     }
+
 }
