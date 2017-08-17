@@ -7,21 +7,25 @@ import java.util.List;
 import java.util.Optional;
 
 class ConfirmationServiceImpl implements ConfirmationService {
-  private CandidateService candidateService;
-  private ConfirmationRepository confirmationRepository;
+    private CandidateService candidateService;
+    private ConfirmationRepository confirmationRepository;
 
-  ConfirmationServiceImpl(CandidateService candidateService, ConfirmationRepository confirmationRepository) {
-    this.candidateService = candidateService;
-    this.confirmationRepository = confirmationRepository;
-  }
+    ConfirmationServiceImpl(CandidateService candidateService, ConfirmationRepository confirmationRepository) {
+        this.candidateService = candidateService;
+        this.confirmationRepository = confirmationRepository;
+    }
 
-  List<Candidate> getListAttendee() {
-    return confirmationRepository.getConfirmations();
-  }
+    List<Candidate> getListAttendee() {
+        return confirmationRepository.getConfirmations();
+    }
 
-  boolean confirm(Candidate candidate) {
-    Optional<Candidate> foundCandidate = candidateService.findCandidate(candidate);
-    foundCandidate.ifPresent(c -> confirmationRepository.add(c));
-    return foundCandidate.isPresent();
-  }
+    boolean confirm(Candidate candidate) {
+        Optional<Candidate> foundCandidate = candidateService.findCandidate(candidate)
+            .filter(c -> !confirmationRepository.getConfirmations().contains(c));
+        foundCandidate
+            .ifPresent(c -> confirmationRepository.add(c));
+
+
+        return foundCandidate.isPresent();
+    }
 }
