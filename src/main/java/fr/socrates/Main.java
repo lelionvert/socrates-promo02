@@ -8,6 +8,7 @@ import fr.socrates.domain.meal.MealServiceImpl;
 import fr.socrates.domain.sponsor.Sponsor;
 import fr.socrates.domain.sponsor.SponsorRespository;
 import fr.socrates.domain.sponsor.SponsorService;
+import fr.socrates.domain.sponsor.SponsorServiceImpl;
 import fr.socrates.infra.printers.ConsolePrinter;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import fr.socrates.infra.repositories.InMemoryCheckInRepository;
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -38,7 +40,7 @@ public class Main {
 
         Printer consolePrinter = new ConsolePrinter();
 
-        SponsorService sponsorService = new SponsorService(inMemorySponsorRepository, consolePrinter);
+        SponsorService sponsorService = new SponsorServiceImpl(inMemorySponsorRepository);
         CandidateService candidateService = new CandidateServiceImpl(inMemoryCandidateRepository, consolePrinter);
         CheckInService checkInService = new CheckInServiceImpl(inMemoryCheckInRepository, consolePrinter);
         MealService mealService = new MealServiceImpl(checkInService);
@@ -71,7 +73,7 @@ public class Main {
                     break;
                 case FOUR:
                     consolePrinter.print("Liste des sponsors :");
-                    listSponsors(sponsorService);
+                    consolePrinter.print(listSponsors(sponsorService));
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -126,8 +128,8 @@ public class Main {
         return Candidate.withEmail(candidateInputs.get(0));
     }
 
-    private static void listSponsors(SponsorService sponsorService) {
-        sponsorService.print();
+    private static List<String> listSponsors(SponsorService sponsorService) {
+        return sponsorService.getSponsorsList().stream().map(Sponsor::toString).collect(Collectors.toList());
     }
 
     private static Sponsor createSponsor(Scanner scanner, Printer consolePrinter) {

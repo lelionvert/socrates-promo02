@@ -21,18 +21,6 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void print() {
-        if (candidateRepository.size() == 0) {
-            printer.print("No email to print");
-        } else {
-            candidateRepository.findAll()
-                    .stream()
-                    .map(Candidate::toString)
-                    .forEach(printer::print);
-        }
-    }
-
-    @Override
     public List<Candidate> getRegisteredCandidates() {
         List<Candidate> candidates = new ArrayList<>();
         candidates.addAll(candidateRepository.findAll());
