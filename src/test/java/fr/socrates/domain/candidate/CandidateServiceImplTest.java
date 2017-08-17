@@ -10,7 +10,6 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CandidateServiceImplTest {
-
     private CandidateService candidateService;
     private FakePrinter printer;
 
@@ -41,5 +40,4 @@ public class CandidateServiceImplTest {
         assertThat(candidateService.getRegisteredCandidates())
                 .containsExactly(Candidate.withEmail(email));
     }
-
 }
