@@ -61,8 +61,7 @@ public class Main {
                     break;
                 case TWO:
                     consolePrinter.print("Liste des candidats :");
-                    CandidateFormatter candidateFormatter = new CandidateFormatter();
-                    consolePrinter.print(candidateFormatter.format(candidateService.getRegisteredCandidates()));
+                    consolePrinter.print(format(candidateService.getRegisteredCandidates()));
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -74,7 +73,7 @@ public class Main {
                     break;
                 case FOUR:
                     consolePrinter.print("Liste des sponsors :");
-                    consolePrinter.print(listSponsors(sponsorService));
+                    consolePrinter.print(format(sponsorService.getSponsorsList()));
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -106,6 +105,8 @@ public class Main {
     }
 
 
+
+
     private static CheckIn createCheckin(Scanner scanner, Printer consolePrinter) {
         consolePrinter.print("Format de saisie: john=2017-12-03T23:15:30");
 
@@ -126,14 +127,14 @@ public class Main {
         return Candidate.withEmail(candidateInputs.get(0));
     }
 
-    private static List<String> listSponsors(SponsorService sponsorService) {
-        final List<Sponsor> sponsorsList = sponsorService.getSponsorsList();
-        if (sponsorsList.isEmpty())
-            return Collections.singletonList("Aucun element dans la liste");
-        else
-            return sponsorsList.stream().map(Sponsor::toString).collect(Collectors.toList());
-    }
 
+    private static <T> List<String> format(List<T> list) {
+        String nameClass = list.getClass().getName();
+        if (list.isEmpty())
+            return Collections.singletonList("Aucun element " + nameClass + " dans la liste");
+        else
+            return list.stream().map(T::toString).collect(Collectors.toList());
+    }
 
     private static Sponsor createSponsor(Scanner scanner, Printer consolePrinter) {
         String[] sponsorInfos = {"Nom", "SIRET", "SIREN", "Représentant", "Contact Email", "Montant du sponsoring"};
