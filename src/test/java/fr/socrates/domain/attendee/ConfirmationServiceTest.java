@@ -3,7 +3,6 @@ package fr.socrates.domain.attendee;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateService;
 import fr.socrates.domain.candidate.CandidateServiceImpl;
-import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import fr.socrates.infra.repositories.InMemoryConfirmationRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,17 +10,13 @@ import org.mockito.Mockito;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConfirmationServiceTest {
-  private InMemoryCandidateRepository inMemoryCandidateRepository;
   private CandidateService candidateService;
 
   @Before
   public void setUp() throws Exception {
-    inMemoryCandidateRepository = new InMemoryCandidateRepository();
-    inMemoryCandidateRepository.save(Candidate.withEmail("test@test.fr"));
-
     candidateService = Mockito.spy(new CandidateServiceImpl(null, null));
   }
 
