@@ -1,7 +1,5 @@
 package fr.socrates.domain.sponsor;
 
-import fr.socrates.common.Printer;
-
 public class Sponsor {
     private final String name;
     private final String SIRET;
@@ -25,6 +23,13 @@ public class Sponsor {
         return SIREN.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "Sponsor{" +
+                "contact='" + contact + '\'' +
+                '}';
+    }
+
     private Sponsor(String name, String SIRET, String SIREN, String contractRepresentative, String contact, double amountOfSponsoring) {
         this.name = name;
         this.SIRET = SIRET;
@@ -32,10 +37,6 @@ public class Sponsor {
         this.contractRepresentative = contractRepresentative;
         this.contact = contact;
         this.amountOfSponsoring = amountOfSponsoring;
-    }
-
-    void print(Printer printer) {
-        printer.print(contact);
     }
 
     public static class SponsorBuilder {
