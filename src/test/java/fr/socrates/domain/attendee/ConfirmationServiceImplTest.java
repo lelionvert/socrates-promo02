@@ -29,24 +29,27 @@ public class ConfirmationServiceImplTest {
 
   @Test
   public void should_not_confirm_candidate_who_does_not_exists() throws Exception {
-    Mockito.doReturn(Optional.empty()).when(candidateService).findCandidate(Candidate.withEmail("john@doe.fr"));
-    assertThat(confirmationServiceImpl.confirm(Candidate.withEmail("john@doe.fr"))).isFalse();
+    final String email = "john@doe.fr";
+    Mockito.doReturn(Optional.empty()).when(candidateService).findCandidate(Candidate.withEmail(email));
+    assertThat(confirmationServiceImpl.confirm(Candidate.withEmail(email))).isFalse();
     assertThat(confirmationServiceImpl.getListAttendee()).isEmpty();
   }
 
   @Test
   public void should_confirm_one_existing_candidate() throws Exception {
-    Mockito.doReturn(Optional.of(Candidate.withEmail("test@test.fr"))).when(candidateService).findCandidate(Candidate.withEmail("test@test.fr"));
-    assertThat(confirmationServiceImpl.confirm(Candidate.withEmail("test@test.fr")))
+    final String email = "test@test.fr";
+    Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateService).findCandidate(Candidate.withEmail(email));
+    assertThat(confirmationServiceImpl.confirm(Candidate.withEmail(email)))
         .isTrue();
-    assertThat(confirmationServiceImpl.getListAttendee()).containsExactly(Candidate.withEmail("test@test.fr"));
+    assertThat(confirmationServiceImpl.getListAttendee()).containsExactly(Candidate.withEmail(email));
   }
 
   @Test
   public void should_not_confirm_a_candidate_twice() throws Exception {
-    Mockito.doReturn(Optional.of(Candidate.withEmail("test@test.fr"))).when(candidateService).findCandidate(Candidate.withEmail("test@test.fr"));
-    assertThat(confirmationServiceImpl.confirm(Candidate.withEmail("test@test.fr"))).isTrue();
-    assertThat(confirmationServiceImpl.confirm(Candidate.withEmail("test@test.fr"))).isFalse();
-    assertThat(confirmationServiceImpl.getListAttendee()).containsExactly(Candidate.withEmail("test@test.fr"));
+    final String email = "test@test.fr";
+    Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateService).findCandidate(Candidate.withEmail(email));
+    assertThat(confirmationServiceImpl.confirm(Candidate.withEmail(email))).isTrue();
+    assertThat(confirmationServiceImpl.confirm(Candidate.withEmail(email))).isFalse();
+    assertThat(confirmationServiceImpl.getListAttendee()).containsExactly(Candidate.withEmail(email));
   }
 }
