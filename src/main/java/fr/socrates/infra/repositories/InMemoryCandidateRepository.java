@@ -18,5 +18,4 @@ public class InMemoryCandidateRepository implements CandidateRepository {
     public void save(Candidate candidate) {
         list.add(candidate);
     }
-
 }
