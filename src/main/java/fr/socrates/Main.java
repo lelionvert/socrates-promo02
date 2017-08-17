@@ -104,8 +104,9 @@ public class Main {
         }
     }
 
-
-
+    private static void displayColdMealCount(MealService mealService, Printer consolePrinter) {
+        consolePrinter.print(String.valueOf(mealService.countColdMeal()));
+    }
 
     private static CheckIn createCheckin(Scanner scanner, Printer consolePrinter) {
         consolePrinter.print("Format de saisie: john=2017-12-03T23:15:30");
@@ -129,9 +130,8 @@ public class Main {
 
 
     private static <T> List<String> format(List<T> list) {
-        String nameClass = list.getClass().getName();
         if (list.isEmpty())
-            return Collections.singletonList("Aucun element " + nameClass + " dans la liste");
+            return Collections.singletonList("Aucun element dans la liste");
         else
             return list.stream().map(T::toString).collect(Collectors.toList());
     }
