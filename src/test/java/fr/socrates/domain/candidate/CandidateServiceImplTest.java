@@ -1,6 +1,5 @@
 package fr.socrates.domain.candidate;
 
-import fr.socrates.common.FakePrinter;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import org.junit.Before;
 import org.junit.Test;

@@ -12,6 +12,6 @@ public class ConsolePrinter implements Printer {
 
   @Override
   public void print(List<String> listToPrint) {
-    listToPrint.forEach(x -> System.out.println(x));
+    listToPrint.forEach(System.out::println);
   }
 }

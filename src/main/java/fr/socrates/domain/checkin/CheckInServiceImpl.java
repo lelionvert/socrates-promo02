@@ -4,11 +4,9 @@ import fr.socrates.common.Printer;
 
 public class CheckInServiceImpl implements CheckInService {
     private final CheckInRepository checkInRepository;
-    private final Printer printer;
 
     public CheckInServiceImpl(CheckInRepository checkInRepository, Printer printer) {
         this.checkInRepository = checkInRepository;
-        this.printer = printer;
     }
 
     @Override
