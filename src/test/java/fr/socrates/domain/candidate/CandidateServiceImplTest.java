@@ -7,7 +7,6 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CandidateServiceImplTest {
-
     private CandidateService candidateService;
 
     @Before
@@ -37,4 +36,10 @@ public class CandidateServiceImplTest {
                 .containsExactly(Candidate.withEmail(email));
     }
 
+    @Test
+    public void should_find_a_candidate_by_email() throws Exception {
+        final String email = "john@doe.fr";
+        candidateService.add(Candidate.withEmail(email));
+        assertThat(candidateService.findCandidateByEmail(email).isPresent()).isTrue();
+    }
 }

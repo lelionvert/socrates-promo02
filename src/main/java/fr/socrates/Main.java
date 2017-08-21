@@ -1,6 +1,9 @@
 package fr.socrates;
 
 import fr.socrates.common.Printer;
+import fr.socrates.domain.attendee.ConfirmationRepository;
+import fr.socrates.domain.attendee.ConfirmationService;
+import fr.socrates.domain.attendee.ConfirmationServiceImpl;
 import fr.socrates.domain.candidate.*;
 import fr.socrates.domain.checkin.*;
 import fr.socrates.domain.meal.MealService;
@@ -12,20 +15,18 @@ import fr.socrates.domain.sponsor.SponsorServiceImpl;
 import fr.socrates.infra.printers.ConsolePrinter;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import fr.socrates.infra.repositories.InMemoryCheckInRepository;
+import fr.socrates.infra.repositories.InMemoryConfirmationRepository;
 import fr.socrates.infra.repositories.InMemorySponsorRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 class Main {
 
     public static void main(String[] args) {
-        final String MENU_MESSAGE = "Yo Houssam, tu veux: \n 1- Ajouter un candidat \n 2- Lister les candidats \n 3- Ajouter un sponsor \n 4- Lister les sponsors \n 5- Ajouter un checkin \n 6- Le nombre de repas froids ? \n 0- Quitter!";
+        final String MENU_MESSAGE = "Yo Houssam, tu veux: \n 1- Ajouter un candidat \n 2- Lister les candidats \n 3- Ajouter un sponsor \n 4- Lister les sponsors \n 5- Ajouter un checkin \n 6- Le nombre de repas froids ? \n 7- Pour confirmer un candidat \n 8- Liste des confirmations \n 0- Quitter!";
         final String ENDING_MESSAGE = "Merci d'avoir utilisé ce programme des Mi-Ours, Mi-Scorpions, et re mi-ours derrière !";
         final String ZERO = "0";
         final String ONE = "1";
@@ -34,10 +35,13 @@ class Main {
         final String FOUR = "4";
         final String FIVE = "5";
         final String SIX = "6";
+        final String SEVEN = "7";
+        final String EIGHT = "8";
 
         CandidateRepository inMemoryCandidateRepository = new InMemoryCandidateRepository();
         CheckInRepository inMemoryCheckInRepository = new InMemoryCheckInRepository();
         SponsorRepository inMemorySponsorRepository = new InMemorySponsorRepository();
+        ConfirmationRepository inMemoryConfirmationRepository = new InMemoryConfirmationRepository();
 
         Printer consolePrinter = new ConsolePrinter();
 
@@ -45,6 +49,7 @@ class Main {
         CandidateService candidateService = new CandidateServiceImpl(inMemoryCandidateRepository);
         CheckInService checkInService = new CheckInServiceImpl(inMemoryCheckInRepository, consolePrinter);
         MealService mealService = new MealServiceImpl(checkInService);
+        ConfirmationService confirmationService = new ConfirmationServiceImpl(candidateService, inMemoryConfirmationRepository);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -88,6 +93,19 @@ class Main {
                 case SIX:
                     consolePrinter.print("Nombre de repas froids :");
                     displayColdMealCount(mealService, consolePrinter);
+                    consolePrinter.print(MENU_MESSAGE);
+                    choice = scanner.next();
+                    break;
+                case SEVEN:
+                    consolePrinter.print(format(candidateService.getRegisteredCandidates()));
+                    consolePrinter.print("Tape l'email du candidat à confirmer");
+                    confirmationService.confirm(scanner.next());
+                    consolePrinter.print(MENU_MESSAGE);
+                    choice = scanner.next();
+                    break;
+                case EIGHT:
+                    consolePrinter.print("Nombre de confirmations :");
+                    consolePrinter.print(format(confirmationService.getListAttendee()));
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
