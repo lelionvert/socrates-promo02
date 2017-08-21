@@ -32,10 +32,4 @@ public class ConfirmationServiceImpl implements ConfirmationService {
         }
         return false;
     }
-
-    private boolean hasConfirmation(Candidate candidate) {
-        Optional<Candidate> foundCandidate = candidateService.findCandidate(candidate);
-        Optional<Candidate> foundConfirmation = confirmationRepository.findConfirmation(candidate);
-        return !foundCandidate.isPresent() || foundConfirmation.isPresent();
-    }
 }

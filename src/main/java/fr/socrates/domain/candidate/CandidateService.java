@@ -5,8 +5,6 @@ import java.util.Optional;
 
 public interface CandidateService {
     void add(Candidate candidate);
-
     List<Candidate> getRegisteredCandidates();
     Optional<Candidate> findCandidateByEmail(String email);
-    Optional<Candidate> findCandidate(Candidate candidate);
 }

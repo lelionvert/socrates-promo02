@@ -3,7 +3,6 @@ package fr.socrates.domain.candidate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class CandidateServiceImpl implements CandidateService {
     private final CandidateRepository candidateRepository;
@@ -29,8 +28,4 @@ public class CandidateServiceImpl implements CandidateService {
         return candidateRepository.findByEmail(email);
     }
 
-    @Override
-    public Optional<Candidate> findCandidate(Candidate candidate) {
-       return candidateRepository.findAll().stream().filter(currentCandidate -> currentCandidate.equals(candidate)).findAny();
-    }
 }
