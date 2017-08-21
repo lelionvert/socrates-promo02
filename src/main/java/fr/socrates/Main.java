@@ -59,7 +59,9 @@ class Main {
             switch (choice) {
                 case ONE:
                     consolePrinter.print("Ajouter un candidat : ");
-                    candidateService.add(createCandidate(scanner, consolePrinter));
+                    boolean create = candidateService.add(createCandidate(scanner, consolePrinter));
+                    if(!create)
+                        consolePrinter.print("Le candidat a deja ete ajoute");
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -71,7 +73,12 @@ class Main {
                     break;
                 case THREE:
                     consolePrinter.print("Ajouter un sponsor : ");
-                    sponsorService.addSponsor(createSponsor(scanner, consolePrinter));
+                    try{
+                        sponsorService.addSponsor(createSponsor(scanner, consolePrinter));
+                    }catch (IllegalArgumentException e){
+                        consolePrinter.print(" \n" +
+                                " /!\\ Erreur d'ajout du sponsor. Les SIREN et/ou SIRET sont invalides /!\\ \n");
+                    }
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -99,12 +106,14 @@ class Main {
                 case SEVEN:
                     consolePrinter.print(format(candidateService.getRegisteredCandidates()));
                     consolePrinter.print("Tape l'email du candidat à confirmer");
-                    confirmationService.confirm(scanner.next());
+                    boolean confirmation = confirmationService.confirm(scanner.next());
+                    if (!confirmation)
+                        consolePrinter.print("Erreur la confirmation a echoue");
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
                 case EIGHT:
-                    consolePrinter.print("Nombre de confirmations :");
+                    consolePrinter.print("Liste des confirmes :");
                     consolePrinter.print(format(confirmationService.getListAttendee()));
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();

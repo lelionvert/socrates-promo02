@@ -12,8 +12,8 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void add(Candidate candidate) {
-        candidateRepository.save(candidate);
+    public boolean add(Candidate candidate) {
+        return candidateRepository.save(candidate);
     }
 
     @Override

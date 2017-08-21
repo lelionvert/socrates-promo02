@@ -16,8 +16,8 @@ public class InMemoryCandidateRepository implements CandidateRepository {
     }
 
     @Override
-    public void save(Candidate candidate) {
-        candidateList.add(candidate);
+    public boolean save(Candidate candidate) {
+        return candidateList.add(candidate);
     }
 
     @Override
