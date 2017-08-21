@@ -7,7 +7,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class InMemoryCandidateRepository implements CandidateRepository {
-
     private final Set<Candidate> list = new LinkedHashSet<>();
 
     @Override
@@ -24,4 +23,5 @@ public class InMemoryCandidateRepository implements CandidateRepository {
     public int size() {
         return list.size();
     }
+
 }

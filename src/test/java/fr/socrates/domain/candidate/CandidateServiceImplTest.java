@@ -8,7 +8,6 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CandidateServiceImplTest {
-
     private CandidateService candidateService;
 
     @Before
@@ -37,5 +36,4 @@ public class CandidateServiceImplTest {
         assertThat(candidateService.getRegisteredCandidates())
                 .containsExactly(Candidate.withEmail(email));
     }
-
 }
