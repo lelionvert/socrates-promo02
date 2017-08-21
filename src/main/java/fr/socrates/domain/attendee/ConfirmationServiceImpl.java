@@ -20,12 +20,14 @@ class ConfirmationServiceImpl implements ConfirmationService {
     }
 
     boolean confirm(Candidate candidate) {
-        Optional<Candidate> foundCandidate = candidateService.findCandidate(candidate)
-            .filter(c -> !confirmationRepository.getConfirmations().contains(c));
-        foundCandidate
-            .ifPresent(c -> confirmationRepository.add(c));
-
-
-        return foundCandidate.isPresent();
+        Optional<Candidate> foundCandidate = candidateService.findCandidate(candidate);
+        if (foundCandidate.isPresent()) {
+            Optional<Candidate> foundConfirmation = confirmationRepository.findConfirmation(foundCandidate.get());
+            if (!foundConfirmation.isPresent()) {
+                confirmationRepository.add(candidate);
+                return true;
+            }
+        }
+        return false;
     }
 }
