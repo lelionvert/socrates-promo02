@@ -7,7 +7,7 @@ public interface CandidateRepository {
 
     Set<Candidate> findAll();
 
-    void save(Candidate candidate);
+    boolean save(Candidate candidate);
 
     Optional<Candidate> findByEmail(String email);
 }
