@@ -5,19 +5,15 @@ import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collection;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CandidateServiceImplTest {
 
     private CandidateService candidateService;
-    private FakePrinter printer;
 
     @Before
     public void setUp() throws Exception {
-        printer = new FakePrinter();
-        candidateService = new CandidateServiceImpl(new InMemoryCandidateRepository(), printer);
+        candidateService = new CandidateServiceImpl(new InMemoryCandidateRepository());
     }
 
     @Test
