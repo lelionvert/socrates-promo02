@@ -6,11 +6,11 @@ import fr.socrates.domain.candidate.CandidateService;
 import java.util.List;
 import java.util.Optional;
 
-class ConfirmationServiceImpl implements ConfirmationService {
+public class ConfirmationServiceImpl implements ConfirmationService {
     private CandidateService candidateService;
     private ConfirmationRepository confirmationRepository;
 
-    ConfirmationServiceImpl(CandidateService candidateService, ConfirmationRepository confirmationRepository) {
+    public ConfirmationServiceImpl(CandidateService candidateService, ConfirmationRepository confirmationRepository) {
         this.candidateService = candidateService;
         this.confirmationRepository = confirmationRepository;
     }

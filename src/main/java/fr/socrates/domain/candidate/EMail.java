@@ -1,6 +1,6 @@
 package fr.socrates.domain.candidate;
 
-class EMail {
+public class EMail {
     private final String email;
 
     private EMail(String email) {

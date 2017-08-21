@@ -4,18 +4,24 @@ import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
 
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class InMemoryCandidateRepository implements CandidateRepository {
-    private final Set<Candidate> list = new LinkedHashSet<>();
+    private final Set<Candidate> candidateList = new LinkedHashSet<>();
 
     @Override
     public Set<Candidate> findAll() {
-        return list;
+        return candidateList;
     }
 
     @Override
     public void save(Candidate candidate) {
-        list.add(candidate);
+        candidateList.add(candidate);
+    }
+
+    @Override
+    public Optional<Candidate> findByEmail(String email) {
+        return candidateList.stream().filter(candidate -> candidate.hasEmail(email)).findFirst();
     }
 }

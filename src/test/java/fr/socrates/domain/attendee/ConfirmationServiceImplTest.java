@@ -18,7 +18,7 @@ public class ConfirmationServiceImplTest {
 
   @Before
   public void setUp() throws Exception {
-    candidateService = Mockito.spy(new CandidateServiceImpl(null, null));
+    candidateService = Mockito.spy(new CandidateServiceImpl(null));
     confirmationServiceImpl = new ConfirmationServiceImpl(candidateService, new InMemoryConfirmationRepository());
   }
 
