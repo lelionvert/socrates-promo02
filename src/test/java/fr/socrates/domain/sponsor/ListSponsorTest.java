@@ -37,14 +37,14 @@ public class ListSponsorTest {
 
     @Test
     public void should_return_empty_list_sponsors_zero() {
-        SponsorService emptyListOfSponsors = new SponsorService(new FakeSponsorRespository(), new FakePrinter());
+        SponsorService emptyListOfSponsors = new SponsorServiceImpl(new FakeSponsorRespository());
         List<Sponsor> sponsors = emptyListOfSponsors.getSponsorsList();
         assertThat(sponsors).isEmpty();
     }
 
     @Test
     public void should_return_size_1_when_adding_a_sponsor() {
-        SponsorService listOfOneSponsor = new SponsorService(new FakeSponsorRespository(), new FakePrinter());
+        SponsorService listOfOneSponsor = new SponsorServiceImpl(new FakeSponsorRespository());
         listOfOneSponsor.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123).createSponsor());
         List<Sponsor> sponsors = listOfOneSponsor.getSponsorsList();
 
@@ -57,7 +57,7 @@ public class ListSponsorTest {
 
     @Test
     public void should_return_one_sponsor_when_adding_two_identical_sponsors() throws Exception {
-        SponsorService listOfTwoSponsors = new SponsorService(new FakeSponsorRespository(), new FakePrinter());
+        SponsorService listOfTwoSponsors = new SponsorServiceImpl(new FakeSponsorRespository());
         Sponsor sponsor1 = new Sponsor.SponsorBuilder().withName("Sponsor").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative 2").withContact("contact 2").withAmountOfSponsoring(1234d).createSponsor();
         Sponsor sponsor2 = new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor();
 
@@ -71,7 +71,7 @@ public class ListSponsorTest {
 
     @Test
     public void should_return_two_sponsors_when_adding_two_sponsors() {
-        SponsorService listOfOneSponsor = new SponsorService(new FakeSponsorRespository(), new FakePrinter());
+        SponsorService listOfOneSponsor = new SponsorServiceImpl(new FakeSponsorRespository());
 
         listOfOneSponsor.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor());
         listOfOneSponsor.addSponsor(new Sponsor.SponsorBuilder().withName("Sponsor").withSIRET("51922005700011").withSIREN("519220057").withContractRepresentative("contractRepresentative 2").withContact("contact 2").withAmountOfSponsoring(1234d).createSponsor());
@@ -87,25 +87,12 @@ public class ListSponsorTest {
         assertThat(sponsor1).isEqualTo(sponsor2Expected);
     }
 
-    @Test
-    public void should_write_in_console() throws Exception {
-        init_list_of_sponsors();
-        FakePrinter printer = new FakePrinter();
-        SponsorService sponsorService = new SponsorService(new FakeSponsorRespository(), printer);
-
-        sponsorService.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("mail1@gmail.com").withAmountOfSponsoring(123d).createSponsor());
-        sponsorService.addSponsor(new Sponsor.SponsorBuilder().withName("Sponsor").withSIRET("51922005700011").withSIREN("519220057").withContractRepresentative("contractRepresentative 2").withContact("mail2@gmail.com").withAmountOfSponsoring(1234d).createSponsor());
-
-        sponsorService.print();
-
-        assertThat(printer.flush()).isEqualTo("mail1@gmail.com; mail2@gmail.com");
-    }
 
     @Test
     public void should_call_sponsor_connector() {
         init_list_of_sponsors();
         FakeSponsorRespository sponsorConnector = new FakeSponsorRespository(sponsors);
-        SponsorService listOfTwoSponsors = new SponsorService(sponsorConnector, new FakePrinter());
+        SponsorService listOfTwoSponsors = new SponsorServiceImpl(sponsorConnector);
         assertThat(sponsorConnector.getSponsorsList()).isEqualTo(sponsors);
         assertThat(listOfTwoSponsors.getSponsorsList().size()).isEqualTo(2);
     }

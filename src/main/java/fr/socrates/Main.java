@@ -8,6 +8,7 @@ import fr.socrates.domain.meal.MealServiceImpl;
 import fr.socrates.domain.sponsor.Sponsor;
 import fr.socrates.domain.sponsor.SponsorRespository;
 import fr.socrates.domain.sponsor.SponsorService;
+import fr.socrates.domain.sponsor.SponsorServiceImpl;
 import fr.socrates.infra.printers.ConsolePrinter;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import fr.socrates.infra.repositories.InMemoryCheckInRepository;
@@ -16,8 +17,10 @@ import fr.socrates.infra.repositories.InMemorySponsorRepository;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -38,7 +41,7 @@ public class Main {
 
         Printer consolePrinter = new ConsolePrinter();
 
-        SponsorService sponsorService = new SponsorService(inMemorySponsorRepository, consolePrinter);
+        SponsorService sponsorService = new SponsorServiceImpl(inMemorySponsorRepository);
         CandidateService candidateService = new CandidateServiceImpl(inMemoryCandidateRepository);
         CheckInService checkInService = new CheckInServiceImpl(inMemoryCheckInRepository, consolePrinter);
         MealService mealService = new MealServiceImpl(checkInService);
@@ -58,8 +61,7 @@ public class Main {
                     break;
                 case TWO:
                     consolePrinter.print("Liste des candidats :");
-                    CandidateFormatter candidateFormatter = new CandidateFormatter();
-                    consolePrinter.print(candidateFormatter.format(candidateService.getRegisteredCandidates()));
+                    consolePrinter.print(format(candidateService.getRegisteredCandidates()));
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -71,7 +73,7 @@ public class Main {
                     break;
                 case FOUR:
                     consolePrinter.print("Liste des sponsors :");
-                    listSponsors(sponsorService);
+                    consolePrinter.print(format(sponsorService.getSponsorsList()));
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -102,6 +104,9 @@ public class Main {
         }
     }
 
+    private static void displayColdMealCount(MealService mealService, Printer consolePrinter) {
+        consolePrinter.print(String.valueOf(mealService.countColdMeal()));
+    }
 
     private static CheckIn createCheckin(Scanner scanner, Printer consolePrinter) {
         consolePrinter.print("Format de saisie: john=2017-12-03T23:15:30");
@@ -110,9 +115,6 @@ public class Main {
         AttendeeId attendeeId = new AttendeeId(checkInArgument[0]);
         LocalDateTime checkInDateTime = LocalDateTime.parse(checkInArgument[1], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         return new CheckIn(attendeeId, checkInDateTime);
-    }
-    private static void displayColdMealCount(MealService mealService, Printer consolePrinter) {
-        consolePrinter.print(String.valueOf(mealService.countColdMeal()));
     }
 
     private static Candidate createCandidate(Scanner scanner, Printer consolePrinter) {
@@ -126,8 +128,12 @@ public class Main {
         return Candidate.withEmail(candidateInputs.get(0));
     }
 
-    private static void listSponsors(SponsorService sponsorService) {
-        sponsorService.print();
+
+    private static <T> List<String> format(List<T> list) {
+        if (list.isEmpty())
+            return Collections.singletonList("Aucun element dans la liste");
+        else
+            return list.stream().map(T::toString).collect(Collectors.toList());
     }
 
     private static Sponsor createSponsor(Scanner scanner, Printer consolePrinter) {
