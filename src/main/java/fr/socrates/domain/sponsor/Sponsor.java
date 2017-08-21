@@ -2,9 +2,6 @@ package fr.socrates.domain.sponsor;
 
 import fr.socrates.common.Printer;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Sponsor {
     private final String name;
     private final String SIRET;
@@ -12,9 +9,6 @@ public class Sponsor {
     private final String contractRepresentative;
     private final String contact;
     private final double amountOfSponsoring;
-
-    private static Pattern pattern;
-    private static Matcher matcher;
 
     @Override
     public boolean equals(Object o) {
