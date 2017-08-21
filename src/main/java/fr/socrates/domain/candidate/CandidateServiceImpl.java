@@ -31,6 +31,6 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public Optional<Candidate> findCandidate(Candidate candidate) {
-       return candidateRepository.findAll().stream().filter(e -> e.equals(candidate)).findAny();
+       return candidateRepository.findAll().stream().filter(currentCandidate -> currentCandidate.equals(candidate)).findAny();
     }
 }

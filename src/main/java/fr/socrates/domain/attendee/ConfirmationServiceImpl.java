@@ -21,12 +21,16 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     }
 
     @Override
-    public boolean confirm(Candidate candidate) {
-        final boolean alreadyConfirmed = hasConfirmation(candidate);
-        if (!alreadyConfirmed) {
-            confirmationRepository.add(candidate);
+    public boolean confirm(String candidateEmail) {
+        Optional<Candidate> foundCandidate = candidateService.findCandidateByEmail(candidateEmail);
+        if (foundCandidate.isPresent()) {
+            Optional<Candidate> foundConfirmation = confirmationRepository.findConfirmation(foundCandidate.get());
+            if (!foundConfirmation.isPresent()) {
+                confirmationRepository.add(foundCandidate.get());
+                return true;
+            }
         }
-        return !alreadyConfirmed;
+        return false;
     }
 
     private boolean hasConfirmation(Candidate candidate) {

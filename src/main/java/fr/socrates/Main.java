@@ -99,11 +99,7 @@ class Main {
                 case SEVEN:
                     consolePrinter.print(format(candidateService.getRegisteredCandidates()));
                     consolePrinter.print("Tape l'email du candidat à confirmer");
-                    Optional<Candidate> candidate = candidateService.findCandidateByEmail(scanner.next());
-                    candidate.ifPresent(c -> {
-                        boolean confirmation = confirmationService.confirm(c);
-                        System.out.println(confirmation);
-                    });
+                    confirmationService.confirm(scanner.next());
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
