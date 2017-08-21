@@ -1,10 +1,8 @@
 package fr.socrates.infra.repositories;
 
-import fr.socrates.common.Printer;
 import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.checkin.CheckInRepository;
 import fr.socrates.domain.checkin.AttendeeId;
-import fr.socrates.infra.printers.ConsolePrinter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

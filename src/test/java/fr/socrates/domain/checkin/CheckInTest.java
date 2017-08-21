@@ -12,12 +12,11 @@ import static org.assertj.core.api.Assertions.*;
 
 public class CheckInTest {
     private CheckInService checkInService;
-    private FakePrinter printer;
 
     @Before
     public void set_initialization() {
         CheckInRepository checkInRepository = new InMemoryCheckInRepository();
-        printer = new FakePrinter();
+        FakePrinter printer = new FakePrinter();
         checkInService = new CheckInServiceImpl(checkInRepository, printer);
     }
 

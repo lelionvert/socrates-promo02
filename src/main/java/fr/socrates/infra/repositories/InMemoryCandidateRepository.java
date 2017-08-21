@@ -20,8 +20,4 @@ public class InMemoryCandidateRepository implements CandidateRepository {
         list.add(candidate);
     }
 
-    @Override
-    public int size() {
-        return list.size();
-    }
 }

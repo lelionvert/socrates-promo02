@@ -6,7 +6,7 @@ import fr.socrates.domain.checkin.*;
 import fr.socrates.domain.meal.MealService;
 import fr.socrates.domain.meal.MealServiceImpl;
 import fr.socrates.domain.sponsor.Sponsor;
-import fr.socrates.domain.sponsor.SponsorRespository;
+import fr.socrates.domain.sponsor.SponsorRepository;
 import fr.socrates.domain.sponsor.SponsorService;
 import fr.socrates.domain.sponsor.SponsorServiceImpl;
 import fr.socrates.infra.printers.ConsolePrinter;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class Main {
+class Main {
 
     public static void main(String[] args) {
         final String MENU_MESSAGE = "Yo Houssam, tu veux: \n 1- Ajouter un candidat \n 2- Lister les candidats \n 3- Ajouter un sponsor \n 4- Lister les sponsors \n 5- Ajouter un checkin \n 6- Le nombre de repas froids ? \n 0- Quitter!";
@@ -37,7 +37,7 @@ public class Main {
 
         CandidateRepository inMemoryCandidateRepository = new InMemoryCandidateRepository();
         CheckInRepository inMemoryCheckInRepository = new InMemoryCheckInRepository();
-        SponsorRespository inMemorySponsorRepository = new InMemorySponsorRepository();
+        SponsorRepository inMemorySponsorRepository = new InMemorySponsorRepository();
 
         Printer consolePrinter = new ConsolePrinter();
 
@@ -48,10 +48,9 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        final String menu_message = MENU_MESSAGE;
-        consolePrinter.print(menu_message);
+        consolePrinter.print(MENU_MESSAGE);
         String choice = scanner.next();
-        while (choice != ZERO) {
+        while (!choice.equals(ZERO)) {
             switch (choice) {
                 case ONE:
                     consolePrinter.print("Ajouter un candidat : ");
@@ -92,16 +91,13 @@ public class Main {
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
-                case ZERO:
-                    consolePrinter.print(ENDING_MESSAGE);
-                    choice = ZERO;
-                    break;
                 default:
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
             }
         }
+        consolePrinter.print(ENDING_MESSAGE);
     }
 
     private static void displayColdMealCount(MealService mealService, Printer consolePrinter) {

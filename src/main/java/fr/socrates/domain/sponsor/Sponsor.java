@@ -1,12 +1,13 @@
 package fr.socrates.domain.sponsor;
 
 public class Sponsor {
-    private final String name;
-    private final String SIRET;
-    private final String SIREN;
-    private final String contractRepresentative;
-    private final String contact;
-    private final double amountOfSponsoring;
+
+    private String name;
+    private String siret;
+    private final String siren;
+    private String contractRepresentative;
+    private String contact;
+    private double amountOfSponsoring;
 
     @Override
     public boolean equals(Object o) {
@@ -15,12 +16,12 @@ public class Sponsor {
 
         Sponsor sponsor = (Sponsor) o;
 
-        return SIREN.equals(sponsor.SIREN);
+        return siren.equals(sponsor.siren);
     }
 
     @Override
     public int hashCode() {
-        return SIREN.hashCode();
+        return siren.hashCode();
     }
 
     @Override
@@ -30,10 +31,10 @@ public class Sponsor {
                 '}';
     }
 
-    private Sponsor(String name, String SIRET, String SIREN, String contractRepresentative, String contact, double amountOfSponsoring) {
+    private Sponsor(String name, String SIRET, String siren, String contractRepresentative, String contact, double amountOfSponsoring) {
         this.name = name;
-        this.SIRET = SIRET;
-        this.SIREN = SIREN;
+        this.siret = SIRET;
+        this.siren = siren;
         this.contractRepresentative = contractRepresentative;
         this.contact = contact;
         this.amountOfSponsoring = amountOfSponsoring;
@@ -95,8 +96,7 @@ public class Sponsor {
                 else digit = Integer.parseInt(String.valueOf(siren.charAt(i)));
                 total += digit;
             }
-            if ((total % 10) == 0) return true;
-            else return false;
+            return (total % 10) == 0;
         }
 
         private boolean isSiretSyntaxValide(String siret){
@@ -112,8 +112,7 @@ public class Sponsor {
                 else digit = Integer.parseInt(String.valueOf(siret.charAt(i)));
                 total += digit;
             }
-            if ((total % 10) == 0) return true;
-            else return false;
+            return (total % 10) == 0;
         }
     }
 }

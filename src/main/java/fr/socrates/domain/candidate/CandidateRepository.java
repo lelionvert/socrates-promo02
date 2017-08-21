@@ -8,5 +8,4 @@ public interface CandidateRepository {
 
     void save(Candidate candidate);
 
-    int size();
 }
