@@ -10,7 +10,6 @@ public class Sponsor {
     private final String contact;
     private final double amountOfSponsoring;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,9 +77,42 @@ public class Sponsor {
         }
 
         public Sponsor createSponsor() {
-            if(siren==null)
+            if((siren==null || !this.isSirenValid(siren)) || (siret != null && !isSiretSyntaxValide(siret)))
                 throw new IllegalStateException();
             return new Sponsor(name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
+        }
+
+        private boolean isSirenValid(String siren){
+            int total = 0;
+            int digit = 0;
+
+            for (int i = 0; i<siren.length(); i++) {
+                if ((i % 2) == 1) {
+                    digit = Integer.parseInt(String.valueOf(siren.charAt(i))) * 2;
+                    if (digit > 9) digit -= 9;
+                }
+                else digit = Integer.parseInt(String.valueOf(siren.charAt(i)));
+                total += digit;
+            }
+            if ((total % 10) == 0) return true;
+            else return false;
+        }
+
+        private boolean isSiretSyntaxValide(String siret){
+            int total = 0;
+            int digit = 0;
+
+            for (int i = 0; i<siret.length(); i++) {
+
+                if ((i % 2) == 0) {
+                    digit = Integer.parseInt(String.valueOf(siret.charAt(i))) * 2;
+                    if (digit > 9) digit -= 9;
+                }
+                else digit = Integer.parseInt(String.valueOf(siret.charAt(i)));
+                total += digit;
+            }
+            if ((total % 10) == 0) return true;
+            else return false;
         }
     }
 }
