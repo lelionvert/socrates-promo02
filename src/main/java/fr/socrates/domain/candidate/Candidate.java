@@ -1,10 +1,18 @@
 package fr.socrates.domain.candidate;
 
+import fr.socrates.domain.CandidateId;
+
 public class Candidate {
+    private final CandidateId candidateId;
     private final EMail email;
+
 
     public boolean hasEmail(String email) {
         return this.email.equals(EMail.of(email));
+    }
+
+    public boolean hasCandidateID(CandidateId candidateId) {
+        return this.candidateId.equals(candidateId);
     }
 
     @Override
@@ -14,29 +22,38 @@ public class Candidate {
 
         Candidate candidate = (Candidate) o;
 
-        return email.equals(candidate.email);
+        return candidateId.equals(candidate.candidateId);
     }
 
     @Override
     public int hashCode() {
-        return email.hashCode();
+        return candidateId.hashCode();
     }
 
     @Override
     public String toString() {
         return "Candidate{" +
-                "email=" + email +
+                "candidateId=" + candidateId +
+                ", email=" + email +
                 '}';
     }
 
-    private Candidate(EMail email) {
+    private Candidate(CandidateId candidateId, EMail email) {
+        this.candidateId = candidateId;
         this.email = email;
+    }
+
+    public CandidateId getCandidateId() {
+        return candidateId;
     }
 
     public static Candidate withEmail(String email) {
         if (email == null) {
             throw new IllegalStateException();
         }
-        return new Candidate(EMail.of(email));
+        return new Candidate(new CandidateId(email), EMail.of(email));
+
     }
+
+
 }

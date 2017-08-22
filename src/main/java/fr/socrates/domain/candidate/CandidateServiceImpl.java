@@ -1,5 +1,7 @@
 package fr.socrates.domain.candidate;
 
+import fr.socrates.domain.CandidateId;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,9 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public boolean add(Candidate candidate) {
+
+        if (candidateRepository.findByCandidateID(candidate.getCandidateId()).isPresent())
+            return false;
         return candidateRepository.save(candidate);
     }
 
@@ -26,6 +31,11 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public Optional<Candidate> findCandidateByEmail(String email) {
         return candidateRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<Candidate> findCandidateByCandidateID(CandidateId candidateId) {
+        return candidateRepository.findByCandidateID(candidateId);
     }
 
 }

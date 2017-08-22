@@ -1,18 +1,20 @@
 package fr.socrates.domain.checkin;
 
+import fr.socrates.domain.CandidateId;
+
 import java.time.LocalDateTime;
 
 public class CheckIn {
-    private final AttendeeId attendeeId;
+    private final CandidateId candidateId;
     private final LocalDateTime checkInDate;
 
-    public CheckIn(AttendeeId attendeeId, LocalDateTime checkInDate) {
-        this.attendeeId = attendeeId;
+    public CheckIn(CandidateId candidateId, LocalDateTime checkInDate) {
+        this.candidateId = candidateId;
         this.checkInDate = checkInDate;
     }
 
-    public AttendeeId getAttendeeId() {
-        return attendeeId;
+    public CandidateId getCandidateId() {
+        return candidateId;
     }
 
     public int getCheckInHour() {

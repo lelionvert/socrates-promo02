@@ -1,6 +1,8 @@
 package fr.socrates;
 
 import fr.socrates.common.Printer;
+import fr.socrates.domain.CandidateId;
+import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.ConfirmationServiceImpl;
@@ -49,7 +51,7 @@ class Main {
         CandidateService candidateService = new CandidateServiceImpl(inMemoryCandidateRepository);
         CheckInService checkInService = new CheckInServiceImpl(inMemoryCheckInRepository, consolePrinter);
         MealService mealService = new MealServiceImpl(checkInService);
-        ConfirmationService confirmationService = new ConfirmationServiceImpl(candidateService, inMemoryConfirmationRepository);
+        ConfirmationService confirmationService = new ConfirmationServiceImpl(inMemoryCandidateRepository, inMemoryConfirmationRepository);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -135,9 +137,9 @@ class Main {
         consolePrinter.print("Format de saisie: john=2017-12-03T23:15:30");
 
         String[] checkInArgument = scanner.next().split("=");
-        AttendeeId attendeeId = new AttendeeId(checkInArgument[0]);
+        CandidateId candidateId = new CandidateId(checkInArgument[0]);
         LocalDateTime checkInDateTime = LocalDateTime.parse(checkInArgument[1], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        return new CheckIn(attendeeId, checkInDateTime);
+        return new CheckIn(candidateId, checkInDateTime);
     }
 
     private static Candidate createCandidate(Scanner scanner, Printer consolePrinter) {

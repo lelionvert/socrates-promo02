@@ -2,7 +2,7 @@ package fr.socrates.infra.repositories;
 
 import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.checkin.CheckInRepository;
-import fr.socrates.domain.checkin.AttendeeId;
+import fr.socrates.domain.CandidateId;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryCheckInRepository implements CheckInRepository {
-    private final Map<AttendeeId, CheckIn> checkIns;
+    private final Map<CandidateId, CheckIn> checkIns;
 
     public InMemoryCheckInRepository() {
         this.checkIns = new HashMap<>();
@@ -18,7 +18,7 @@ public class InMemoryCheckInRepository implements CheckInRepository {
 
     @Override
     public boolean save(CheckIn checkin) {
-        return checkIns.put(checkin.getAttendeeId(), checkin) != null;
+        return checkIns.put(checkin.getCandidateId(), checkin) != null;
     }
 
     @Override

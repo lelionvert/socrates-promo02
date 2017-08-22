@@ -1,9 +1,9 @@
-package fr.socrates.domain.checkin;
+package fr.socrates.domain;
 
-public class AttendeeId {
+public class CandidateId {
     private final String id;
 
-    public AttendeeId(String id) {
+    public CandidateId(String id) {
         this.id = id;
     }
 
@@ -12,9 +12,16 @@ public class AttendeeId {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AttendeeId that = (AttendeeId) o;
+        CandidateId that = (CandidateId) o;
 
         return id != null ? id.equals(that.id) : that.id == null;
+    }
+
+    @Override
+    public String toString() {
+        return "CandidateId{" +
+                "id='" + id + '\'' +
+                '}';
     }
 
     @Override
