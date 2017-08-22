@@ -1,7 +1,11 @@
 package fr.socrates.domain.candidate;
 
+import fr.socrates.domain.CandidateId;
+
 public class Candidate {
+    private final CandidateId candidateId;
     private final EMail email;
+
 
     public boolean hasEmail(String email) {
         return this.email.equals(EMail.of(email));
@@ -29,14 +33,17 @@ public class Candidate {
                 '}';
     }
 
-    private Candidate(EMail email) {
+    private Candidate(CandidateId candidateId, EMail email) {
+        this.candidateId = candidateId;
         this.email = email;
     }
+
 
     public static Candidate withEmail(String email) {
         if (email == null) {
             throw new IllegalStateException();
         }
-        return new Candidate(EMail.of(email));
+        return new Candidate(new CandidateId(email), EMail.of(email));
+
     }
 }
