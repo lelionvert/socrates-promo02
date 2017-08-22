@@ -18,6 +18,13 @@ public class CandidateId {
     }
 
     @Override
+    public String toString() {
+        return "CandidateId{" +
+                "id='" + id + '\'' +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }

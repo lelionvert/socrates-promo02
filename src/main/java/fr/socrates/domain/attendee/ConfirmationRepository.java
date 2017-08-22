@@ -8,8 +8,7 @@ public interface ConfirmationRepository {
 
     void add(Confirmation confirmation);
 
-
-    List<Confirmation> getRealConfirmations();
+    List<Confirmation> getConfirmations();
 
     boolean confirmationExists(Candidate candidate);
 }

@@ -51,7 +51,7 @@ class Main {
         CandidateService candidateService = new CandidateServiceImpl(inMemoryCandidateRepository);
         CheckInService checkInService = new CheckInServiceImpl(inMemoryCheckInRepository, consolePrinter);
         MealService mealService = new MealServiceImpl(checkInService);
-        ConfirmationService confirmationService = new ConfirmationServiceImpl(candidateService, inMemoryConfirmationRepository);
+        ConfirmationService confirmationService = new ConfirmationServiceImpl(inMemoryCandidateRepository, inMemoryConfirmationRepository);
 
         Scanner scanner = new Scanner(System.in);
 

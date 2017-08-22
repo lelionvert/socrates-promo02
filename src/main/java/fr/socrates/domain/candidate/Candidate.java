@@ -22,18 +22,19 @@ public class Candidate {
 
         Candidate candidate = (Candidate) o;
 
-        return email.equals(candidate.email);
+        return candidateId.equals(candidate.candidateId);
     }
 
     @Override
     public int hashCode() {
-        return email.hashCode();
+        return candidateId.hashCode();
     }
 
     @Override
     public String toString() {
         return "Candidate{" +
-                "email=" + email +
+                "candidateId=" + candidateId +
+                ", email=" + email +
                 '}';
     }
 

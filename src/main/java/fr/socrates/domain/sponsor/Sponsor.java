@@ -2,6 +2,7 @@ package fr.socrates.domain.sponsor;
 
 public class Sponsor {
 
+
     private String name;
     private String siret;
     private final String siren;

@@ -21,7 +21,7 @@ public class InMemoryConfirmationRepository implements ConfirmationRepository {
     }
 
     @Override
-    public List<Confirmation> getRealConfirmations() {
+    public List<Confirmation> getConfirmations() {
         return listConfirmations;
     }
 
