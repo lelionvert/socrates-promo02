@@ -3,10 +3,12 @@ package fr.socrates.infra.repositories;
 import fr.socrates.domain.attendee.Confirmation;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.candidate.Candidate;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class InMemoryConfirmationRepository implements ConfirmationRepository {
     private List<Confirmation> listConfirmations;
 

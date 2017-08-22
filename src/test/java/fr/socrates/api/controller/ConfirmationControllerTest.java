@@ -2,6 +2,7 @@ package fr.socrates.api.controller;
 
 import fr.socrates.SocratesApplication;
 import fr.socrates.api.DTO.CandidateDTO;
+import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateService;
 import org.junit.Before;
@@ -25,11 +26,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {SocratesApplication.class})
 @SpringBootTest
-public class CandidateControllerTest {
+public class ConfirmationControllerTest {
     private MockMvc mvc;
 
     @Autowired
     private CandidateService candidateService;
+
+    @Autowired
+    private ConfirmationService confirmationService;
 
     @Autowired
     private WebApplicationContext context;
@@ -37,33 +41,30 @@ public class CandidateControllerTest {
     @Before
     public void setUp() throws Exception {
         this.mvc = MockMvcBuilders
-            .webAppContextSetup(context)
-            .build();
+                .webAppContextSetup(context)
+                .build();
         candidateService.add(Candidate.withEmail("john@doe.fr"));
+        candidateService.add(Candidate.withEmail("johndoe@dodo.fr"));
+        confirmationService.confirm("john@doe.fr");
     }
 
     @Test
-    public void should_return_all_candidates_as_json() throws Exception {
-        this.mvc.perform(get("/candidates"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(1)))
-            .andExpect(jsonPath("$[0].email.email", is("john@doe.fr")));
-    }
-
-    @Test
-    public void should_return_one_candidate_as_json() throws Exception {
-        this.mvc.perform(get("/candidates/john@doe.fr"))
+    public void should_return_all_confirmations_as_json() throws Exception {
+        this.mvc.perform(get("/confirmations"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email.email", is("john@doe.fr")));
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].email", is("john@doe.fr")));
     }
 
     @Test
-    public void should_add_one_candidate_to_repository() throws Exception{
-        CandidateDTO candidateDTO = CandidateDTO.domainToDTO(Candidate.withEmail("john@doe.fr"));
-        this.mvc.perform(post("/candidates")
-            .contentType(TestUtils.APPLICATION_JSON_UTF8)
-            .content(TestUtils.convertObjectToJsonBytes(candidateDTO)))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.email.email", is("john@doe.fr")));
+    public void should_confirm_one_candidate() throws Exception{
+        CandidateDTO candidateDTO = CandidateDTO.domainToDTO(Candidate.withEmail("johndoe@dodo.fr"));
+        this.mvc.perform(post("/confirmations")
+                .contentType(TestUtils.APPLICATION_JSON_UTF8)
+                .content(TestUtils.convertObjectToJsonBytes(candidateDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].email", is("john@doe.fr")))
+                .andExpect(jsonPath("$[1].email", is("johndoe@dodo.fr")));
     }
 }
