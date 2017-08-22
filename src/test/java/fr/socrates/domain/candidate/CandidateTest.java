@@ -2,6 +2,7 @@ package fr.socrates.domain.candidate;
 
 import org.junit.Test;
 
+import static fr.socrates.domain.candidate.Candidate.CandidateBuilder.aCandidate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CandidateTest {
@@ -15,5 +16,10 @@ public class CandidateTest {
         Candidate candidate1 = Candidate.withEmail("test@hello.com");
         Candidate candidate2 = Candidate.withEmail("testtutu@hello.com");
         assertThat(candidate1).isNotEqualTo(candidate2);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void should_not_allow_to_create_a_candidate_without_first_accommodation_choice() throws Exception {
+        aCandidate().withEmail(EMail.of("alchimiste@lcdlv.fr")).build();
     }
 }
