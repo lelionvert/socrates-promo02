@@ -11,7 +11,7 @@ public class CandidateTest {
     }
 
     @Test
-    public void should_create_a_valid_candidate() throws Exception {
+    public void two_candidates_instances_with_different_id_are_different() throws Exception {
         Candidate candidate1 = Candidate.withEmail("test@hello.com");
         Candidate candidate2 = Candidate.withEmail("testtutu@hello.com");
         assertThat(candidate1).isNotEqualTo(candidate2);
