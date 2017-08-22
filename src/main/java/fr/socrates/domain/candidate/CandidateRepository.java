@@ -2,12 +2,12 @@ package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.CandidateId;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface CandidateRepository {
 
-    Set<Candidate> findAll();
+    List<Candidate> findAll();
 
     boolean save(Candidate candidate);
 
