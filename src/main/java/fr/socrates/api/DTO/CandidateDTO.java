@@ -34,4 +34,9 @@ public class CandidateDTO {
 
         return candidatesDtoList;
     }
+
+    public static Candidate DTOToDomain(CandidateDTO candidateDTO) {
+        // TODO Demeter
+        return Candidate.withEmail(candidateDTO.getEmail().getEmail());
+    }
 }
