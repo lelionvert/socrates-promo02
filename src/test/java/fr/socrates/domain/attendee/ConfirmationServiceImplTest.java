@@ -1,5 +1,6 @@
 package fr.socrates.domain.attendee;
 
+import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateService;
 import fr.socrates.infra.repositories.InMemoryConfirmationRepository;
@@ -38,6 +39,7 @@ public class ConfirmationServiceImplTest {
   public void should_confirm_one_existing_candidate_with_his_email() throws Exception {
     final String email = "test@test.fr";
     Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateService).findCandidateByEmail(email);
+    Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateService).findCandidateByCandidateID(new CandidateId(email));
     assertThat(confirmationService.confirm(email)).isTrue();
     assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.withEmail(email));
   }
@@ -46,6 +48,7 @@ public class ConfirmationServiceImplTest {
   public void should_not_confirm_a_candidate_twice() throws Exception {
     final String email = "test@test.fr";
     Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateService).findCandidateByEmail(email);
+    Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateService).findCandidateByCandidateID(new CandidateId(email));
     assertThat(confirmationService.confirm(email)).isTrue();
     assertThat(confirmationService.confirm(email)).isFalse();
     assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.withEmail(email));

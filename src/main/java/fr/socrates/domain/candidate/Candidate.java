@@ -11,6 +11,10 @@ public class Candidate {
         return this.email.equals(EMail.of(email));
     }
 
+    public boolean hasCandidateID(CandidateId candidateId) {
+        return this.candidateId.equals(candidateId);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,6 +42,9 @@ public class Candidate {
         this.email = email;
     }
 
+    public CandidateId getCandidateId() {
+        return candidateId;
+    }
 
     public static Candidate withEmail(String email) {
         if (email == null) {
@@ -46,4 +53,6 @@ public class Candidate {
         return new Candidate(new CandidateId(email), EMail.of(email));
 
     }
+
+
 }
