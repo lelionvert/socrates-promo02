@@ -4,7 +4,6 @@ import fr.socrates.domain.CandidateId;
 
 import java.util.List;
 import java.util.Optional;
-
 public interface CandidateService {
     boolean add(Candidate candidate);
     List<Candidate> getRegisteredCandidates();

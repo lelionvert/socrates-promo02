@@ -3,9 +3,12 @@ package fr.socrates.infra.repositories;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Repository
 public class InMemoryCandidateRepository implements CandidateRepository {
     private final List<Candidate> candidateList = new ArrayList<>();
 
