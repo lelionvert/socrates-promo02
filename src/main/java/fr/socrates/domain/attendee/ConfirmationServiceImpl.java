@@ -38,9 +38,8 @@ public class ConfirmationServiceImpl implements ConfirmationService {
         Optional<Candidate> foundCandidate = candidateService.findCandidateByEmail(candidateEmail);
         if (foundCandidate.isPresent()) {
             final Candidate candidate = foundCandidate.get();
-            Optional<Candidate> foundConfirmation = confirmationRepository.findConfirmation(candidate);
-            if (!foundConfirmation.isPresent()) {
-                confirmationRepository.add(candidate);
+            final boolean confirmationExists = confirmationRepository.confirmationExists(candidate);
+            if (!confirmationExists) {
                 confirmationRepository.add(new Confirmation(candidate.getCandidateId(), LocalDateTime.now()));
                 return true;
             }
