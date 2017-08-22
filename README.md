@@ -9,3 +9,7 @@ Pour tester avec la version interactive :
   
 Remarques : 
 - Les SIREN et SIRET doivent être valides
+
+## URLs utiles
+- Jenkins : http://jenkins-lacombe.westeurope.cloudapp.azure.com/jenkins/login?from=%2Fjenkins%2F
+- Nexus : http://nexus-lacombe.westeurope.cloudapp.azure.com:8081/nexus/#welcome
