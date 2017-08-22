@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.ws.Response;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -21,20 +22,28 @@ public class CandidateController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<CandidateDTO>> getCandidates(){
-        Collection<CandidateDTO> candidates = CandidateDTO
-            .domainToDTO(candidateService.getRegisteredCandidates());
-        return ResponseEntity.ok(candidates);
+    public ResponseEntity<Collection<CandidateDTO>> getCandidates() {
+        return ResponseEntity.ok(CandidateDTO.domainToDTO(candidateService.getRegisteredCandidates()));
+    }
+
+    @GetMapping("/{id:.+}")
+    public ResponseEntity getCandidate(@PathVariable String id) {
+        Optional<Candidate> candidate = candidateService.findCandidateByEmail(id);
+        if (candidate.isPresent())
+            return ResponseEntity.ok(CandidateDTO.domainToDTO(candidate.get()));
+        else
+            return ResponseEntity.noContent().build();
     }
 
     @PostMapping
     public ResponseEntity createCandidate(@Valid @RequestBody CandidateDTO candidateDTO) {
-        candidateService.add(CandidateDTO.DTOToDomain(candidateDTO));
-
-        Optional<Candidate> candidate = candidateService.findCandidateByEmail(candidateDTO.getEmail().getEmail());
-        if (candidate.isPresent())
-            return ResponseEntity.ok(CandidateDTO.domainToDTO(candidate.get()));
-        else
+        if (candidateService.add(CandidateDTO.DTOToDomain(candidateDTO))) {
+            Optional<Candidate> candidate = candidateService.findCandidateByEmail(candidateDTO.getEmail().getEmail());
+            if (candidate.isPresent())
+                return ResponseEntity.ok(CandidateDTO.domainToDTO(candidate.get()));
+            else
+                return ResponseEntity.noContent().build();
+        } else
             return ResponseEntity.badRequest().build();
     }
 }

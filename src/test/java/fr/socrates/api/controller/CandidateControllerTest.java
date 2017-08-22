@@ -40,7 +40,6 @@ public class CandidateControllerTest {
     @Autowired
     private WebApplicationContext context;
 
-
     public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
     public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -52,15 +51,22 @@ public class CandidateControllerTest {
         this.mvc = MockMvcBuilders
             .webAppContextSetup(context)
             .build();
+        candidateService.add(Candidate.withEmail("john@doe.fr"));
     }
 
     @Test
-    public void should_return_one_candidate_as_json() throws Exception {
-        candidateService.add(Candidate.withEmail("john@doe.fr"));
+    public void should_return_all_candidates_as_json() throws Exception {
         this.mvc.perform(get("/candidates"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(1)))
             .andExpect(jsonPath("$[0].email.email", is("john@doe.fr")));
+    }
+
+    @Test
+    public void should_return_one_candidate_as_json() throws Exception {
+        this.mvc.perform(get("/candidates/john@doe.fr"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email.email", is("john@doe.fr")));
     }
 
     @Test
