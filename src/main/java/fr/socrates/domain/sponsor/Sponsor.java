@@ -2,7 +2,7 @@ package fr.socrates.domain.sponsor;
 
 public class Sponsor {
 
-
+    private final SponsorID sponsorID;
     private String name;
     private String siret;
     private final String siren;
@@ -32,7 +32,8 @@ public class Sponsor {
                 '}';
     }
 
-    private Sponsor(String name, String SIRET, String siren, String contractRepresentative, String contact, double amountOfSponsoring) {
+    private Sponsor(SponsorID sponsorID, String name, String SIRET, String siren, String contractRepresentative, String contact, double amountOfSponsoring) {
+        this.sponsorID = sponsorID;
         this.name = name;
         this.siret = SIRET;
         this.siren = siren;
@@ -80,37 +81,38 @@ public class Sponsor {
         }
 
         public Sponsor createSponsor() {
-            if((siren==null || !this.isSirenValid(siren)) || (siret != null && !isSiretSyntaxValide(siret)))
+            if ((siren == null || !this.isSirenValid(siren))) {
                 throw new IllegalStateException();
-            return new Sponsor(name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
+            } else if ((siret != null && !isSiretSyntaxValide(siret))) {
+                throw new IllegalStateException();
+            }
+            return new Sponsor(new SponsorID(siren), name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
         }
 
-        private boolean isSirenValid(String siren){
+        private boolean isSirenValid(String siren) {
             int total = 0;
             int digit = 0;
 
-            for (int i = 0; i<siren.length(); i++) {
+            for (int i = 0; i < siren.length(); i++) {
                 if ((i % 2) == 1) {
                     digit = Integer.parseInt(String.valueOf(siren.charAt(i))) * 2;
                     if (digit > 9) digit -= 9;
-                }
-                else digit = Integer.parseInt(String.valueOf(siren.charAt(i)));
+                } else digit = Integer.parseInt(String.valueOf(siren.charAt(i)));
                 total += digit;
             }
             return (total % 10) == 0;
         }
 
-        private boolean isSiretSyntaxValide(String siret){
+        private boolean isSiretSyntaxValide(String siret) {
             int total = 0;
             int digit = 0;
 
-            for (int i = 0; i<siret.length(); i++) {
+            for (int i = 0; i < siret.length(); i++) {
 
                 if ((i % 2) == 0) {
                     digit = Integer.parseInt(String.valueOf(siret.charAt(i))) * 2;
                     if (digit > 9) digit -= 9;
-                }
-                else digit = Integer.parseInt(String.valueOf(siret.charAt(i)));
+                } else digit = Integer.parseInt(String.valueOf(siret.charAt(i)));
                 total += digit;
             }
             return (total % 10) == 0;
