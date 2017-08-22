@@ -37,11 +37,12 @@ public class Candidate {
         this.twitterAccount = twitterAccount;
     }
 
-    public static Candidate withEmail(String email) {
-        if (email == null) {
-            throw new IllegalStateException();
-        }
-        return new Candidate(new CandidateId(email), EMail.of(email));
+    public static Candidate singleRoomWithEmail(String email) {
+        return CandidateBuilder.aCandidate()
+                .withCandidateId(new CandidateId(email))
+                .withEmail(EMail.of(email))
+                .withAccommodationChoices(AccommodationChoice.SINGLE_ROOM)
+                .build();
     }
 
     @Override
@@ -90,8 +91,7 @@ public class Candidate {
             return this;
         }
 
-        public CandidateBuilder withAccommodationChoices(AccommodationChoice[] accommodationChoices) {
-            // TODO rework Accommodation choices
+        public CandidateBuilder withAccommodationChoices(AccommodationChoice... accommodationChoices) {
             this.accommodationChoices = accommodationChoices;
             return this;
         }
@@ -107,6 +107,9 @@ public class Candidate {
         }
 
         public Candidate build() {
+            if (email == null) {
+                throw new IllegalStateException("Email is mandatory");
+            }
             if (accommodationChoices[0] == null) {
                 throw new IllegalStateException("First Choice is mandatory");
             }

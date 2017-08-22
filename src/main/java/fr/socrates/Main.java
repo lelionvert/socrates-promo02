@@ -6,7 +6,10 @@ import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.ConfirmationServiceImpl;
-import fr.socrates.domain.candidate.*;
+import fr.socrates.domain.candidate.Candidate;
+import fr.socrates.domain.candidate.CandidateRepository;
+import fr.socrates.domain.candidate.CandidateService;
+import fr.socrates.domain.candidate.CandidateServiceImpl;
 import fr.socrates.domain.checkin.*;
 import fr.socrates.domain.meal.MealService;
 import fr.socrates.domain.meal.MealServiceImpl;
@@ -22,7 +25,10 @@ import fr.socrates.infra.repositories.InMemorySponsorRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 class Main {
@@ -150,7 +156,8 @@ class Main {
             consolePrinter.print(candidateInfo + ":");
             candidateInputs.add(scanner.next());
         }
-        return Candidate.withEmail(candidateInputs.get(0));
+        // TODO ask for choices for candidate
+        return Candidate.singleRoomWithEmail(candidateInputs.get(0));
     }
 
 
