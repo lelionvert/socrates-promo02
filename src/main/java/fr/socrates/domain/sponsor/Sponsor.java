@@ -82,9 +82,9 @@ public class Sponsor {
 
         public Sponsor createSponsor() {
             if ((siren == null || !this.isSirenValid(siren))) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("Siren must be valid and not empty  ");
             } else if ((siret != null && !isSiretSyntaxValide(siret))) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("Siret must be valid");
             }
             return new Sponsor(new SponsorID(siren), name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
         }
