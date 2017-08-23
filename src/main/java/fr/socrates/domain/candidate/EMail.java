@@ -1,10 +1,14 @@
 package fr.socrates.domain.candidate;
 
 public class EMail {
-    private final String email;
+    private String email;
 
     private EMail(String email) {
         this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override

@@ -15,10 +15,10 @@ import fr.socrates.domain.sponsor.SponsorRepository;
 import fr.socrates.domain.sponsor.SponsorService;
 import fr.socrates.domain.sponsor.SponsorServiceImpl;
 import fr.socrates.infra.printers.ConsolePrinter;
-import fr.socrates.infra.repositories.InMemoryCandidateRepository;
-import fr.socrates.infra.repositories.InMemoryCheckInRepository;
-import fr.socrates.infra.repositories.InMemoryConfirmationRepository;
-import fr.socrates.infra.repositories.InMemorySponsorRepository;
+import fr.socrates.infra.storage.repositories.InMemoryCandidateRepository;
+import fr.socrates.infra.storage.repositories.InMemoryCheckInRepository;
+import fr.socrates.infra.storage.repositories.InMemoryConfirmationRepository;
+import fr.socrates.infra.storage.repositories.InMemorySponsorRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

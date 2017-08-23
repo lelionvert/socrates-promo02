@@ -1,6 +1,6 @@
 package fr.socrates.domain.candidate;
 
-import fr.socrates.infra.repositories.InMemoryCandidateRepository;
+import fr.socrates.infra.storage.repositories.InMemoryCandidateRepository;
 import org.junit.Before;
 import org.junit.Test;
 

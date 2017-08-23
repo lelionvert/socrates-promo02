@@ -1,4 +1,4 @@
-package fr.socrates.infra.repositories;
+package fr.socrates.infra.storage.repositories;
 
 import fr.socrates.domain.attendee.Confirmation;
 import fr.socrates.domain.attendee.ConfirmationRepository;

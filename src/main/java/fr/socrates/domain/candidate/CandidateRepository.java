@@ -11,6 +11,10 @@ public interface CandidateRepository {
 
     boolean save(Candidate candidate);
 
+    boolean update(Candidate updatedCandidate, String oldEmail);
+
+    boolean delete(Candidate candidate);
+
     Optional<Candidate> findByEmail(String email);
 
     Optional<Candidate> findByCandidateID(CandidateId candidateId);

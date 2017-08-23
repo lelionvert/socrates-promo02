@@ -2,7 +2,7 @@ package fr.socrates.domain.checkin;
 
 import fr.socrates.common.FakePrinter;
 import fr.socrates.domain.CandidateId;
-import fr.socrates.infra.repositories.InMemoryCheckInRepository;
+import fr.socrates.infra.storage.repositories.InMemoryCheckInRepository;
 import org.junit.Before;
 import org.junit.Test;
 

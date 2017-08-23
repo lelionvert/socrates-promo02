@@ -1,4 +1,4 @@
-package fr.socrates.infra.repositories;
+package fr.socrates.infra.storage.repositories;
 
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.candidate.Candidate;
@@ -17,6 +17,16 @@ public class InMemoryCandidateRepository implements CandidateRepository {
     @Override
     public boolean save(Candidate candidate) {
         return candidateList.add(candidate);
+    }
+
+    @Override
+    public boolean update(Candidate updatedCandidate, String oldEmail) {
+        return false;
+    }
+
+    @Override
+    public boolean delete(Candidate candidate) {
+        return false;
     }
 
     @Override

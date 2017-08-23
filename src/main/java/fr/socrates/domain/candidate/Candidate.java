@@ -4,8 +4,11 @@ import fr.socrates.domain.CandidateId;
 
 public class Candidate {
     private final CandidateId candidateId;
-    private final EMail email;
+    private EMail email;
 
+    public EMail getEmail() {
+        return email;
+    }
 
     public boolean hasEmail(String email) {
         return this.email.equals(EMail.of(email));
@@ -47,13 +50,11 @@ public class Candidate {
         return candidateId;
     }
 
+
     public static Candidate withEmail(String email) {
         if (email == null) {
             throw new IllegalStateException();
         }
         return new Candidate(new CandidateId(email), EMail.of(email));
-
     }
-
-
 }
