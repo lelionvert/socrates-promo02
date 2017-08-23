@@ -73,6 +73,7 @@ public class Candidate {
     }
 
     public static final class CandidateBuilder {
+        private CandidateId candidateId;
         private EMail email;
         private AccommodationChoice[] accommodationChoices;
         private PhoneNumber phoneNumber;
@@ -106,6 +107,11 @@ public class Candidate {
             return this;
         }
 
+        public CandidateBuilder withCandidateId(CandidateId candidateId) {
+            this.candidateId = candidateId;
+            return this;
+        }
+
         public Candidate build() {
             if (email == null) {
                 throw new IllegalStateException("Email is mandatory");
@@ -113,7 +119,7 @@ public class Candidate {
             if (accommodationChoices[0] == null) {
                 throw new IllegalStateException("First Choice is mandatory");
             }
-            Candidate candidate = new Candidate(email, accommodationChoices, phoneNumber, twitterAccount);
+            Candidate candidate = new Candidate(candidateId, email, accommodationChoices, phoneNumber, twitterAccount);
             return candidate;
         }
     }
