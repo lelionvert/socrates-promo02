@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CandidateTest {
     @Test(expected = IllegalStateException.class)
     public void should_not_allow_a_candidate_with_an_uninitialized_email() throws Exception {
-        aCandidate().withAccommodationChoices(AccommodationChoice.SINGLE_ROOM).build();
+        aCandidate().withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
     }
 
     @Test

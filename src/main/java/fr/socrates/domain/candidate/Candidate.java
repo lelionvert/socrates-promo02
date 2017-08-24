@@ -1,13 +1,17 @@
 package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.CandidateId;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import static fr.socrates.domain.candidate.AccommodationChoices.*;
+import static fr.socrates.domain.candidate.AccommodationChoices.AccommodationChoicesBuilder.*;
+import static fr.socrates.domain.candidate.Candidate.CandidateBuilder.aCandidate;
 
 public class Candidate {
     private final CandidateId candidateId;
     private final EMail email;
-    private final AccommodationChoice[] accommodationChoices;
-    private final PhoneNumber phoneNumber;
-    private final String twitterAccount;
+    private final AccommodationChoices accommodationChoices;
+    private final ContactInformations contactInformations;
 
     public EMail getEmail() {
         return email;
@@ -21,28 +25,28 @@ public class Candidate {
         return this.candidateId.equals(candidateId);
     }
 
-    private Candidate(CandidateId candidateId, EMail email) {
+    private Candidate(CandidateId candidateId, EMail email, ContactInformations contactInformation, AccommodationChoices accommodationChoices) {
         this.candidateId = candidateId;
         this.email = email;
-        this.accommodationChoices = new AccommodationChoice[4];
-        phoneNumber = null;
-        twitterAccount = null;
+        this.contactInformations = contactInformation;
+        this.accommodationChoices = accommodationChoices;
     }
 
-    private Candidate(CandidateId candidateId, EMail email, AccommodationChoice[] accommodationChoices, PhoneNumber phoneNumber, String twitterAccount) {
+    private Candidate(CandidateId candidateId, EMail email, AccommodationChoices accommodationChoices, PhoneNumber phoneNumber, String twitterAccount, ContactInformations contactInformations) {
         this.candidateId = candidateId;
         this.email = email;
         this.accommodationChoices = accommodationChoices;
-        this.phoneNumber = phoneNumber;
-        this.twitterAccount = twitterAccount;
+        this.contactInformations = contactInformations;
     }
 
     public static Candidate singleRoomWithEmail(String email) {
-        return CandidateBuilder.aCandidate()
+        return aCandidate()
                 .withCandidateId(new CandidateId(email))
                 .withEmail(EMail.of(email))
-                .withAccommodationChoices(AccommodationChoice.SINGLE_ROOM)
-                .build();
+                .withAccommodationChoices(
+                        anAccommodationChoices()
+                                .withAccommodationChoices(AccommodationChoice.SINGLE_ROOM).build()).build();
+
     }
 
     @Override
@@ -76,39 +80,22 @@ public class Candidate {
         return email;
     }
 
+    public String printDetail() {
+        throw new NotImplementedException();
+    }
+
+
     public static final class CandidateBuilder {
         private CandidateId candidateId;
         private EMail email;
-        private AccommodationChoice[] accommodationChoices;
-        private PhoneNumber phoneNumber;
-        private String twitterAccount;
+        private AccommodationChoices accommodationChoices = AccommodationChoicesBuilder.anAccommodationChoices().build();
+        private ContactInformations contactInformations;
 
         private CandidateBuilder() {
-            accommodationChoices = new AccommodationChoice[4];
         }
 
         public static CandidateBuilder aCandidate() {
             return new CandidateBuilder();
-        }
-
-        public CandidateBuilder withEmail(EMail email) {
-            this.email = email;
-            return this;
-        }
-
-        public CandidateBuilder withAccommodationChoices(AccommodationChoice... accommodationChoices) {
-            this.accommodationChoices = accommodationChoices;
-            return this;
-        }
-
-        public CandidateBuilder withPhoneNumber(PhoneNumber phoneNumber) {
-            this.phoneNumber = phoneNumber;
-            return this;
-        }
-
-        public CandidateBuilder withTwitterAccount(String twitterAccount) {
-            this.twitterAccount = twitterAccount;
-            return this;
         }
 
         public CandidateBuilder withCandidateId(CandidateId candidateId) {
@@ -116,14 +103,36 @@ public class Candidate {
             return this;
         }
 
+        public CandidateBuilder withEmail(EMail email) {
+            this.email = email;
+            return this;
+        }
+
+        public CandidateBuilder withAccommodationChoices(AccommodationChoices accommodationChoices) {
+            this.accommodationChoices = accommodationChoices;
+            return this;
+        }
+
+        public CandidateBuilder withOneAccommodationChoice(AccommodationChoice accommodationChoice) {
+            this.accommodationChoices = AccommodationChoicesBuilder
+                    .anAccommodationChoices()
+                    .withAccommodationChoices(accommodationChoice).build();
+            return this;
+        }
+
+        public CandidateBuilder withContactInformations(ContactInformations contactInformations) {
+            this.contactInformations = contactInformations;
+            return this;
+        }
+
         public Candidate build() {
             if (email == null) {
                 throw new IllegalStateException("Email is mandatory");
             }
-            if (accommodationChoices[0] == null) {
+            if (accommodationChoices.getFirstChoice()== null) {
                 throw new IllegalStateException("First Choice is mandatory");
             }
-            Candidate candidate = new Candidate(candidateId, email, accommodationChoices, phoneNumber, twitterAccount);
+            Candidate candidate = new Candidate(candidateId, email, contactInformations, accommodationChoices);
             return candidate;
         }
     }

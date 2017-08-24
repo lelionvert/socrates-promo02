@@ -13,4 +13,8 @@ public interface CandidateRepository {
     Optional<Candidate> findByEmail(String email);
 
     Optional<Candidate> findByCandidateID(CandidateId candidateId);
+
+    void updateContactInfos(CandidateId candidateId, ContactInformations contactInformations);
+
+    void updateAccommodationChoices(CandidateId candidateId, AccommodationChoices accommodationChoices);
 }
