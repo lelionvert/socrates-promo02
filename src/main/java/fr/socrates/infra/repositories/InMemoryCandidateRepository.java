@@ -3,7 +3,9 @@ package fr.socrates.infra.repositories;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.common.AccommodationChoices;
 import fr.socrates.domain.candidate.Candidate;
+import fr.socrates.domain.candidate.CandidateBuilder;
 import fr.socrates.domain.candidate.CandidateRepository;
+import fr.socrates.domain.meal.Diet;
 import fr.socrates.domain.candidate.ContactInformation;
 import org.springframework.stereotype.Repository;
 
@@ -67,6 +69,15 @@ public class InMemoryCandidateRepository implements CandidateRepository {
                     .build();
             candidateList.remove(candidateToUpdate);
             candidateList.add(candidateUpdated);
+        }
+    }
+
+    @Override
+    public void updateDietOf(CandidateId candidateId, Diet diet) {
+        Optional<Candidate> foundCandidate = candidateList.stream().filter(candidate -> candidate.hasCandidateID(candidateId)).findAny();
+        if (foundCandidate.isPresent()) {
+            candidateList.remove(foundCandidate.get());
+            candidateList.add(new CandidateBuilder().fromCandidate(foundCandidate.get()).withDiet(diet).createCandidate());
         }
     }
 }

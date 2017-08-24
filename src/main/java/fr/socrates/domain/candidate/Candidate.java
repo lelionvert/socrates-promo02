@@ -3,6 +3,7 @@ package fr.socrates.domain.candidate;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.common.AccommodationChoice;
 import fr.socrates.domain.common.AccommodationChoices;
+import fr.socrates.domain.meal.Diet;
 
 import static fr.socrates.domain.common.AccommodationChoices.*;
 import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder.*;
@@ -14,6 +15,7 @@ public class Candidate {
     private final AccommodationChoices accommodationChoices;
     private final ContactInformation contactInformation;
     private ContactInformation contactInformations;
+    final Diet diet;
 
     public boolean hasEmail(String email) {
         return this.email.equals(EMail.of(email));

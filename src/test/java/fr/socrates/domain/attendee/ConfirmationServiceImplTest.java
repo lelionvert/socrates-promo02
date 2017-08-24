@@ -12,7 +12,9 @@ import org.mockito.Mockito;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import static fr.socrates.domain.meal.Diet.VEGAN;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 
 public class ConfirmationServiceImplTest {
     private CandidateRepository candidateRepository;
@@ -37,14 +39,14 @@ public class ConfirmationServiceImplTest {
         assertThat(confirmationService.getListAttendee()).isEmpty();
     }
 
-  @Test
-  public void should_confirm_one_existing_candidate_with_his_email() throws Exception {
-    final String email = "test@test.fr";
-    Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByEmail(email);
-    Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
-    assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isTrue();
-    assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
-  }
+    @Test
+    public void should_confirm_one_existing_candidate_with_his_email() throws Exception {
+        final String email = "test@test.fr";
+        Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByEmail(email);
+        Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
+        assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isTrue();
+        assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
+    }
 
   @Test
   public void should_not_confirm_a_candidate_twice() throws Exception {
@@ -90,5 +92,15 @@ public class ConfirmationServiceImplTest {
 
         Confirmation confirmationExpected = new Confirmation(new CandidateId(email), now, AccommodationChoice.DOUBLE_ROOM, Payment.AT_CHECKOUT);
         assertThat(confirmationService.getListConfirmations()).containsExactly(confirmationExpected);
+    }
+
+    @Test
+    public void should_add_a_vegan_diet_for_a_given_participant() throws Exception {
+        Candidate candidate = Candidate.withEmail("john@doe.fr");
+        Mockito.doReturn(Optional.of(candidate)).when(candidateRepository).findByEmail("john@doe.fr");
+
+        confirmationService.addDiet("john@doe.fr", VEGAN);
+
+        verify(candidateRepository).updateDietOf(candidate.getCandidateId(), VEGAN);
     }
 }

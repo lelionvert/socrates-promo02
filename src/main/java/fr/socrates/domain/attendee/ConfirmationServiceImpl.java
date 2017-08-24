@@ -2,7 +2,7 @@ package fr.socrates.domain.attendee;
 
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
-import fr.socrates.domain.meal.Diets;
+import fr.socrates.domain.meal.Diet;
 import fr.socrates.domain.common.AccommodationChoice;
 import org.springframework.stereotype.Service;
 
@@ -38,15 +38,13 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     @Override
     public boolean confirm(String candidateEmail, LocalDate date, Payment payment, AccommodationChoice accommodationChoice) {
         Optional<Candidate> foundCandidate = candidateRepository.findByEmail(candidateEmail);
-        if (!foundCandidate.isPresent()) {
+        if (!foundCandidate.isPresent())
             return false;
-        }
 
         final Candidate candidate = foundCandidate.get();
         final boolean confirmationExists = confirmationRepository.confirmationExists(candidate);
-        if (confirmationExists) {
+        if (confirmationExists)
             return false;
-        }
 
         confirmationRepository.add(new Confirmation(candidate.getCandidateId(), date, accommodationChoice, payment));
         return true;
@@ -58,12 +56,8 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     }
 
     @Override
-    public void addDiet(String candidateEmail) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void addDiet(String candidateEmail, Diets diets) {
-        throw new UnsupportedOperationException();
+    public void addDiet(String candidateEmail, Diet diet) {
+        Optional<Candidate> foundCandidate = candidateRepository.findByEmail(candidateEmail);
+        foundCandidate.ifPresent(candidate -> candidateRepository.updateDietOf(candidate.getCandidateId(), diet));
     }
 }

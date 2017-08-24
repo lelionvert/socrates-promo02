@@ -1,6 +1,6 @@
 package fr.socrates.domain.meal;
 
-public enum Diets {
+public enum Diet {
   NORMAL,
   VEGAN,
   PESCATARIAN
