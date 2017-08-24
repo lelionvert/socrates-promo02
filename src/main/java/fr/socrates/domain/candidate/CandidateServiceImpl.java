@@ -18,7 +18,6 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public boolean add(Candidate candidate) {
-
         if (candidateRepository.findByCandidateID(candidate.getCandidateId()).isPresent())
             return false;
         return candidateRepository.save(candidate);

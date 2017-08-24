@@ -1,6 +1,7 @@
 package fr.socrates.domain.attendee;
 
 import fr.socrates.domain.candidate.Candidate;
+import fr.socrates.domain.candidate.CandidateRepository;
 import fr.socrates.domain.candidate.CandidateService;
 import org.springframework.stereotype.Service;
 
