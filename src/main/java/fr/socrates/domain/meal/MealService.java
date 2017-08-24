@@ -10,4 +10,5 @@ public interface MealService {
     Map<MealTime, Map<Diet, Long>> getCoversByDiet();
 
     Catering generateOrder();
+
 }
