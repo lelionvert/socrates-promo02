@@ -9,6 +9,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ConfirmationFeature {
@@ -18,12 +19,14 @@ public class ConfirmationFeature {
 
     @Before
     public void setUp() throws Exception {
-        confirmationService = new ConfirmationServiceImpl(new InMemoryCandidateRepository(), new InMemoryConfirmationRepository());
-        candidateService = new CandidateServiceImpl(new InMemoryCandidateRepository());
+        final InMemoryCandidateRepository candidateRepository = new InMemoryCandidateRepository();
+        confirmationService = new ConfirmationServiceImpl(candidateRepository, new InMemoryConfirmationRepository());
+        candidateService = new CandidateServiceImpl(candidateRepository);
     }
 
     @Test
     public void should_save_accommodation_after_confirmation() throws Exception {
+        final LocalDate now = LocalDate.now();
         Candidate john = Candidate.withEmail("john@test.com");
         Candidate patrick = Candidate.withEmail("patrick@test.com");
         Candidate peter = Candidate.withEmail("peter@test.com");
@@ -32,27 +35,23 @@ public class ConfirmationFeature {
         candidateService.add(patrick);
         candidateService.add(peter);
 
-
-        confirmationService.confirm("john@test.com", Accommodation.SINGLE_ROOM, Payment.TRANSFER);
-        confirmationService.confirm("patrick@test.com", Accommodation.DOUBLE_ROOM, Payment.AT_CHECKOUT);
-
-
-        //String getallconfirmedcandidate()
-        //tostring de getallconfirmation (renvoie liste de strings ou liste de confirmation)
+        confirmationService.confirm("john@test.com", now, Payment.TRANSFER, Accommodation.SINGLE_ROOM);
+        confirmationService.confirm("patrick@test.com", now, Payment.AT_CHECKOUT, Accommodation.DOUBLE_ROOM);
 
         List<Confirmation> confirmations = confirmationService.getListConfirmations();
 
         final Confirmation johnConfirmation = confirmations.get(0);
-        Assertions.assertThat(johnConfirmation.getAccommodation()).isEqualTo(Accommodation.SINGLE_ROOM);
-        Assertions.assertThat(johnConfirmation.getPayment()).isEqualTo(Payment.TRANSFER);
+        Assertions.assertThat(johnConfirmation.toString()).isEqualTo("Confirmation{candidateId=" + john.getCandidateId() +
+                ", confirmationDate=" + now +
+                ", accommodation=" + Accommodation.SINGLE_ROOM +
+                ", payment=" + Payment.TRANSFER +
+                '}');
 
         final Confirmation patrickConfirmation = confirmations.get(1);
-        Assertions.assertThat(patrickConfirmation.getAccommodation()).isEqualTo(Accommodation.DOUBLE_ROOM);
-        Assertions.assertThat(patrickConfirmation.getPayment()).isEqualTo(Payment.AT_CHECKOUT);
-
-        //List<String> confirmationsString = confirmations.stream().map(Confirmation::toString).collect(Collectors.toList());
-
-        //assertThat(confirmationService.getConfirmationByCandidate(john).getAccommodation()).isEqualTO(Accommodation.SINGLE_ROOM);
-        //assertThat(confirmationService.getConfirmationByCandidate(john).getPayment()).isEqualTO(Payment.TRANSFER);
+        Assertions.assertThat(patrickConfirmation.toString()).isEqualTo("Confirmation{candidateId=" + patrick.getCandidateId() +
+                ", confirmationDate=" + now +
+                ", accommodation=" + Accommodation.DOUBLE_ROOM +
+                ", payment=" + Payment.AT_CHECKOUT +
+                '}');
     }
 }

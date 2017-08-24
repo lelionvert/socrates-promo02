@@ -10,9 +10,14 @@ import fr.socrates.domain.candidate.CandidateRepository;
 import fr.socrates.domain.candidate.CandidateService;
 import fr.socrates.domain.candidate.CandidateServiceImpl;
 import fr.socrates.domain.attendee.*;
+import fr.socrates.domain.candidate.Candidate;
+import fr.socrates.domain.candidate.CandidateRepository;
+import fr.socrates.domain.candidate.CandidateService;
+import fr.socrates.domain.candidate.CandidateServiceImpl;
 import fr.socrates.domain.checkin.CheckIn;
-import fr.socrates.domain.candidate.*;
-import fr.socrates.domain.checkin.*;
+import fr.socrates.domain.checkin.CheckInRepository;
+import fr.socrates.domain.checkin.CheckInService;
+import fr.socrates.domain.checkin.CheckInServiceImpl;
 import fr.socrates.domain.meal.MealService;
 import fr.socrates.domain.meal.MealServiceImpl;
 import fr.socrates.domain.sponsor.Sponsor;
@@ -25,6 +30,7 @@ import fr.socrates.infra.repositories.InMemoryCheckInRepository;
 import fr.socrates.infra.repositories.InMemoryConfirmationRepository;
 import fr.socrates.infra.repositories.InMemorySponsorRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -116,7 +122,7 @@ class Main {
                 case SEVEN:
                     consolePrinter.print(format(candidateService.getRegisteredCandidates()));
                     consolePrinter.print("Tape l'email du candidat à confirmer");
-                    boolean confirmation = confirmationService.confirm(scanner.next(), Accommodation.SINGLE_ROOM, Payment.TRANSFER);
+                    boolean confirmation = confirmationService.confirm(scanner.next(), LocalDate.now(), Payment.TRANSFER, Accommodation.SINGLE_ROOM);
                     if (!confirmation)
                         consolePrinter.print("Erreur la confirmation a echoue");
                     consolePrinter.print(MENU_MESSAGE);

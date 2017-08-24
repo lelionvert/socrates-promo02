@@ -19,9 +19,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.LocalDate;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.annotation.DirtiesContext.*;
+import static org.springframework.test.annotation.DirtiesContext.ClassMode;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -54,7 +56,7 @@ public class ConfirmationControllerTest {
     public void should_return_all_confirmations_as_json() throws Exception {
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
-        confirmationService.confirm("john@doe.fr", Accommodation.SINGLE_ROOM, Payment.TRANSFER);
+        confirmationService.confirm("john@doe.fr", LocalDate.now(), Payment.TRANSFER, Accommodation.SINGLE_ROOM);
 
         this.mvc.perform(get("/confirmations"))
                 .andExpect(status().isOk())
