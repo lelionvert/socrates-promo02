@@ -37,4 +37,8 @@ public class EMail {
     public int hashCode() {
         return email.hashCode();
     }
+
+    public String getEmail() {
+        return email;
+    }
 }

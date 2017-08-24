@@ -5,12 +5,16 @@ import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import fr.socrates.infra.repositories.dao.CandidateDao;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class InMemoryCandidateRepository implements CandidateRepository {
-    private final List<Candidate> candidateList = new ArrayList<>();
+    private final List<CandidateDao> candidateList = new ArrayList<>();
+
 
     @Override
     public List<Candidate> findAll() {

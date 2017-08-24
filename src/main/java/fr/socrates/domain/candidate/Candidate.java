@@ -72,6 +72,10 @@ public class Candidate {
         return candidateId;
     }
 
+    public EMail getEmail() {
+        return email;
+    }
+
     public static final class CandidateBuilder {
         private CandidateId candidateId;
         private EMail email;
