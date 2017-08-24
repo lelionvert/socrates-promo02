@@ -36,7 +36,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     }
 
     @Override
-    public boolean confirm(String candidateEmail, LocalDate date, Payment transfer, Accommodation accommodation) {
+    public boolean confirm(String candidateEmail, LocalDate date, Payment payment, Accommodation accommodation) {
         Optional<Candidate> foundCandidate = candidateRepository.findByEmail(candidateEmail);
         if (!foundCandidate.isPresent()) {
             return false;
@@ -48,7 +48,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
             return false;
         }
 
-        confirmationRepository.add(new Confirmation(candidate.getCandidateId(), date, accommodation, Payment.TRANSFER));
+        confirmationRepository.add(new Confirmation(candidate.getCandidateId(), date, accommodation, payment));
         return true;
     }
 

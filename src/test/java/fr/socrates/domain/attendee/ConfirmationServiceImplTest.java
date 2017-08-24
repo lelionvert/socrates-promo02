@@ -78,4 +78,16 @@ public class ConfirmationServiceImplTest {
         Confirmation confirmationExpected = new Confirmation(new CandidateId(email), now, Accommodation.DOUBLE_ROOM, Payment.TRANSFER);
         assertThat(confirmationService.getListConfirmations()).containsExactly(confirmationExpected);
     }
+
+    @Test
+    public void should_save_confirmation_payment() throws Exception {
+        final String email = "test@test.fr";
+        Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateRepository).findByEmail(email);
+
+        final LocalDate now = LocalDate.now();
+        confirmationService.confirm(email, now, Payment.AT_CHECKOUT, Accommodation.DOUBLE_ROOM);
+
+        Confirmation confirmationExpected = new Confirmation(new CandidateId(email), now, Accommodation.DOUBLE_ROOM, Payment.AT_CHECKOUT);
+        assertThat(confirmationService.getListConfirmations()).containsExactly(confirmationExpected);
+    }
 }
