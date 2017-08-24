@@ -31,7 +31,7 @@ public class ConfirmationServiceImplTest {
   public void should_not_confirm_candidate_by_email_who_does_not_exists() throws Exception {
     final String email = "john@doe.fr";
     Mockito.doReturn(Optional.empty()).when(candidateRepository).findByEmail(email);
-    assertThat(confirmationService.confirm(email)).isFalse();
+    assertThat(confirmationService.confirm(email, Accommodation.SINGLE_ROOM, Payment.TRANSFER)).isFalse();
     assertThat(confirmationService.getListAttendee()).isEmpty();
   }
 
@@ -40,7 +40,7 @@ public class ConfirmationServiceImplTest {
     final String email = "test@test.fr";
     Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByEmail(email);
     Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
-    assertThat(confirmationService.confirm(email)).isTrue();
+    assertThat(confirmationService.confirm(email,  Accommodation.SINGLE_ROOM, Payment.TRANSFER)).isTrue();
     assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
   }
 
@@ -49,8 +49,8 @@ public class ConfirmationServiceImplTest {
     final String email = "test@test.fr";
     Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByEmail(email);
     Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
-    assertThat(confirmationService.confirm(email)).isTrue();
-    assertThat(confirmationService.confirm(email)).isFalse();
+    assertThat(confirmationService.confirm(email, Accommodation.SINGLE_ROOM, Payment.TRANSFER)).isTrue();
+    assertThat(confirmationService.confirm(email, Accommodation.SINGLE_ROOM, Payment.TRANSFER)).isFalse();
     assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
   }
 }

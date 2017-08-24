@@ -2,7 +2,9 @@ package fr.socrates.api.controller;
 
 import fr.socrates.api.DTO.CandidateDTO;
 import fr.socrates.api.DTO.ConfirmationDTO;
+import fr.socrates.domain.attendee.Accommodation;
 import fr.socrates.domain.attendee.ConfirmationService;
+import fr.socrates.domain.attendee.Payment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

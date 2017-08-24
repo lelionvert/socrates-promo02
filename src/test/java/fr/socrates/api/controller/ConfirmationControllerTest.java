@@ -2,7 +2,9 @@ package fr.socrates.api.controller;
 
 import fr.socrates.SocratesApplication;
 import fr.socrates.api.DTO.CandidateDTO;
+import fr.socrates.domain.attendee.Accommodation;
 import fr.socrates.domain.attendee.ConfirmationService;
+import fr.socrates.domain.attendee.Payment;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateService;
 import org.junit.Before;
@@ -52,7 +54,7 @@ public class ConfirmationControllerTest {
     public void should_return_all_confirmations_as_json() throws Exception {
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
-        confirmationService.confirm("john@doe.fr");
+        confirmationService.confirm("john@doe.fr", Accommodation.SINGLE_ROOM, Payment.TRANSFER);
 
         this.mvc.perform(get("/confirmations"))
                 .andExpect(status().isOk())

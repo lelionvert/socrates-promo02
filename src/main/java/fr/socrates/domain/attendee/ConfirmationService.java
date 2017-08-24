@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface ConfirmationService {
     List<Candidate> getListAttendee();
-    boolean confirm(String candidateEmail);
+    boolean confirm(String candidateEmail, Accommodation singleRoom, Payment transfer);
+    List<Confirmation> getListConfirmations();
 }
