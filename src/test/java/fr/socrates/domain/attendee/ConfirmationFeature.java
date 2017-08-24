@@ -1,7 +1,6 @@
 package fr.socrates.domain.attendee;
 
 import fr.socrates.domain.candidate.Candidate;
-import fr.socrates.domain.candidate.CandidateRepository;
 import fr.socrates.domain.candidate.CandidateService;
 import fr.socrates.domain.candidate.CandidateServiceImpl;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
@@ -9,20 +8,17 @@ import fr.socrates.infra.repositories.InMemoryConfirmationRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.List;
 
 public class ConfirmationFeature {
 
-    private CandidateRepository candidateRepository;
     private ConfirmationService confirmationService;
     private CandidateService candidateService;
 
     @Before
     public void setUp() throws Exception {
-        candidateRepository = Mockito.mock(CandidateRepository.class);
-        confirmationService = new ConfirmationServiceImpl(candidateRepository, new InMemoryConfirmationRepository());
+        confirmationService = new ConfirmationServiceImpl(new InMemoryCandidateRepository(), new InMemoryConfirmationRepository());
         candidateService = new CandidateServiceImpl(new InMemoryCandidateRepository());
     }
 
