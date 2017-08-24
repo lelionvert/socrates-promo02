@@ -18,7 +18,7 @@ public class CheckInTest {
     public void set_initialization() {
         CheckInRepository checkInRepository = new InMemoryCheckInRepository();
         FakePrinter printer = new FakePrinter();
-        checkInService = new CheckInServiceImpl(checkInRepository, printer);
+        checkInService = new CheckInServiceImpl(checkInRepository);
     }
 
     @Test

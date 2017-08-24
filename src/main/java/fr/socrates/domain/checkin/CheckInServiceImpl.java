@@ -5,7 +5,7 @@ import fr.socrates.common.Printer;
 public class CheckInServiceImpl implements CheckInService {
     private final CheckInRepository checkInRepository;
 
-    public CheckInServiceImpl(CheckInRepository checkInRepository, Printer printer) {
+    public CheckInServiceImpl(CheckInRepository checkInRepository) {
         this.checkInRepository = checkInRepository;
     }
 

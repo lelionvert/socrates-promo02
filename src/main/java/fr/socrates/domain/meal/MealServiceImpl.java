@@ -14,4 +14,9 @@ public class MealServiceImpl implements MealService {
     public long countColdMeal() {
         return checkInService.countCheckinAfter(COLD_FOOD_HOUR);
     }
+
+    @Override
+    public void printAllMeals() {
+        throw new UnsupportedOperationException();
+    }
 }

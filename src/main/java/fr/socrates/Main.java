@@ -57,7 +57,7 @@ class Main {
 
         SponsorService sponsorService = new SponsorServiceImpl(inMemorySponsorRepository);
         CandidateService candidateService = new CandidateServiceImpl(inMemoryCandidateRepository);
-        CheckInService checkInService = new CheckInServiceImpl(inMemoryCheckInRepository, consolePrinter);
+        CheckInService checkInService = new CheckInServiceImpl(inMemoryCheckInRepository);
         MealService mealService = new MealServiceImpl(checkInService);
         ConfirmationService confirmationService = new ConfirmationServiceImpl(inMemoryCandidateRepository, inMemoryConfirmationRepository);
 

@@ -2,6 +2,7 @@ package fr.socrates.domain.attendee;
 
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
+import fr.socrates.domain.meal.Diets;
 import fr.socrates.domain.common.AccommodationChoice;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,6 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     private CandidateRepository candidateRepository;
     private ConfirmationRepository confirmationRepository;
 
-
     public ConfirmationServiceImpl(CandidateRepository candidateRepository, ConfirmationRepository confirmationRepository) {
         this.candidateRepository = candidateRepository;
         this.confirmationRepository = confirmationRepository;
@@ -25,14 +25,13 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     public List<Candidate> getListAttendee() {
         final List<Candidate> attendeesList = new ArrayList<>();
         final List<Confirmation> confirmationsList = confirmationRepository.getConfirmations();
-        for (Confirmation confirmation : confirmationsList)
-        {
+        for (Confirmation confirmation : confirmationsList) {
             Optional<Candidate> foundCandidate = candidateRepository.findByCandidateID(confirmation.getCandidateId());
             if (foundCandidate.isPresent()) {
                 attendeesList.add(foundCandidate.get());
             }
         }
-            return attendeesList;
+        return attendeesList;
 
     }
 
@@ -56,5 +55,15 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     @Override
     public List<Confirmation> getListConfirmations() {
         return confirmationRepository.getConfirmations();
+    }
+
+    @Override
+    public void addDiet(String candidateEmail) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void addDiet(String candidateEmail, Diets diets) {
+        throw new UnsupportedOperationException();
     }
 }
