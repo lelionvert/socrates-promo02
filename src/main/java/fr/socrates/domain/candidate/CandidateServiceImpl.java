@@ -1,11 +1,14 @@
 package fr.socrates.domain.candidate;
 
+import org.springframework.stereotype.Service;
+
 import fr.socrates.domain.CandidateId;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CandidateServiceImpl implements CandidateService {
     private final CandidateRepository candidateRepository;
 
@@ -15,7 +18,6 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public boolean add(Candidate candidate) {
-
         if (candidateRepository.findByCandidateID(candidate.getCandidateId()).isPresent())
             return false;
         return candidateRepository.save(candidate);

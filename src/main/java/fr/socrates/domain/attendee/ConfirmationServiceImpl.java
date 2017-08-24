@@ -2,12 +2,15 @@ package fr.socrates.domain.attendee;
 
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
+import fr.socrates.domain.candidate.CandidateService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ConfirmationServiceImpl implements ConfirmationService {
     private CandidateRepository candidateRepository;
     private ConfirmationRepository confirmationRepository;

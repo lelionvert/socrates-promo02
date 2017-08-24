@@ -6,6 +6,9 @@ public class Candidate {
     private final CandidateId candidateId;
     private final EMail email;
 
+    public EMail getEmail() {
+        return email;
+    }
 
     public boolean hasEmail(String email) {
         return this.email.equals(EMail.of(email));
@@ -54,6 +57,4 @@ public class Candidate {
         return new Candidate(new CandidateId(email), EMail.of(email));
 
     }
-
-
 }
