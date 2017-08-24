@@ -18,6 +18,11 @@ public class CandidateBuilder {
         return this;
     }
 
+    public CandidateBuilder withEmail(String email) {
+        this.email = EMail.of(email);
+        return this;
+    }
+
     public CandidateBuilder withDiet(Diet diet) {
         this.diet = diet;
         return this;

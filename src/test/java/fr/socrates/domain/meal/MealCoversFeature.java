@@ -61,7 +61,7 @@ public class MealCoversFeature {
         CandidateService candidateService = new CandidateServiceImpl(candidateRepository);
         confirmationService = new ConfirmationServiceImpl(candidateRepository, new InMemoryConfirmationRepository());
         CheckInService checkInService = new CheckInServiceImpl(new InMemoryCheckInRepository());
-        mealService = new MealServiceImpl(checkInService);
+        mealService = new MealServiceImpl(checkInService, confirmationService);
 
         candidateService.add(johndoe);
         candidateService.add(arthurleroi);
