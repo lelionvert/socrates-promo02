@@ -58,6 +58,9 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     @Override
     public void addDiet(String candidateEmail, Diet diet) {
         Optional<Candidate> foundCandidate = candidateRepository.findByEmail(candidateEmail);
-        foundCandidate.ifPresent(candidate -> candidateRepository.updateDietOf(candidate.getCandidateId(), diet));
+
+        final Candidate candidate = foundCandidate.get();
+        if (confirmationRepository.confirmationExists(candidate))
+            foundCandidate.ifPresent(participant -> candidateRepository.updateDietOf(participant.getCandidateId(), diet));
     }
 }
