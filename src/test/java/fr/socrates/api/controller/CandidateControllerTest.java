@@ -47,14 +47,14 @@ public class CandidateControllerTest {
         this.mvc.perform(get("/candidates"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(1)))
-            .andExpect(jsonPath("$[0].email.email", is("john@doe.fr")));
+                .andExpect(jsonPath("$[0].email", is("john@doe.fr")));
     }
 
     @Test
     public void should_return_one_candidate_as_json() throws Exception {
         this.mvc.perform(get("/candidates/john@doe.fr"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email.email", is("john@doe.fr")));
+                .andExpect(jsonPath("$.email", is("john@doe.fr")));
     }
 
     @Test
@@ -64,6 +64,6 @@ public class CandidateControllerTest {
             .contentType(TestUtils.APPLICATION_JSON_UTF8)
             .content(TestUtils.convertObjectToJsonBytes(candidateDTO)))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.email.email", is("test@test.fr")));
+                .andExpect(jsonPath("$.email", is("test@test.fr")));
     }
 }

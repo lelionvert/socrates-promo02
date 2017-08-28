@@ -2,8 +2,8 @@ package fr.socrates.api.DTO;
 
 import fr.socrates.domain.candidate.Candidate;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class ConfirmationDTO {
     private String email;
@@ -26,8 +26,8 @@ public class ConfirmationDTO {
     }
 
     public static Collection<ConfirmationDTO> domainToDTO(Collection<Candidate> candidates) {
-        Collection<ConfirmationDTO> confirmationsDTO = new ArrayList<>();
-        candidates.forEach(candidate -> confirmationsDTO.add(domainToDTO(candidate)));
-        return confirmationsDTO;
+        return candidates.stream()
+                .map(ConfirmationDTO::domainToDTO)
+                .collect(Collectors.toList());
     }
 }
