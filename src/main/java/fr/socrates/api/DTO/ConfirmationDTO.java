@@ -2,10 +2,12 @@ package fr.socrates.api.DTO;
 
 import fr.socrates.domain.candidate.Candidate;
 
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class ConfirmationDTO {
+    @NotNull
     private String email;
 
     public ConfirmationDTO(String email) {

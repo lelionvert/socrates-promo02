@@ -26,7 +26,7 @@ public class ConfirmationController {
 
     @PostMapping
     public ResponseEntity confirmCandidate(@RequestBody CandidateDTO candidateDTO) {
-        boolean confirm = confirmationService.confirm(candidateDTO.getEmail().getEmail());
+        boolean confirm = confirmationService.confirm(candidateDTO.getEmail());
         if (confirm) {
             return ResponseEntity.ok(ConfirmationDTO.domainToDTO(confirmationService.getListAttendee()));
         } else {
