@@ -11,6 +11,9 @@ public class SponsorDTO {
     private String contact;
     private double amount;
 
+    public SponsorDTO() {
+    }
+
     public SponsorDTO(String id, String siren, String siret, String name, String contractRepresentative, String contact, double amount) {
         this.id = id;
         this.siren = siren;
@@ -21,15 +24,16 @@ public class SponsorDTO {
         this.amount = amount;
     }
 
-
     public static SponsorDTO domainToDTO(Sponsor sponsor) {
-        return new SponsorDTO(sponsor.getId(),
-                sponsor.getSiren(),
-                sponsor.getSiret(),
-                sponsor.getName(),
-                sponsor.getContractRepresentative(),
-                sponsor.getContact(),
-                sponsor.getAmountOfSponsoring());
+        return new SponsorDTOBuilder()
+                .withId(sponsor.getId())
+                .withSiren(sponsor.getSiren())
+                .withSiret(sponsor.getSiret())
+                .withName(sponsor.getName())
+                .withContractRepresentative(sponsor.getContractRepresentative())
+                .withContact(sponsor.getContact())
+                .withAmount(sponsor.getAmountOfSponsoring())
+                .createSponsorDTO();
     }
 
     public String getId() {
