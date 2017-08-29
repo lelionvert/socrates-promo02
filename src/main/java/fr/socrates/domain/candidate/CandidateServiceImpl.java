@@ -50,10 +50,14 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public void update(EMail email, AccommodationChoices accommodationChoices, ContactInformations contactInformations) {
-        if (null == accommodationChoices)
-            candidateRepository.updateContactInfos(new CandidateId(email.getEmail()), contactInformations);
-        if (null == contactInformations)
-            candidateRepository.updateAccommodationChoices(new CandidateId(email.getEmail()), accommodationChoices);
+        final Optional<Candidate> candidate = candidateRepository.findByEmail(email.getEmail());
+        if (candidate.isPresent()) {
+            final CandidateId candidateId = candidate.get().getCandidateId();
+            if (null == accommodationChoices)
+                candidateRepository.updateContactInfos(candidateId, contactInformations);
+            if (null == contactInformations)
+                candidateRepository.updateAccommodationChoices(candidateId, accommodationChoices);
+        }
 
     }
 
