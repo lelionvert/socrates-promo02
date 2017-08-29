@@ -25,7 +25,7 @@ public class CandidateTest {
     }
 
     @Test
-    public void should_print_candidate() throws Exception {
+    public void should_print_candidates() throws Exception {
 
         Candidate candidate = createCandidate("06010203" , "@Arrola","j'aime la moto", "toto@gmail.com", AccommodationChoice.DOUBLE_ROOM);
         Candidate candidate2 = createCandidate("06666622" , "@Dudul","j'aime le velo", "gerard@gmail.com", AccommodationChoice.SINGLE_ROOM);

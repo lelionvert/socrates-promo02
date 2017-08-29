@@ -2,7 +2,6 @@ package fr.socrates;
 
 import fr.socrates.common.Printer;
 import fr.socrates.domain.CandidateId;
-import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.ConfirmationServiceImpl;

@@ -141,8 +141,7 @@ public class Candidate {
             if (accommodationChoices.getFirstChoice()== null) {
                 throw new IllegalStateException("First Choice is mandatory");
             }
-            Candidate candidate = new Candidate(candidateId, email, contactInformation, accommodationChoices);
-            return candidate;
+            return new Candidate(candidateId, email, contactInformation, accommodationChoices);
         }
     }
 }

@@ -31,8 +31,7 @@ public class ContactInformation {
         }
 
         public ContactInformation build() {
-            ContactInformation contactInformation = new ContactInformation(twitter, phoneNumber);
-            return contactInformation;
+            return new ContactInformation(twitter, phoneNumber);
         }
     }
 
