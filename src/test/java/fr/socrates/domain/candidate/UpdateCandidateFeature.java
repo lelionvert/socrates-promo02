@@ -1,20 +1,16 @@
 package fr.socrates.domain.candidate;
 
-import fr.socrates.domain.CandidateId;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Optional;
 
-import static fr.socrates.domain.candidate.AccommodationChoices.*;
+import static fr.socrates.domain.candidate.AccommodationChoices.AccommodationChoicesBuilder;
 import static fr.socrates.domain.candidate.AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices;
-import static fr.socrates.domain.candidate.ContactInformations.ContactInformationsBuilder.aContactInformations;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
+import static fr.socrates.domain.candidate.ContactInformation.ContactInformationsBuilder.aContactInformations;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -37,14 +33,15 @@ public class UpdateCandidateFeature {
         final AccommodationChoices accommodationChoices = anAccommodationChoices()
                 .withFirstChoice(AccommodationChoice.DOUBLE_ROOM)
                 .withRemarks("J'aime la moto").build();
-        final ContactInformations contactInformations = aContactInformations()
+        final ContactInformation contactInformation = aContactInformations()
                 .withTwitter("@Arolla")
                 .withPhoneNumber(PhoneNumber.of("0600010203")).build();
 
-        candidateService.update(EMail.of("toto@gmail.com"), accommodationChoices, contactInformations);
+        candidateService.update(EMail.of("toto@gmail.com"), accommodationChoices, contactInformation);
         Optional<Candidate> candidateToCheckPresence = candidateService.findCandidateByEmail("toto@gmail.com");
         Assertions.assertThat(candidateToCheckPresence).isPresent();
-        Assertions.assertThat(candidateToCheckPresence.get().printDetail()).isEqualTo("Candidate { email : toto@gmail.fr , Choices [DoubleRoom] , Remarks : j'aime la moto , Twitter : @Arolla , phone : 06010203 }");
+        Assertions.assertThat(candidateToCheckPresence.get().printDetail()).isEqualTo("Candidate{candidateId=null, email=toto@gmail.com, accommodationChoices=AccommodationChoices{accommodationChoices=[AccommodationChoice{accommodationChoiceValue='Double Room'}, null, null, null], remarks='j'aime la moto'}, contactInformation=ContactInformation{twitter='@Arrola', phoneNumber=PhoneNumber{phoneNumber='06010203'}}}");
+
     }
 
 

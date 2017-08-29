@@ -14,7 +14,7 @@ public interface CandidateRepository {
 
     Optional<Candidate> findByCandidateID(CandidateId candidateId);
 
-    void updateContactInfos(CandidateId candidateId, ContactInformations contactInformations);
+    void updateContactInfos(CandidateId candidateId, ContactInformation contactInformation);
 
     void updateAccommodationChoices(CandidateId candidateId, AccommodationChoices accommodationChoices);
 }

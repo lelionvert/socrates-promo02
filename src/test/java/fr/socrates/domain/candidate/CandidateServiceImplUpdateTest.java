@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 import java.util.Optional;
 
 import static fr.socrates.domain.candidate.AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices;
-import static fr.socrates.domain.candidate.ContactInformations.ContactInformationsBuilder.aContactInformations;
+import static fr.socrates.domain.candidate.ContactInformation.ContactInformationsBuilder.aContactInformations;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -45,14 +45,14 @@ public class CandidateServiceImplUpdateTest {
     @Test
     public void should_update_contact_infos_existing_candidate() throws Exception {
 
-        final ContactInformations contactInformations = aContactInformations()
+        final ContactInformation contactInformation = aContactInformations()
                 .withTwitter("@Arolla")
                 .withPhoneNumber(PhoneNumber.of("0600010203")).build();
 
 
-        candidateService.update(EMail.of("toto@gmail.com"), null, contactInformations);
+        candidateService.update(EMail.of("toto@gmail.com"), null, contactInformation);
         verify(candidateRepository).findByEmail("toto@gmail.com");
-        verify(candidateRepository).updateContactInfos(new CandidateId("toto@gmail.com"), contactInformations);
+        verify(candidateRepository).updateContactInfos(new CandidateId("toto@gmail.com"), contactInformation);
 
 
     }

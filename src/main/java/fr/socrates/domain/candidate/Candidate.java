@@ -1,7 +1,6 @@
 package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.CandidateId;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import static fr.socrates.domain.candidate.AccommodationChoices.*;
 import static fr.socrates.domain.candidate.AccommodationChoices.AccommodationChoicesBuilder.*;
@@ -11,7 +10,7 @@ public class Candidate {
     private final CandidateId candidateId;
     private final EMail email;
     private final AccommodationChoices accommodationChoices;
-    private final ContactInformations contactInformations;
+    private final ContactInformation contactInformation;
 
     public EMail getEmail() {
         return email;
@@ -25,18 +24,18 @@ public class Candidate {
         return this.candidateId.equals(candidateId);
     }
 
-    private Candidate(CandidateId candidateId, EMail email, ContactInformations contactInformation, AccommodationChoices accommodationChoices) {
+    private Candidate(CandidateId candidateId, EMail email, ContactInformation contactInformation, AccommodationChoices accommodationChoices) {
         this.candidateId = candidateId;
         this.email = email;
-        this.contactInformations = contactInformation;
+        this.contactInformation = contactInformation;
         this.accommodationChoices = accommodationChoices;
     }
 
-    private Candidate(CandidateId candidateId, EMail email, AccommodationChoices accommodationChoices, PhoneNumber phoneNumber, String twitterAccount, ContactInformations contactInformations) {
+    private Candidate(CandidateId candidateId, EMail email, AccommodationChoices accommodationChoices, PhoneNumber phoneNumber, String twitterAccount, ContactInformation contactInformation) {
         this.candidateId = candidateId;
         this.email = email;
         this.accommodationChoices = accommodationChoices;
-        this.contactInformations = contactInformations;
+        this.contactInformation = contactInformation;
     }
 
     public static Candidate singleRoomWithEmail(String email) {
@@ -69,6 +68,8 @@ public class Candidate {
         return "Candidate{" +
                 "candidateId=" + candidateId +
                 ", email=" + email +
+                ", accommodationChoices=" + accommodationChoices +
+                ", contactInformation=" + contactInformation +
                 '}';
     }
 
@@ -81,7 +82,7 @@ public class Candidate {
     }
 
     public String printDetail() {
-        throw new NotImplementedException();
+        return this.toString();
     }
 
 
@@ -89,7 +90,7 @@ public class Candidate {
         private CandidateId candidateId;
         private EMail email;
         private AccommodationChoices accommodationChoices = AccommodationChoicesBuilder.anAccommodationChoices().build();
-        private ContactInformations contactInformations;
+        private ContactInformation contactInformation;
 
         private CandidateBuilder() {
         }
@@ -120,8 +121,8 @@ public class Candidate {
             return this;
         }
 
-        public CandidateBuilder withContactInformations(ContactInformations contactInformations) {
-            this.contactInformations = contactInformations;
+        public CandidateBuilder withContactInformations(ContactInformation contactInformation) {
+            this.contactInformation = contactInformation;
             return this;
         }
 
@@ -132,7 +133,7 @@ public class Candidate {
             if (accommodationChoices.getFirstChoice()== null) {
                 throw new IllegalStateException("First Choice is mandatory");
             }
-            Candidate candidate = new Candidate(candidateId, email, contactInformations, accommodationChoices);
+            Candidate candidate = new Candidate(candidateId, email, contactInformation, accommodationChoices);
             return candidate;
         }
     }

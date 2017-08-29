@@ -40,7 +40,7 @@ public class InMemoryCandidateRepository implements CandidateRepository {
     }
 
     @Override
-    public void updateContactInfos(CandidateId candidateId, ContactInformations contactInformations) {
+    public void updateContactInfos(CandidateId candidateId, ContactInformation contactInformation) {
         throw new NotImplementedException();
     }
 

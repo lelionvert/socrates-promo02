@@ -1,21 +1,13 @@
 package fr.socrates.domain.candidate;
 
-import fr.socrates.domain.CandidateId;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
-import java.util.Optional;
-
-import static fr.socrates.domain.candidate.AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices;
-import static fr.socrates.domain.candidate.ContactInformations.ContactInformationsBuilder.aContactInformations;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class CandidateServiceImplTest {
     private CandidateService candidateService;

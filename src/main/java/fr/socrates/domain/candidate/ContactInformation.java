@@ -1,10 +1,10 @@
 package fr.socrates.domain.candidate;
 
-public class ContactInformations {
+public class ContactInformation {
     private String twitter;
     private PhoneNumber phoneNumber;
 
-    private ContactInformations(String twitter, PhoneNumber phoneNumber) {
+    private ContactInformation(String twitter, PhoneNumber phoneNumber) {
         this.twitter = twitter;
         this.phoneNumber = phoneNumber;
     }
@@ -30,9 +30,17 @@ public class ContactInformations {
             return this;
         }
 
-        public ContactInformations build() {
-            ContactInformations contactInformations = new ContactInformations(twitter, phoneNumber);
-            return contactInformations;
+        public ContactInformation build() {
+            ContactInformation contactInformation = new ContactInformation(twitter, phoneNumber);
+            return contactInformation;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "ContactInformation{" +
+                "twitter='" + twitter + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                '}';
     }
 }

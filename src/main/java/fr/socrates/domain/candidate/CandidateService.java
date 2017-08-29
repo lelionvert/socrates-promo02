@@ -8,5 +8,5 @@ public interface CandidateService {
     Optional<Candidate> findCandidateByEmail(String email);
 
     Candidate update(Candidate candidateToUpdate);
-    void update(EMail email, AccommodationChoices accommodationChoices, ContactInformations contactInformations);
+    void update(EMail email, AccommodationChoices accommodationChoices, ContactInformation contactInformation);
 }
