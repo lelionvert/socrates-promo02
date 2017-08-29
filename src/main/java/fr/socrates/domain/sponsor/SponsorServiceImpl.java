@@ -1,7 +1,10 @@
 package fr.socrates.domain.sponsor;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
+@Service
 public class SponsorServiceImpl implements SponsorService {
     private final SponsorRepository sponsorRepository;
 
