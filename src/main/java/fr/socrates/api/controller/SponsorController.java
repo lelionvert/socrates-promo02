@@ -1,6 +1,7 @@
 package fr.socrates.api.controller;
 
 import fr.socrates.api.DTO.SponsorDTO;
+import fr.socrates.domain.sponsor.InvalidSponsorException;
 import fr.socrates.domain.sponsor.SponsorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,11 @@ public class SponsorController {
 
     @PostMapping
     public ResponseEntity addSponsor(@Valid @RequestBody SponsorDTO sponsorDTO) {
-        sponsorService.addSponsor(SponsorDTO.dTOtoDomain(sponsorDTO));
+        try {
+            sponsorService.addSponsor(SponsorDTO.dTOtoDomain(sponsorDTO));
+        } catch (InvalidSponsorException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok().build();
     }
 }

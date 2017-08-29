@@ -16,12 +16,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {SocratesApplication.class})
@@ -82,5 +80,16 @@ public class SponsorControllerTest {
                 .content(TestUtils.convertObjectToJsonBytes(sponsorDTO)))
                 .andExpect(status().isOk());
         assertThat(sponsorService.getSponsorsList()).hasSize(1);
+    }
+
+    @Test
+    public void should_send_bad_request_when_siren_is_invalid() throws Exception {
+        SponsorDTO sponsorDTO = SponsorDTO.domainToDTO(sponsor);
+        sponsorDTO.setSiren("");
+        this.mvc.perform(post("/sponsors")
+                .contentType(TestUtils.APPLICATION_JSON_UTF8)
+                .content(TestUtils.convertObjectToJsonBytes(sponsorDTO)))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string(containsString("Invalid SIREN : ")));
     }
 }

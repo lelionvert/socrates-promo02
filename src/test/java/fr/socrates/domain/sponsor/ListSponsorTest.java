@@ -11,7 +11,7 @@ public class ListSponsorTest {
 
     private List<Sponsor> sponsors;
 
-    private void init_list_of_sponsors() {
+    private void init_list_of_sponsors() throws InvalidSponsorException {
         Sponsor sponsor1 = new Sponsor.SponsorBuilder()
                 .withName("name")
                 .withSIRET("82322757400014")
@@ -41,7 +41,7 @@ public class ListSponsorTest {
     }
 
     @Test
-    public void should_list_only_one_sponsor_when_one_sponsor_is_added() {
+    public void should_list_only_one_sponsor_when_one_sponsor_is_added() throws InvalidSponsorException {
         SponsorService sponsorService = new SponsorServiceImpl(new FakeSponsorRepository());
 
         sponsorService.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123).createSponsor());
@@ -65,7 +65,7 @@ public class ListSponsorTest {
     }
 
     @Test
-    public void should_return_two_sponsors_when_adding_two_sponsors() {
+    public void should_return_two_sponsors_when_adding_two_sponsors() throws InvalidSponsorException {
         SponsorService listOfOneSponsor = new SponsorServiceImpl(new FakeSponsorRepository());
 
         listOfOneSponsor.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor());
@@ -84,7 +84,7 @@ public class ListSponsorTest {
 
 
     @Test
-    public void should_call_sponsor_connector() {
+    public void should_call_sponsor_connector() throws InvalidSponsorException {
         init_list_of_sponsors();
         FakeSponsorRepository sponsorConnector = new FakeSponsorRepository(sponsors);
         SponsorService listOfTwoSponsors = new SponsorServiceImpl(sponsorConnector);

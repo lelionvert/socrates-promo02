@@ -1,5 +1,6 @@
 package fr.socrates.api.DTO;
 
+import fr.socrates.domain.sponsor.InvalidSponsorException;
 import fr.socrates.domain.sponsor.Sponsor;
 
 import javax.validation.constraints.NotNull;
@@ -103,7 +104,7 @@ public class SponsorDTO {
         this.amount = amount;
     }
 
-    public static Sponsor dTOtoDomain(SponsorDTO sponsorDTO) {
+    public static Sponsor dTOtoDomain(SponsorDTO sponsorDTO) throws InvalidSponsorException {
         return new Sponsor.SponsorBuilder()
                 .withSIREN(sponsorDTO.siren)
                 .withSIRET(sponsorDTO.siret)

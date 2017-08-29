@@ -14,10 +14,7 @@ import fr.socrates.domain.checkin.CheckInServiceImpl;
 import fr.socrates.domain.common.AccommodationChoice;
 import fr.socrates.domain.meal.MealService;
 import fr.socrates.domain.meal.MealServiceImpl;
-import fr.socrates.domain.sponsor.Sponsor;
-import fr.socrates.domain.sponsor.SponsorRepository;
-import fr.socrates.domain.sponsor.SponsorService;
-import fr.socrates.domain.sponsor.SponsorServiceImpl;
+import fr.socrates.domain.sponsor.*;
 import fr.socrates.infra.printers.ConsolePrinter;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import fr.socrates.infra.repositories.InMemoryCheckInRepository;
@@ -58,6 +55,7 @@ class Main {
         SponsorService sponsorService = new SponsorServiceImpl(inMemorySponsorRepository);
         CandidateService candidateService = new CandidateServiceImpl(inMemoryCandidateRepository);
         CheckInService checkInService = new CheckInServiceImpl(inMemoryCheckInRepository);
+        MealService mealService = new MealServiceImpl(checkInService);
         ConfirmationService confirmationService = new ConfirmationServiceImpl(inMemoryCandidateRepository, inMemoryConfirmationRepository);
         MealService mealService = new MealServiceImpl(checkInService, confirmationService);
 
@@ -87,9 +85,9 @@ class Main {
                     consolePrinter.print("Ajouter un sponsor : ");
                     try {
                         sponsorService.addSponsor(createSponsor(scanner, consolePrinter));
-                    } catch (IllegalArgumentException e) {
+                    } catch (InvalidSponsorException e) {
                         consolePrinter.print(" \n" +
-                                " /!\\ Erreur d'ajout du sponsor. Les SIREN et/ou SIRET sont invalides /!\\ \n");
+                                " /!\\ Erreur d'ajout du sponsor. " + e.getMessage() + " /!\\ \n");
                     }
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
@@ -172,7 +170,7 @@ class Main {
             return list.stream().map(T::toString).collect(Collectors.toList());
     }
 
-    private static Sponsor createSponsor(Scanner scanner, Printer consolePrinter) {
+    private static Sponsor createSponsor(Scanner scanner, Printer consolePrinter) throws InvalidSponsorException {
         String[] sponsorInfos = {"Nom", "SIRET", "SIREN", "Représentant", "Contact Email", "Montant du sponsoring"};
         List<String> sponsorInputs = new ArrayList<>();
 

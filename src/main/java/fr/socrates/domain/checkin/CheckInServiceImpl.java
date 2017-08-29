@@ -1,10 +1,12 @@
 package fr.socrates.domain.checkin;
 
+import org.springframework.stereotype.Service;
 import fr.socrates.domain.CandidateId;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Service
 public class CheckInServiceImpl implements CheckInService {
     private final CheckInRepository checkInRepository;
 
