@@ -53,7 +53,7 @@ public class CandidateControllerTest {
     }
 
     @Test
-    public void should_return_one_candidate_as_json() throws Exception {
+    public void should_return_one_candidate_as_json_found_by_email() throws Exception {
         this.mvc.perform(get("/candidates/john@doe.fr"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email", is("john@doe.fr")));

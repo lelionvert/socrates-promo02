@@ -39,8 +39,13 @@ public class ConfirmationDTO {
         this.email = email;
     }
 
-    public static ConfirmationDTO mapToDTO(String candidateEmail, AccommodationChoice accommodationChoice, Payment payment) {
-        // TODO #Demeter
-        return new ConfirmationDTO(candidateEmail, accommodationChoice, payment);
+    public static ConfirmationDTO domainToDTO(Candidate candidate) {
+        return new ConfirmationDTO(candidate.getEmail());
+    }
+
+    public static Collection<ConfirmationDTO> domainToDTO(Collection<Candidate> candidates) {
+        return candidates.stream()
+                .map(ConfirmationDTO::domainToDTO)
+                .collect(Collectors.toList());
     }
 }

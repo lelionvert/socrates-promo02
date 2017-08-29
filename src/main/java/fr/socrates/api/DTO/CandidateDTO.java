@@ -22,7 +22,7 @@ public class CandidateDTO {
     }
 
     public static CandidateDTO domainToDTO(Candidate candidate){
-        return new CandidateDTO(candidate.getEmail().getEmail());
+        return new CandidateDTO(candidate.getEmail());
     }
 
     public static Collection<CandidateDTO> domainToDTO(Collection<Candidate> candidates){

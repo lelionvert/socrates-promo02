@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RestController
-@RequestMapping ("/confirmations")
+@RequestMapping("/confirmations")
 public class ConfirmationController {
     private ConfirmationService confirmationService;
     private CandidateService candidateService;

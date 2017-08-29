@@ -16,7 +16,19 @@ public class Candidate {
     private final ContactInformation contactInformation;
     private final Diet diet;
 
-    Candidate(CandidateId candidateId, EMail email, ContactInformation contactInformation, AccommodationChoices accommodationChoices, Diet diet) {
+    public String getEmail() {
+        return email.getEmail();
+    }
+
+    public boolean hasEmail(String email) {
+        return this.email.equals(EMail.of(email));
+    }
+
+    public boolean hasCandidateID(CandidateId candidateId) {
+        return this.candidateId.equals(candidateId);
+    }
+
+    private Candidate(CandidateId candidateId, EMail email, ContactInformation contactInformation, AccommodationChoices accommodationChoices) {
         this.candidateId = candidateId;
         this.email = email;
         this.contactInformation = contactInformation;
