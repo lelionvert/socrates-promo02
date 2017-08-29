@@ -1,7 +1,7 @@
 package fr.socrates.api.controller;
 
 import fr.socrates.SocratesApplication;
-import fr.socrates.api.DTO.CandidateDTO;
+import fr.socrates.api.DTO.ConfirmationDTO;
 import fr.socrates.domain.attendee.Accommodation;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.Payment;
@@ -69,12 +69,27 @@ public class ConfirmationControllerTest {
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
 
-        CandidateDTO candidateDTO = CandidateDTO.domainToDTO(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
+        ConfirmationDTO confirmationDTO = ConfirmationDTO.mapToDTO("johndoe@dodo.fr", Accommodation.SINGLE_ROOM, Payment.TRANSFER);
         this.mvc.perform(post("/confirmations")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(candidateDTO)))
+                .content(TestUtils.convertObjectToJsonBytes(confirmationDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].email", is("johndoe@dodo.fr")));
+                .andExpect(jsonPath("$.email", is("johndoe@dodo.fr")))
+                .andExpect(jsonPath("$.accomodation", is("SINGLE_ROOM")))
+                .andExpect(jsonPath("$.payment", is("TRANSFER")));
     }
+
+    @Test
+    public void should__return_not_found_error() throws Exception{
+        candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
+        candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
+
+        ConfirmationDTO confirmationDTO = ConfirmationDTO.mapToDTO("johndoe@404.fr", Accommodation.SINGLE_ROOM, Payment.TRANSFER);
+        this.mvc.perform(post("/confirmations")
+                .contentType(TestUtils.APPLICATION_JSON_UTF8)
+                .content(TestUtils.convertObjectToJsonBytes(confirmationDTO)))
+                .andExpect(status().is(404));
+    }
+
+
 }

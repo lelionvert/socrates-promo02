@@ -53,4 +53,13 @@ public class Confirmation {
         result = 31 * result + payment.hashCode();
         return result;
     }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public Accommodation getAccommodation() {
+        return accommodation;
+    }
+
 }
