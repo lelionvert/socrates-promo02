@@ -1,12 +1,9 @@
 package fr.socrates.api.controller;
 
 import fr.socrates.SocratesApplication;
-import fr.socrates.api.DTO.CandidateDTO;
 import fr.socrates.api.DTO.SponsorDTO;
 import fr.socrates.domain.sponsor.Sponsor;
-import fr.socrates.domain.sponsor.SponsorID;
 import fr.socrates.domain.sponsor.SponsorService;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -82,5 +81,6 @@ public class SponsorControllerTest {
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(sponsorDTO)))
                 .andExpect(status().isOk());
+        assertThat(sponsorService.getSponsorsList()).hasSize(1);
     }
 }
