@@ -4,11 +4,8 @@ import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.candidate.AccommodationChoices;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
-import fr.socrates.domain.candidate.ContactInformations;
+import fr.socrates.domain.candidate.ContactInformation;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import fr.socrates.infra.repositories.dao.CandidateDao;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -13,10 +13,6 @@ public class Candidate {
     private final ContactInformation contactInformation;
     private ContactInformation contactInformations;
 
-    public EMail getEmail() {
-        return email;
-    }
-
     public boolean hasEmail(String email) {
         return this.email.equals(EMail.of(email));
     }

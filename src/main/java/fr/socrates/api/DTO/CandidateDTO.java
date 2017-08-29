@@ -32,6 +32,6 @@ public class CandidateDTO {
     }
 
     public static Candidate DTOToDomain(CandidateDTO candidateDTO) {
-        return Candidate.withEmail(candidateDTO.getEmail());
+        return Candidate.singleRoomWithEmail(candidateDTO.getEmail());
     }
 }
