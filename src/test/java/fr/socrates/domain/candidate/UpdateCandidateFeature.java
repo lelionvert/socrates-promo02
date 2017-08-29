@@ -1,5 +1,6 @@
 package fr.socrates.domain.candidate;
 
+import fr.socrates.domain.CandidateId;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -20,8 +21,12 @@ public class UpdateCandidateFeature {
     @Test
     public void should_candidate_be_updated() throws Exception {
 
+
+        final String emailCandidate = "toto@gmail.com";
+
         Candidate candidate = Candidate.CandidateBuilder.aCandidate()
-                .withEmail(EMail.of("toto@gmail.com"))
+                .withEmail(EMail.of(emailCandidate))
+                .withCandidateId(new CandidateId(emailCandidate))
                 .withAccommodationChoices(AccommodationChoicesBuilder.anAccommodationChoices()
                         .withAccommodationChoices(AccommodationChoice.SINGLE_ROOM).build()).build();
 
@@ -32,15 +37,15 @@ public class UpdateCandidateFeature {
 
         final AccommodationChoices accommodationChoices = anAccommodationChoices()
                 .withFirstChoice(AccommodationChoice.DOUBLE_ROOM)
-                .withRemarks("J'aime la moto").build();
+                .withRemarks("j'aime la moto").build();
         final ContactInformation contactInformation = aContactInformations()
                 .withTwitter("@Arolla")
                 .withPhoneNumber(PhoneNumber.of("0600010203")).build();
 
-        candidateService.update(EMail.of("toto@gmail.com"), accommodationChoices, contactInformation);
-        Optional<Candidate> candidateToCheckPresence = candidateService.findCandidateByEmail("toto@gmail.com");
+        candidateService.update(EMail.of(emailCandidate), accommodationChoices, contactInformation);
+        Optional<Candidate> candidateToCheckPresence = candidateService.findCandidateByEmail(emailCandidate);
         Assertions.assertThat(candidateToCheckPresence).isPresent();
-        Assertions.assertThat(candidateToCheckPresence.get().printDetail()).isEqualTo("Candidate{candidateId=null, email=toto@gmail.com, accommodationChoices=AccommodationChoices{accommodationChoices=[AccommodationChoice{accommodationChoiceValue='Double Room'}, null, null, null], remarks='j'aime la moto'}, contactInformation=ContactInformation{twitter='@Arrola', phoneNumber=PhoneNumber{phoneNumber='06010203'}}}");
+        Assertions.assertThat(candidateToCheckPresence.get().printDetail()).isEqualTo("Candidate{candidateId=CandidateId{id='toto@gmail.com'}, email=toto@gmail.com, accommodationChoices=AccommodationChoices{accommodationChoices=[AccommodationChoice{accommodationChoiceValue='Double Room'}, null, null, null], remarks='j'aime la moto'}, contactInformation=ContactInformation{twitter='@Arolla', phoneNumber=PhoneNumber{phoneNumber='0600010203'}}}");
 
     }
 

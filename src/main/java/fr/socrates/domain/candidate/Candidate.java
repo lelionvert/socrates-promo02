@@ -11,6 +11,7 @@ public class Candidate {
     private final EMail email;
     private final AccommodationChoices accommodationChoices;
     private final ContactInformation contactInformation;
+    private ContactInformation contactInformations;
 
     public EMail getEmail() {
         return email;
@@ -85,6 +86,13 @@ public class Candidate {
         return this.toString();
     }
 
+    public AccommodationChoices getAccommodationChoices() {
+        return accommodationChoices;
+    }
+
+    public ContactInformation getContactInformations() {
+        return contactInformations;
+    }
 
     public static final class CandidateBuilder {
         private CandidateId candidateId;

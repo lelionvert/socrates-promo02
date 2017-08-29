@@ -41,11 +41,35 @@ public class InMemoryCandidateRepository implements CandidateRepository {
 
     @Override
     public void updateContactInfos(CandidateId candidateId, ContactInformation contactInformation) {
-        throw new NotImplementedException();
+        final Optional<Candidate> candidate = findByCandidateID(candidateId);
+        if (candidate.isPresent()) {
+            final Candidate candidateToUpdate = candidate.get();
+
+            final Candidate candidateUpdated = Candidate.CandidateBuilder.aCandidate()
+                    .withCandidateId(candidateToUpdate.getCandidateId())
+                    .withAccommodationChoices(candidateToUpdate.getAccommodationChoices())
+                    .withEmail(candidateToUpdate.getEmail())
+                    .withContactInformations(contactInformation)
+                    .build();
+            candidateList.remove(candidateToUpdate);
+            candidateList.add(candidateUpdated);
+        }
     }
 
     @Override
     public void updateAccommodationChoices(CandidateId candidateId, AccommodationChoices accommodationChoices) {
-        throw new NotImplementedException();
+        final Optional<Candidate> candidate = findByCandidateID(candidateId);
+        if (candidate.isPresent()) {
+            final Candidate candidateToUpdate = candidate.get();
+
+            final Candidate candidateUpdated = Candidate.CandidateBuilder.aCandidate()
+                    .withCandidateId(candidateToUpdate.getCandidateId())
+                    .withAccommodationChoices(accommodationChoices)
+                    .withEmail(candidateToUpdate.getEmail())
+                    .withContactInformations(candidateToUpdate.getContactInformations())
+                    .build();
+            candidateList.remove(candidateToUpdate);
+            candidateList.add(candidateUpdated);
+        }
     }
 }
