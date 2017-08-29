@@ -75,7 +75,7 @@ public class ConfirmationControllerTest {
                 .content(TestUtils.convertObjectToJsonBytes(confirmationDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email", is("johndoe@dodo.fr")))
-                .andExpect(jsonPath("$.accomodation", is("SINGLE_ROOM")))
+                .andExpect(jsonPath("$.accommodation", is("SINGLE_ROOM")))
                 .andExpect(jsonPath("$.payment", is("TRANSFER")));
     }
 
@@ -84,10 +84,10 @@ public class ConfirmationControllerTest {
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
 
-        ConfirmationDTO confirmationDTO = ConfirmationDTO.mapToDTO("johndoe@404.fr", Accommodation.SINGLE_ROOM, Payment.TRANSFER);
+        ConfirmationDTO confirmationDTOOnNonExistingCandidate = ConfirmationDTO.mapToDTO("johndoe@notExistingCandidate.fr", Accommodation.SINGLE_ROOM, Payment.TRANSFER);
         this.mvc.perform(post("/confirmations")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(confirmationDTO)))
+                .content(TestUtils.convertObjectToJsonBytes(confirmationDTOOnNonExistingCandidate)))
                 .andExpect(status().is(404));
     }
 
