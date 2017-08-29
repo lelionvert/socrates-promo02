@@ -2,36 +2,36 @@ package fr.socrates.api.DTO;
 
 import fr.socrates.domain.candidate.Candidate;
 
-import java.util.ArrayList;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
-import java.util.List;
+import java.util.stream.Collectors;
 
 public class CandidateDTO {
-    private EmailDTO email;
+    @NotNull
+    private String email;
 
     public CandidateDTO() {
     }
 
-    public CandidateDTO(EmailDTO emaildto) {
+    public CandidateDTO(String emaildto) {
         this.email = emaildto;
     }
 
-    public EmailDTO getEmail() {
+    public String getEmail() {
         return email;
     }
 
     public static CandidateDTO domainToDTO(Candidate candidate){
-        return new CandidateDTO(EmailDTO.domainToDTO(candidate.getEmail()));
+        return new CandidateDTO(candidate.getEmail().getEmail());
     }
 
     public static Collection<CandidateDTO> domainToDTO(Collection<Candidate> candidates){
-        List<CandidateDTO> candidatesDtoList = new ArrayList<>();
-        candidates.forEach(candidate -> candidatesDtoList.add(domainToDTO(candidate)));
-        return candidatesDtoList;
+        return candidates.stream()
+                .map(CandidateDTO::domainToDTO)
+                .collect(Collectors.toList());
     }
 
     public static Candidate DTOToDomain(CandidateDTO candidateDTO) {
-        // TODO #Demeter
-        return Candidate.withEmail(candidateDTO.getEmail().getEmail());
+        return Candidate.withEmail(candidateDTO.getEmail());
     }
 }

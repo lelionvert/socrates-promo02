@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.xml.ws.Response;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class CandidateController {
     @PostMapping
     public ResponseEntity createCandidate(@Valid @RequestBody CandidateDTO candidateDTO) {
         if (candidateService.add(CandidateDTO.DTOToDomain(candidateDTO))) {
-            Optional<Candidate> candidate = candidateService.findCandidateByEmail(candidateDTO.getEmail().getEmail());
+            Optional<Candidate> candidate = candidateService.findCandidateByEmail(candidateDTO.getEmail());
             if (candidate.isPresent())
                 return ResponseEntity.ok(CandidateDTO.domainToDTO(candidate.get()));
             else
