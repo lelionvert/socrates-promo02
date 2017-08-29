@@ -1,7 +1,10 @@
 package fr.socrates.api.controller;
 
 import fr.socrates.SocratesApplication;
+import fr.socrates.api.DTO.CandidateDTO;
+import fr.socrates.api.DTO.SponsorDTO;
 import fr.socrates.domain.sponsor.Sponsor;
+import fr.socrates.domain.sponsor.SponsorID;
 import fr.socrates.domain.sponsor.SponsorService;
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -17,6 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,12 +35,21 @@ public class SponsorControllerTest {
 
     @Autowired
     private SponsorService sponsorService;
+    private Sponsor sponsor;
 
     @Before
     public void setUp() throws Exception {
         this.mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
+        sponsor = new Sponsor.SponsorBuilder()
+                .withSIREN("513205344")
+                .withSIRET("51320534400031")
+                .withName("Arolla")
+                .withContractRepresentative("arolla@arolla.fr")
+                .withContact("arolla@arolla.fr")
+                .withAmountOfSponsoring(100)
+                .createSponsor();
     }
 
     @Test
@@ -48,14 +61,6 @@ public class SponsorControllerTest {
 
     @Test
     public void should_list_one_sponsor_when_getting_all_sponsors_and_there_is_only_one_sponsor() throws Exception {
-        Sponsor sponsor = new Sponsor.SponsorBuilder()
-                .withSIREN("513205344")
-                .withSIRET("51320534400031")
-                .withName("Arolla")
-                .withContractRepresentative("arolla@arolla.fr")
-                .withContact("arolla@arolla.fr")
-                .withAmountOfSponsoring(100)
-                .createSponsor();
         sponsorService.addSponsor(sponsor);
 
         this.mvc.perform(get("/sponsors"))
@@ -68,5 +73,14 @@ public class SponsorControllerTest {
                 .andExpect(jsonPath("$[0].contractRepresentative", is("arolla@arolla.fr")))
                 .andExpect(jsonPath("$[0].contact", is("arolla@arolla.fr")))
                 .andExpect(jsonPath("$[0].amount", is(100d)));
+    }
+
+    @Test
+    public void should_add_one_sponsor_to_repository() throws Exception {
+        SponsorDTO sponsorDTO = SponsorDTO.domainToDTO(sponsor);
+        this.mvc.perform(post("/sponsors")
+                .contentType(TestUtils.APPLICATION_JSON_UTF8)
+                .content(TestUtils.convertObjectToJsonBytes(sponsorDTO)))
+                .andExpect(status().isOk());
     }
 }

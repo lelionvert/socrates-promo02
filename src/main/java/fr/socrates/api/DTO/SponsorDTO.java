@@ -2,13 +2,24 @@ package fr.socrates.api.DTO;
 
 import fr.socrates.domain.sponsor.Sponsor;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class SponsorDTO {
     private String id;
+    @NotNull
+    @Size(min = 9, max = 11)
     private String siren;
+    @NotNull
+    @Size(min = 14, max = 14)
     private String siret;
+    @NotNull
     private String name;
+    @NotNull
     private String contractRepresentative;
+    @NotNull
     private String contact;
+    @NotNull
     private double amount;
 
     public SponsorDTO() {
@@ -90,5 +101,16 @@ public class SponsorDTO {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public static Sponsor dTOtoDomain(SponsorDTO sponsorDTO) {
+        return new Sponsor.SponsorBuilder()
+                .withSIREN(sponsorDTO.siren)
+                .withSIRET(sponsorDTO.siret)
+                .withName(sponsorDTO.name)
+                .withContractRepresentative(sponsorDTO.contractRepresentative)
+                .withContact(sponsorDTO.contact)
+                .withAmountOfSponsoring(sponsorDTO.amount)
+                .createSponsor();
     }
 }

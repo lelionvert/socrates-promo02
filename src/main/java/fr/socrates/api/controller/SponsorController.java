@@ -3,11 +3,10 @@ package fr.socrates.api.controller;
 import fr.socrates.api.DTO.SponsorDTO;
 import fr.socrates.domain.sponsor.SponsorService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import javax.validation.Valid;
+import javax.xml.ws.Response;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,5 +27,11 @@ public class SponsorController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(sponsorList);
+    }
+
+    @PostMapping
+    public ResponseEntity addSponsor(@Valid @RequestBody SponsorDTO sponsorDTO) {
+        sponsorService.addSponsor(SponsorDTO.dTOtoDomain(sponsorDTO));
+        return ResponseEntity.ok().build();
     }
 }
