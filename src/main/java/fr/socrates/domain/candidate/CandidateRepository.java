@@ -1,21 +1,20 @@
 package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.CandidateId;
+import fr.socrates.domain.candidate.exceptions.AddCandidateException;
+import fr.socrates.domain.candidate.exceptions.CandidateException;
+import fr.socrates.domain.candidate.exceptions.UnknownCandidateException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CandidateRepository {
-
     List<Candidate> findAll();
 
-    boolean save(Candidate candidate);
+    Candidate addCandidate(Candidate candidate) throws AddCandidateException;
 
-    boolean update(Candidate updatedCandidate, String oldEmail);
+    Candidate updateCandidate(Candidate updateOfCandidate, String oldEmail) throws CandidateException;
 
-    boolean delete(Candidate candidate);
+    Candidate findCandidateByEmail(String email) throws CandidateException;
 
-    Optional<Candidate> findByEmail(String email);
-
-    Optional<Candidate> findByCandidateID(CandidateId candidateId);
+    Candidate findCandidateById(CandidateId candidateId) throws UnknownCandidateException;
 }

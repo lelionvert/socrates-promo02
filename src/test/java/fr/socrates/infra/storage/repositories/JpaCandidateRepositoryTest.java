@@ -3,6 +3,7 @@ package fr.socrates.infra.storage.repositories;
 import fr.socrates.SocratesApplication;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.infra.storage.entities.CandidateEntity;
+import org.assertj.core.util.Lists;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Matchers.any;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {SocratesApplication.class})
@@ -25,7 +27,7 @@ public class JpaCandidateRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        jpaCandidateRepository.save(CandidateEntity.fromDomain(Candidate.withEmail("hello@world.fr")));
+        jpaCandidateRepository.save(CandidateEntity.fromDomain(Candidate.withEmailAndId("hello@world.fr")));
     }
 
     @After
@@ -35,11 +37,11 @@ public class JpaCandidateRepositoryTest {
 
     @Test
     public void should_find_all_candidates() throws Exception {
-        assertThat(jpaCandidateRepository.findAll()).contains(new CandidateEntity(1L, "john@doe.fr"));
+        assertThat(Lists.newArrayList(jpaCandidateRepository.findAll())).extracting("email").containsOnly("hello@world.fr");
     }
 
     @Test
     public void should_find_a_candidate_by_email() throws Exception {
-        assertThat(jpaCandidateRepository.findByEmail("hello@world.fr").toDomain()).isEqualTo(Candidate.withEmail("hello@world.fr"));
+        assertThat(jpaCandidateRepository.findByEmail("hello@world.fr").toDomain()).isEqualTo(Candidate.withEmailAndId("hello@world.fr"));
     }
 }

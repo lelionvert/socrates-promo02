@@ -3,14 +3,14 @@ package fr.socrates.domain.attendee;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
+import fr.socrates.domain.candidate.exceptions.UnknownCandidateException;
 import fr.socrates.infra.storage.repositories.InMemoryConfirmationRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
 public class ConfirmationServiceImplTest {
   private CandidateRepository candidateRepository;
@@ -27,30 +27,29 @@ public class ConfirmationServiceImplTest {
     assertThat(new ConfirmationServiceImpl(candidateRepository, new InMemoryConfirmationRepository()).getListAttendee()).isEmpty();
   }
 
-  @Test
-  public void should_not_confirm_candidate_by_email_who_does_not_exists() throws Exception {
+  @Test(expected = UnknownCandidateException.class)
+  public void should_throw_unknown_candidate_exception_when_confirm_candidate_by_email_who_does_not_exists() throws Exception {
     final String email = "john@doe.fr";
-    Mockito.doReturn(Optional.empty()).when(candidateRepository).findByEmail(email);
-    assertThat(confirmationService.confirm(email)).isFalse();
-    assertThat(confirmationService.getListAttendee()).isEmpty();
+    given(candidateRepository.findCandidateByEmail(email)).willThrow(UnknownCandidateException.class);
+    confirmationService.confirm(email);
   }
 
   @Test
   public void should_confirm_one_existing_candidate_with_his_email() throws Exception {
     final String email = "test@test.fr";
-    Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateRepository).findByEmail(email);
-    Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
+    Mockito.doReturn(Candidate.withEmailAndId(email)).when(candidateRepository).findCandidateByEmail(email);
+    Mockito.doReturn(Candidate.withEmailAndId(email)).when(candidateRepository).findCandidateById(new CandidateId(email));
     assertThat(confirmationService.confirm(email)).isTrue();
-    assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.withEmail(email));
+    assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.withEmailAndId(email));
   }
 
   @Test
   public void should_not_confirm_a_candidate_twice() throws Exception {
     final String email = "test@test.fr";
-    Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateRepository).findByEmail(email);
-    Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
+    Mockito.doReturn(Candidate.withEmailAndId(email)).when(candidateRepository).findCandidateByEmail(email);
+    Mockito.doReturn(Candidate.withEmailAndId(email)).when(candidateRepository).findCandidateById(new CandidateId(email));
     assertThat(confirmationService.confirm(email)).isTrue();
     assertThat(confirmationService.confirm(email)).isFalse();
-    assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.withEmail(email));
+    assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.withEmailAndId(email));
   }
 }

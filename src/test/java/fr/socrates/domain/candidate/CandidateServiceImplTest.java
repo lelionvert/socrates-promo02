@@ -22,24 +22,24 @@ public class CandidateServiceImplTest {
     @Test
     public void should_have_candidate_when_adding_candidate() throws Exception {
         final String email = "test@test.net";
-        candidateService.add(Candidate.withEmail(email));
+        candidateService.add(Candidate.withEmailAndId(email));
         assertThat(candidateService.getRegisteredCandidates())
-                .containsExactly(Candidate.withEmail(email));
+                .containsExactly(Candidate.withEmailAndId(email));
     }
 
     @Test
     public void should_guaranty_unicity_of_candidates() throws Exception {
         final String email = "test@test.net";
-        candidateService.add(Candidate.withEmail(email));
-        candidateService.add(Candidate.withEmail(email));
+        candidateService.add(Candidate.withEmailAndId(email));
+        candidateService.add(Candidate.withEmailAndId(email));
         assertThat(candidateService.getRegisteredCandidates())
-                .containsExactly(Candidate.withEmail(email));
+                .containsExactly(Candidate.withEmailAndId(email));
     }
 
     @Test
     public void should_find_a_candidate_by_email() throws Exception {
         final String email = "john@doe.fr";
-        candidateService.add(Candidate.withEmail(email));
+        candidateService.add(Candidate.withEmailAndId(email));
         assertThat(candidateService.findCandidateByEmail(email).isPresent()).isTrue();
     }
 }

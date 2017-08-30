@@ -3,19 +3,32 @@ package fr.socrates.domain.candidate;
 import fr.socrates.domain.CandidateId;
 
 public class Candidate {
-    private final CandidateId candidateId;
+    private CandidateId candidateId;
     private EMail email;
 
-    public EMail getEmail() {
-        return email;
+    public Candidate(EMail email) {
+        this.email = email;
     }
 
-    public boolean hasEmail(String email) {
-        return this.email.equals(EMail.of(email));
+    private Candidate(CandidateId candidateId, EMail email) {
+        this(email);
+        this.candidateId = candidateId;
+    }
+
+    public CandidateId getCandidateId() {
+        return candidateId;
     }
 
     public boolean hasCandidateID(CandidateId candidateId) {
         return this.candidateId.equals(candidateId);
+    }
+
+    public String getEmail() {
+        return email.getEmail();
+    }
+
+    public boolean hasEmail(String email) {
+        return this.email.equals(EMail.of(email));
     }
 
     @Override
@@ -25,7 +38,7 @@ public class Candidate {
 
         Candidate candidate = (Candidate) o;
 
-        return candidateId.equals(candidate.candidateId);
+        return email.equals(candidate.email);
     }
 
     @Override
@@ -41,20 +54,17 @@ public class Candidate {
                 '}';
     }
 
-    private Candidate(CandidateId candidateId, EMail email) {
-        this.candidateId = candidateId;
-        this.email = email;
+    public static Candidate withEmailAndId(String email) {
+        if (email == null) {
+            throw new IllegalStateException();
+        }
+        return new Candidate(new CandidateId(email), EMail.of(email));
     }
-
-    public CandidateId getCandidateId() {
-        return candidateId;
-    }
-
 
     public static Candidate withEmail(String email) {
         if (email == null) {
             throw new IllegalStateException();
         }
-        return new Candidate(new CandidateId(email), EMail.of(email));
+        return new Candidate(EMail.of(email));
     }
 }

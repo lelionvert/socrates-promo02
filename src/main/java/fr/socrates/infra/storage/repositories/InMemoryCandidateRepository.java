@@ -2,7 +2,9 @@ package fr.socrates.infra.storage.repositories;
 
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.candidate.Candidate;
+import fr.socrates.domain.candidate.exceptions.CandidateException;
 import fr.socrates.domain.candidate.CandidateRepository;
+import fr.socrates.domain.candidate.exceptions.UnknownCandidateException;
 
 import java.util.*;
 
@@ -15,27 +17,29 @@ public class InMemoryCandidateRepository implements CandidateRepository {
     }
 
     @Override
-    public boolean save(Candidate candidate) {
-        return candidateList.add(candidate);
+    public Candidate addCandidate(Candidate candidate) {
+        candidateList.add(candidate);
+        return candidate;
     }
 
     @Override
-    public boolean update(Candidate updatedCandidate, String oldEmail) {
-        return false;
+    public Candidate updateCandidate(Candidate updateOfCandidate, String oldEmail) {
+        return updateOfCandidate;
     }
 
     @Override
-    public boolean delete(Candidate candidate) {
-        return false;
+    public Candidate findCandidateByEmail(String email) throws CandidateException {
+        Optional<Candidate> foundCandidate = candidateList.stream().filter(candidate -> candidate.hasEmail(email)).findFirst();
+        if (foundCandidate.isPresent())
+            return foundCandidate.get();
+        throw new UnknownCandidateException();
     }
 
     @Override
-    public Optional<Candidate> findByEmail(String email) {
-        return candidateList.stream().filter(candidate -> candidate.hasEmail(email)).findFirst();
-    }
-
-    @Override
-    public Optional<Candidate> findByCandidateID(CandidateId candidateId) {
-        return candidateList.stream().filter(candidate -> candidate.hasCandidateID(candidateId)).findFirst();
+    public Candidate findCandidateById(CandidateId candidateId) {
+        Optional<Candidate> foundCandidate = candidateList.stream().filter(candidate -> candidate.hasCandidateID(candidateId)).findFirst();
+        if (foundCandidate.isPresent())
+            return foundCandidate.get();
+        return null;
     }
 }

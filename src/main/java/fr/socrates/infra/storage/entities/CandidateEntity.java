@@ -12,6 +12,8 @@ public class CandidateEntity {
     @SequenceGenerator(name="candidates_id", sequenceName="candidates_id_seq", allocationSize=1)
     @Column(name = "id")
     private Long id;
+    @Column(name = "candidate_id")
+    private String candidateId;
     @Column(name = "email")
     private String email;
 
@@ -27,16 +29,40 @@ public class CandidateEntity {
         return id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
+    public String getCandidateId() {
+        return candidateId;
+    }
+
+    public void setCandidateId(String candidateId) {
+        this.candidateId = candidateId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void update(Candidate updatedCandidate) {
+        email = updatedCandidate.getEmail();
+    }
+
+    public Candidate toDomain() {
+        return Candidate.withEmailAndId(email);
+    }
+
+    public static CandidateEntity fromDomain(Candidate candidate) {
+        CandidateEntity candidateEntity = new CandidateEntity();
+        candidateEntity.setEmail(candidate.getEmail());
+        if (candidate.getCandidateId() != null)
+            candidateEntity.setCandidateId(candidate.getCandidateId().getId());
+        return candidateEntity;
     }
 
     @Override
@@ -57,13 +83,11 @@ public class CandidateEntity {
         return result;
     }
 
-    public Candidate toDomain() {
-        return Candidate.withEmail(email);
-    }
-
-    public static CandidateEntity fromDomain(Candidate candidate) {
-        CandidateEntity candidateEntity = new CandidateEntity();
-        candidateEntity.setEmail(candidate.getEmail().getEmail());
-        return candidateEntity;
+    @Override
+    public String toString() {
+        return "CandidateEntity{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

@@ -1,6 +1,7 @@
 package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.CandidateId;
+import fr.socrates.domain.candidate.exceptions.CandidateException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +15,8 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public boolean add(Candidate candidate) {
-
-        if (candidateRepository.findByCandidateID(candidate.getCandidateId()).isPresent())
-            return false;
-        return candidateRepository.save(candidate);
+    public boolean add(Candidate candidate) throws CandidateException {
+        return candidateRepository.findCandidateById(candidate.getCandidateId()) == null && candidateRepository.addCandidate(candidate) != null;
     }
 
     @Override
@@ -29,13 +27,12 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public Optional<Candidate> findCandidateByEmail(String email) {
-        return candidateRepository.findByEmail(email);
+    public Optional<Candidate> findCandidateByEmail(String email) throws CandidateException {
+        return Optional.of(candidateRepository.findCandidateByEmail(email));
     }
 
     @Override
-    public Optional<Candidate> findCandidateByCandidateID(CandidateId candidateId) {
-        return candidateRepository.findByCandidateID(candidateId);
+    public Optional<Candidate> findCandidateByCandidateID(CandidateId candidateId) throws CandidateException {
+        return Optional.of(candidateRepository.findCandidateById(candidateId));
     }
-
 }

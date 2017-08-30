@@ -2,6 +2,7 @@ package fr.socrates;
 
 import fr.socrates.common.Printer;
 import fr.socrates.domain.CandidateId;
+import fr.socrates.domain.candidate.exceptions.CandidateException;
 import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.attendee.ConfirmationService;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 
 class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CandidateException {
         final String MENU_MESSAGE = "Yo Houssam, tu veux: \n 1- Ajouter un candidat \n 2- Lister les candidats \n 3- Ajouter un sponsor \n 4- Lister les sponsors \n 5- Ajouter un checkin \n 6- Le nombre de repas froids ? \n 7- Pour confirmer un candidat \n 8- Liste des confirmations \n 0- Quitter!";
         final String ENDING_MESSAGE = "Merci d'avoir utilisé ce programme des Mi-Ours, Mi-Scorpions, et re mi-ours derrière !";
         final String ZERO = "0";
@@ -61,7 +62,8 @@ class Main {
             switch (choice) {
                 case ONE:
                     consolePrinter.print("Ajouter un candidat : ");
-                    boolean create = candidateService.add(createCandidate(scanner, consolePrinter));
+                    boolean create = false;
+                    create = candidateService.add(createCandidate(scanner, consolePrinter));
                     if(!create)
                         consolePrinter.print("Le candidat a deja ete ajoute");
                     consolePrinter.print(MENU_MESSAGE);
@@ -152,7 +154,6 @@ class Main {
         }
         return Candidate.withEmail(candidateInputs.get(0));
     }
-
 
     private static <T> List<String> format(List<T> list) {
         if (list.isEmpty())
