@@ -34,6 +34,11 @@ public class CandidateServiceImpl implements CandidateService {
         return candidateRepository.findByEmail(email);
     }
 
+    @Override
+    public Optional<Candidate> findCandidateByCandidateID(CandidateId candidateId) {
+        return candidateRepository.findByCandidateID(candidateId);
+    }
+
 
     @Override
     public void update(EMail email, AccommodationChoices accommodationChoices, ContactInformation contactInformation) {

@@ -27,9 +27,9 @@ public class ConfirmationFeature {
     @Test
     public void should_save_accommodation_after_confirmation() throws Exception {
         final LocalDate now = LocalDate.now();
-        Candidate john = Candidate.withEmail("john@test.com");
-        Candidate patrick = Candidate.withEmail("patrick@test.com");
-        Candidate peter = Candidate.withEmail("peter@test.com");
+        Candidate john = Candidate.singleRoomWithEmail("john@test.com");
+        Candidate patrick = Candidate.singleRoomWithEmail("patrick@test.com");
+        Candidate peter = Candidate.singleRoomWithEmail("peter@test.com");
 
         candidateService.add(john);
         candidateService.add(patrick);

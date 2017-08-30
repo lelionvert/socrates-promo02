@@ -70,7 +70,7 @@ public class ConfirmationServiceImplTest {
     @Test
     public void should_save_confirmation_accommodation() throws Exception {
         final String email = "test@test.fr";
-        Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateRepository).findByEmail(email);
+        Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByEmail(email);
 
         final LocalDate now = LocalDate.now();
         confirmationService.confirm(email, now, Payment.TRANSFER, Accommodation.DOUBLE_ROOM);
@@ -82,7 +82,7 @@ public class ConfirmationServiceImplTest {
     @Test
     public void should_save_confirmation_payment() throws Exception {
         final String email = "test@test.fr";
-        Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateRepository).findByEmail(email);
+        Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByEmail(email);
 
         final LocalDate now = LocalDate.now();
         confirmationService.confirm(email, now, Payment.AT_CHECKOUT, Accommodation.DOUBLE_ROOM);
