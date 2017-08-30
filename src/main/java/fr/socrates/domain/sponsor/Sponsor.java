@@ -4,7 +4,7 @@ public class Sponsor {
 
     private final SponsorID sponsorID;
     private String name;
-    private Siret siret;
+    private final Siret siret;
     private final String siren;
     private String contractRepresentative;
     private String contact;
