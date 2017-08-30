@@ -2,7 +2,6 @@ package fr.socrates.domain.sponsor;
 
 public class Sponsor {
 
-    private final SponsorID sponsorID;
     private final String name;
     private final Siret siret;
     private final String siren;
@@ -32,8 +31,7 @@ public class Sponsor {
                 '}';
     }
 
-    private Sponsor(SponsorID sponsorID, String name, Siret siret, String siren, String contractRepresentative, String contact, double amountOfSponsoring) {
-        this.sponsorID = sponsorID;
+    private Sponsor(String name, Siret siret, String siren, String contractRepresentative, String contact, double amountOfSponsoring) {
         this.name = name;
         this.siret = siret;
         this.siren = siren;
@@ -86,7 +84,7 @@ public class Sponsor {
         }
 
         public Sponsor createSponsor() {
-            return new Sponsor(new SponsorID(siren), name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
+            return new Sponsor(name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
         }
     }
 }
