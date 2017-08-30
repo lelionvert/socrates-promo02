@@ -4,7 +4,7 @@ public class SiretValidator {
     public SiretValidator() {
     }
 
-    boolean isSiretSyntaxValide(String siret) {
+    boolean isSiretSyntaxValid(String siret) {
         if (siret == null) {
             return false;
         }

@@ -84,7 +84,7 @@ public class Sponsor {
         public Sponsor createSponsor() {
             if ((siren == null || !this.isSirenValid(siren))) {
                 throw new IllegalStateException("Siren must be valid and not empty  ");
-            } else if ((siret != null && !siretValidator.isSiretSyntaxValide(siret))) {
+            } else if ((siret != null && !siretValidator.isSiretSyntaxValid(siret))) {
                 throw new IllegalStateException("Siret must be valid");
             }
             return new Sponsor(new SponsorID(siren), name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
@@ -105,7 +105,7 @@ public class Sponsor {
         }
 
         private boolean isSiretSyntaxValide(String siret) {
-            return siretValidator.isSiretSyntaxValide(siret);
+            return siretValidator.isSiretSyntaxValid(siret);
         }
     }
 }
