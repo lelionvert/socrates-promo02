@@ -9,6 +9,15 @@ public class Sponsor {
     private final String contact;
     private double amountOfSponsoring;
 
+    private Sponsor(String name, Siret siret, String siren, String contractRepresentative, String contact, double amountOfSponsoring) {
+        this.name = name;
+        this.siret = siret;
+        this.siren = siren;
+        this.contractRepresentative = contractRepresentative;
+        this.contact = contact;
+        this.amountOfSponsoring = amountOfSponsoring;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -29,15 +38,6 @@ public class Sponsor {
         return "Sponsor{" +
                 "contact='" + contact + '\'' +
                 '}';
-    }
-
-    private Sponsor(String name, Siret siret, String siren, String contractRepresentative, String contact, double amountOfSponsoring) {
-        this.name = name;
-        this.siret = siret;
-        this.siren = siren;
-        this.contractRepresentative = contractRepresentative;
-        this.contact = contact;
-        this.amountOfSponsoring = amountOfSponsoring;
     }
 
     public static class SponsorBuilder {
