@@ -46,5 +46,12 @@ public class CandidateServiceImplTest {
         assertThat(candidateService.findCandidateByEmail(email).isPresent()).isTrue();
     }
 
+    @Test
+    public void should_accept_to_add_candidate_if_he_doesnt_exist_before() throws Exception {
+        final String email = "john@doe.fr";
+        final boolean candidateAddingStatus = candidateService.add(Candidate.singleRoomWithEmail(email));
+        assertThat(candidateAddingStatus).isTrue();
+    }
+
 
 }
