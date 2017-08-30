@@ -1,13 +1,15 @@
 package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.CandidateId;
+import fr.socrates.domain.common.AccommodationChoice;
+import fr.socrates.domain.common.AccommodationChoices;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.Optional;
 
-import static fr.socrates.domain.candidate.AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices;
+import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices;
 import static fr.socrates.domain.candidate.ContactInformation.ContactInformationsBuilder.aContactInformations;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

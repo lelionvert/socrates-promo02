@@ -1,6 +1,7 @@
 package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.CandidateId;
+import fr.socrates.domain.common.AccommodationChoices;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,6 +33,11 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public Optional<Candidate> findCandidateByEmail(String email) {
         return candidateRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<Candidate> findCandidateByCandidateID(CandidateId candidateId) {
+        return candidateRepository.findByCandidateID(candidateId);
     }
 
 

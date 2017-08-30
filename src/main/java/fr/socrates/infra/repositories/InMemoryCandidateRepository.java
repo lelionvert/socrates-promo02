@@ -1,7 +1,7 @@
 package fr.socrates.infra.repositories;
 
 import fr.socrates.domain.CandidateId;
-import fr.socrates.domain.candidate.AccommodationChoices;
+import fr.socrates.domain.common.AccommodationChoices;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
 import fr.socrates.domain.candidate.ContactInformation;

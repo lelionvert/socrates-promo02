@@ -1,6 +1,7 @@
 package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.CandidateId;
+import fr.socrates.domain.common.AccommodationChoices;
 
 import java.util.List;
 import java.util.Optional;

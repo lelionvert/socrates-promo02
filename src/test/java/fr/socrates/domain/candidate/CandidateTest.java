@@ -1,5 +1,7 @@
 package fr.socrates.domain.candidate;
 
+import fr.socrates.domain.common.AccommodationChoice;
+import fr.socrates.domain.common.AccommodationChoices;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 

@@ -1,10 +1,12 @@
 package fr.socrates.api.controller;
 
 import fr.socrates.SocratesApplication;
-import fr.socrates.api.DTO.CandidateDTO;
+import fr.socrates.api.DTO.ConfirmationDTO;
 import fr.socrates.domain.attendee.ConfirmationService;
+import fr.socrates.domain.attendee.Payment;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateService;
+import fr.socrates.domain.common.AccommodationChoice;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,9 +19,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.LocalDate;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.annotation.DirtiesContext.*;
+import static org.springframework.test.annotation.DirtiesContext.ClassMode;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -52,7 +56,7 @@ public class ConfirmationControllerTest {
     public void should_return_all_confirmations_as_json() throws Exception {
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
-        confirmationService.confirm("john@doe.fr");
+        confirmationService.confirm("john@doe.fr", LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM);
 
         this.mvc.perform(get("/confirmations"))
                 .andExpect(status().isOk())
@@ -65,12 +69,27 @@ public class ConfirmationControllerTest {
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
 
-        CandidateDTO candidateDTO = CandidateDTO.domainToDTO(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
+        ConfirmationDTO confirmationDTO = ConfirmationDTO.mapToDTO("johndoe@dodo.fr", AccommodationChoice.SINGLE_ROOM, Payment.TRANSFER);
         this.mvc.perform(post("/confirmations")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(candidateDTO)))
+                .content(TestUtils.convertObjectToJsonBytes(confirmationDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].email", is("johndoe@dodo.fr")));
+                .andExpect(jsonPath("$.email", is("johndoe@dodo.fr")))
+                .andExpect(jsonPath("$.accommodationChoice", is("SINGLE_ROOM")))
+                .andExpect(jsonPath("$.payment", is("TRANSFER")));
     }
+
+    @Test
+    public void should__return_not_found_error() throws Exception{
+        candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
+        candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
+
+        ConfirmationDTO confirmationDTOOnNonExistingCandidate = ConfirmationDTO.mapToDTO("johndoe@notExistingCandidate.fr", AccommodationChoice.SINGLE_ROOM, Payment.TRANSFER);
+        this.mvc.perform(post("/confirmations")
+                .contentType(TestUtils.APPLICATION_JSON_UTF8)
+                .content(TestUtils.convertObjectToJsonBytes(confirmationDTOOnNonExistingCandidate)))
+                .andExpect(status().is(404));
+    }
+
+
 }
