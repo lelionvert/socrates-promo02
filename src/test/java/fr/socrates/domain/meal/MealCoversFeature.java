@@ -11,12 +11,17 @@ import fr.socrates.domain.checkin.CheckInServiceImpl;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import fr.socrates.infra.repositories.InMemoryCheckInRepository;
 import fr.socrates.infra.repositories.InMemoryConfirmationRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -93,31 +98,45 @@ public class MealCoversFeature {
         confirmationService.addDiet(SHELDON_COOPER_COM, Diet.PESCATARIAN);
         confirmationService.addDiet(LEONARD_HOFSTADTER_COM, Diet.PESCATARIAN);
 
-        mealService.printAllMeals();
+        Map<MealTime, Map<Diet, Long>> dietMap = mealService.getCoversByDiet();
+        Map<MealTime, Map<Diet, Long>> expectedDietMap = createExpectedDietMap();
 
-        verify(console).print("Vendredi 18 midi");
-        verify(console).print("Vegan : 3");
-        verify(console).print("Pescatarian : 2");
-        verify(console).print("Normal : 4");
+        assertThat(dietMap).isEqualTo(expectedDietMap);
+    }
 
-        verify(console).print("Vendredi 18 soir");
-        verify(console).print("Vegan : 3");
-        verify(console).print("Pescatarian : 2");
-        verify(console).print("Normal : 4");
+    private Map<MealTime, Map<Diet, Long>> createExpectedDietMap() {
+        Map<MealTime, Map<Diet, Long>> expectedDietMap = new HashMap<>();
 
-        verify(console).print("Samedi 19 midi");
-        verify(console).print("Vegan : 3");
-        verify(console).print("Pescatarian : 2");
-        verify(console).print("Normal : 4");
+        Map<Diet, Long> numberOfDietsFridayNoon = new HashMap<>();
+        numberOfDietsFridayNoon.put(Diet.VEGAN, 3l);
+        numberOfDietsFridayNoon.put(Diet.PESCATARIAN, 2l);
+        numberOfDietsFridayNoon.put(Diet.NORMAL, 4l);
+        expectedDietMap.put(MealTime.FRIDAY_NOON, numberOfDietsFridayNoon);
 
-        verify(console).print("Samedi 19 soir");
-        verify(console).print("Vegan : 3");
-        verify(console).print("Pescatarian : 2");
-        verify(console).print("Normal : 4");
+        Map<Diet, Long> numberOfDietsFridayNight = new HashMap<>();
+        numberOfDietsFridayNight.put(Diet.VEGAN,3l);
+        numberOfDietsFridayNight.put(Diet.PESCATARIAN, 2l);
+        numberOfDietsFridayNight.put(Diet.NORMAL, 4l);
+        expectedDietMap.put(MealTime.FRIDAY_NIGHT, numberOfDietsFridayNight);
 
-        verify(console).print("Dimanche 20 midi");
-        verify(console).print("Vegan : 3");
-        verify(console).print("Pescatarian : 2");
-        verify(console).print("Normal : 4");
+        Map<Diet, Long> numberOfDietsSaturdayNoon = new HashMap<>();
+        numberOfDietsSaturdayNoon.put(Diet.VEGAN,3l);
+        numberOfDietsSaturdayNoon.put(Diet.PESCATARIAN, 2l);
+        numberOfDietsSaturdayNoon.put(Diet.NORMAL, 4l);
+        expectedDietMap.put(MealTime.SATURDAY_NOON, numberOfDietsSaturdayNoon);
+
+        Map<Diet, Long> numberOfDietsSaturdayNight = new HashMap<>();
+        numberOfDietsSaturdayNight.put(Diet.VEGAN,3l);
+        numberOfDietsSaturdayNight.put(Diet.PESCATARIAN, 2l);
+        numberOfDietsSaturdayNight.put(Diet.NORMAL, 4l);
+        expectedDietMap.put(MealTime.SATURDAY_NIGHT, numberOfDietsSaturdayNight);
+
+        Map<Diet, Long> numberOfDietsSundayNoon = new HashMap<>();
+        numberOfDietsSundayNoon.put(Diet.VEGAN,3l);
+        numberOfDietsSundayNoon.put(Diet.PESCATARIAN, 2l);
+        numberOfDietsSundayNoon.put(Diet.NORMAL, 4l);
+        expectedDietMap.put(MealTime.SUNDAY_NOON, numberOfDietsSundayNoon);
+
+        return expectedDietMap;
     }
 }

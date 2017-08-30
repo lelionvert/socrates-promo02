@@ -23,11 +23,6 @@ public class MealServiceImpl implements MealService {
         return checkInService.countCheckinAfter(COLD_FOOD_HOUR);
     }
 
-    @Override
-    public void printAllMeals() {
-
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public Map<MealTime, Map<Diet, Long>> getCoversByDiet() {
