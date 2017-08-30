@@ -53,5 +53,13 @@ public class CandidateServiceImplTest {
         assertThat(candidateAddingStatus).isTrue();
     }
 
+    @Test
+    public void should_not_accept_to_add_candidate_if_he_is_already_exist() throws Exception {
+        final String email = "john@doe.fr";
+        final boolean candidateFirstAddingStatus = candidateService.add(Candidate.singleRoomWithEmail(email));
+        final boolean candidateSecondAddingStatus = candidateService.add(Candidate.singleRoomWithEmail(email));
+        assertThat(candidateFirstAddingStatus).isTrue();
+        assertThat(candidateSecondAddingStatus).isFalse();
+    }
 
 }
