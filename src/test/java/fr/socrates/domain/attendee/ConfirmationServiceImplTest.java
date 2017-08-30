@@ -3,7 +3,6 @@ package fr.socrates.domain.attendee;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
-import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import fr.socrates.infra.repositories.InMemoryConfirmationRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,19 +38,19 @@ public class ConfirmationServiceImplTest {
   @Test
   public void should_confirm_one_existing_candidate_with_his_email() throws Exception {
     final String email = "test@test.fr";
-    Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateRepository).findByEmail(email);
-    Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
+    Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByEmail(email);
+    Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
     assertThat(confirmationService.confirm(email)).isTrue();
-    assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.withEmail(email));
+    assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
   }
 
   @Test
   public void should_not_confirm_a_candidate_twice() throws Exception {
     final String email = "test@test.fr";
-    Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateRepository).findByEmail(email);
-    Mockito.doReturn(Optional.of(Candidate.withEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
+    Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByEmail(email);
+    Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
     assertThat(confirmationService.confirm(email)).isTrue();
     assertThat(confirmationService.confirm(email)).isFalse();
-    assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.withEmail(email));
+    assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
   }
 }

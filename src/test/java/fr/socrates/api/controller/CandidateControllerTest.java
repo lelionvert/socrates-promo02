@@ -39,7 +39,7 @@ public class CandidateControllerTest {
         this.mvc = MockMvcBuilders
             .webAppContextSetup(context)
             .build();
-        candidateService.add(Candidate.withEmail("john@doe.fr"));
+        candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class CandidateControllerTest {
 
     @Test
     public void should_add_one_candidate_to_repository() throws Exception{
-        CandidateDTO candidateDTO = CandidateDTO.domainToDTO(Candidate.withEmail("test@test.fr"));
+        CandidateDTO candidateDTO = CandidateDTO.domainToDTO(Candidate.singleRoomWithEmail("test@test.fr"));
         this.mvc.perform(post("/candidates")
             .contentType(TestUtils.APPLICATION_JSON_UTF8)
             .content(TestUtils.convertObjectToJsonBytes(candidateDTO)))

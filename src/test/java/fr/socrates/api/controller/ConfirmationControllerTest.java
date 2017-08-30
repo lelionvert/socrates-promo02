@@ -50,8 +50,8 @@ public class ConfirmationControllerTest {
 
     @Test
     public void should_return_all_confirmations_as_json() throws Exception {
-        candidateService.add(Candidate.withEmail("john@doe.fr"));
-        candidateService.add(Candidate.withEmail("johndoe@dodo.fr"));
+        candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
+        candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
         confirmationService.confirm("john@doe.fr");
 
         this.mvc.perform(get("/confirmations"))
@@ -62,10 +62,10 @@ public class ConfirmationControllerTest {
 
     @Test
     public void should_confirm_one_candidate() throws Exception{
-        candidateService.add(Candidate.withEmail("john@doe.fr"));
-        candidateService.add(Candidate.withEmail("johndoe@dodo.fr"));
+        candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
+        candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
 
-        CandidateDTO candidateDTO = CandidateDTO.domainToDTO(Candidate.withEmail("johndoe@dodo.fr"));
+        CandidateDTO candidateDTO = CandidateDTO.domainToDTO(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
         this.mvc.perform(post("/confirmations")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(candidateDTO)))

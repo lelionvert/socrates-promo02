@@ -1,8 +1,7 @@
 package fr.socrates.domain.candidate;
 
-import org.springframework.stereotype.Service;
-
 import fr.socrates.domain.CandidateId;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +34,18 @@ public class CandidateServiceImpl implements CandidateService {
         return candidateRepository.findByEmail(email);
     }
 
-    @Override
-    public Optional<Candidate> findCandidateByCandidateID(CandidateId candidateId) {
-        return candidateRepository.findByCandidateID(candidateId);
-    }
 
+    @Override
+    public void update(EMail email, AccommodationChoices accommodationChoices, ContactInformation contactInformation) {
+        final Optional<Candidate> candidate = candidateRepository.findByEmail(email.getEmail());
+        if (candidate.isPresent()) {
+            final CandidateId candidateId = candidate.get().getCandidateId();
+            if (null != accommodationChoices)
+                candidateRepository.updateAccommodationChoices(candidateId, accommodationChoices);
+            if (null != contactInformation)
+                candidateRepository.updateContactInfos(candidateId, contactInformation);
+        } else {
+            throw new RuntimeException("the Candidate doesn't exist");
+        }
+    }
 }
