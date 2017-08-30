@@ -4,12 +4,12 @@ public class Sponsor {
 
     private final String name;
     private final Siret siret;
-    private final String siren;
+    private final Siren siren;
     private final String contractRepresentative;
     private final String contact;
     private double amountOfSponsoring;
 
-    private Sponsor(String name, Siret siret, String siren, String contractRepresentative, String contact, double amountOfSponsoring) {
+    private Sponsor(String name, Siret siret, Siren siren, String contractRepresentative, String contact, double amountOfSponsoring) {
         this.name = name;
         this.siret = siret;
         this.siren = siren;
@@ -44,7 +44,7 @@ public class Sponsor {
         private final SirenValidator sirenValidator = new SirenValidator();
         private String name;
         private Siret siret;
-        private String siren;
+        private Siren siren;
         private String contractRepresentative;
         private String contact;
         private double amountOfSponsoring;
@@ -64,7 +64,7 @@ public class Sponsor {
             if ((siren == null || !sirenValidator.isSirenValid(siren))) {
                 throw new IllegalStateException("Siren must be valid and not empty  ");
             }
-            this.siren = siren;
+            this.siren = Siren.of(siren);
             return this;
         }
 

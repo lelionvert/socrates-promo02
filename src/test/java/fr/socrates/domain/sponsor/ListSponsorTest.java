@@ -41,30 +41,27 @@ public class ListSponsorTest {
     }
 
     @Test
-    public void should_return_size_1_when_adding_a_sponsor() {
-        SponsorService listOfOneSponsor = new SponsorServiceImpl(new FakeSponsorRepository());
-        listOfOneSponsor.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123).createSponsor());
-        List<Sponsor> sponsors = listOfOneSponsor.getSponsorsList();
+    public void should_list_only_one_sponsor_when_one_sponsor_is_added() {
+        SponsorService sponsorService = new SponsorServiceImpl(new FakeSponsorRepository());
 
+        sponsorService.addSponsor(new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123).createSponsor());
+        List<Sponsor> sponsors = sponsorService.getSponsorsList();
 
         Sponsor sponsorExpected = new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor();
-        Sponsor sponsor = sponsors.get(0);
-        assertThat(sponsors.size()).isEqualTo(1);
-        assertThat(sponsor).isEqualTo(sponsorExpected);
+        assertThat(sponsors).containsExactly(sponsorExpected);
     }
 
     @Test
-    public void should_return_one_sponsor_when_adding_two_identical_sponsors() throws Exception {
-        SponsorService listOfTwoSponsors = new SponsorServiceImpl(new FakeSponsorRepository());
+    public void should_list_only_one_sponsor_when_the_same_sponsor_is_added_twice() throws Exception {
+        SponsorService sponsorService = new SponsorServiceImpl(new FakeSponsorRepository());
         Sponsor sponsor1 = new Sponsor.SponsorBuilder().withName("Sponsor").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative 2").withContact("contact 2").withAmountOfSponsoring(1234d).createSponsor();
         Sponsor sponsor2 = new Sponsor.SponsorBuilder().withName("name").withSIRET("82322757400014").withSIREN("823227574").withContractRepresentative("contractRepresentative").withContact("contact").withAmountOfSponsoring(123d).createSponsor();
 
-        listOfTwoSponsors.addSponsor(sponsor1);
-        listOfTwoSponsors.addSponsor(sponsor2);
-        List<Sponsor> sponsors = listOfTwoSponsors.getSponsorsList();
+        sponsorService.addSponsor(sponsor1);
+        sponsorService.addSponsor(sponsor2);
 
-        assertThat(sponsors.size()).isEqualTo(1);
-        assertThat(sponsors).contains(sponsor1);
+        List<Sponsor> sponsors = sponsorService.getSponsorsList();
+        assertThat(sponsors).containsExactly(sponsor1);
     }
 
     @Test
