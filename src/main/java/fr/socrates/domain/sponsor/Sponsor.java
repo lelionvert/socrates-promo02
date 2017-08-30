@@ -43,6 +43,7 @@ public class Sponsor {
     }
 
     public static class SponsorBuilder {
+        private final SirenValidator sirenValidator = new SirenValidator();
         private String name;
         private Siret siret;
         private String siren;
@@ -57,10 +58,14 @@ public class Sponsor {
 
         public SponsorBuilder withSIRET(String siret) {
             this.siret = Siret.of(siret);
+            this.withSIREN(siret.substring(0, 9));
             return this;
         }
 
         public SponsorBuilder withSIREN(String siren) {
+            if ((siren == null || !sirenValidator.isSirenValid(siren))) {
+                throw new IllegalStateException("Siren must be valid and not empty  ");
+            }
             this.siren = siren;
             return this;
         }
@@ -81,24 +86,7 @@ public class Sponsor {
         }
 
         public Sponsor createSponsor() {
-            if ((siren == null || !this.isSirenValid(siren))) {
-                throw new IllegalStateException("Siren must be valid and not empty  ");
-            }
             return new Sponsor(new SponsorID(siren), name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
-        }
-
-        private boolean isSirenValid(String siren) {
-            int total = 0;
-            int digit = 0;
-
-            for (int i = 0; i < siren.length(); i++) {
-                if ((i % 2) == 1) {
-                    digit = Integer.parseInt(String.valueOf(siren.charAt(i))) * 2;
-                    if (digit > 9) digit -= 9;
-                } else digit = Integer.parseInt(String.valueOf(siren.charAt(i)));
-                total += digit;
-            }
-            return (total % 10) == 0;
         }
     }
 }
