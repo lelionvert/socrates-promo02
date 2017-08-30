@@ -43,7 +43,6 @@ public class Sponsor {
     }
 
     public static class SponsorBuilder {
-        private final SiretValidator siretValidator = new SiretValidator();
         private String name;
         private Siret siret;
         private String siren;
