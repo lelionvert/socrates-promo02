@@ -43,6 +43,7 @@ public class Sponsor {
     }
 
     public static class SponsorBuilder {
+        private final SiretValidator siretValidator = new SiretValidator();
         private String name;
         private String siret;
         private String siren;
@@ -83,7 +84,7 @@ public class Sponsor {
         public Sponsor createSponsor() {
             if ((siren == null || !this.isSirenValid(siren))) {
                 throw new IllegalStateException("Siren must be valid and not empty  ");
-            } else if ((siret != null && !isSiretSyntaxValide(siret))) {
+            } else if ((siret != null && !siretValidator.isSiretSyntaxValide(siret))) {
                 throw new IllegalStateException("Siret must be valid");
             }
             return new Sponsor(new SponsorID(siren), name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
@@ -104,18 +105,7 @@ public class Sponsor {
         }
 
         private boolean isSiretSyntaxValide(String siret) {
-            int total = 0;
-            int digit = 0;
-
-            for (int i = 0; i < siret.length(); i++) {
-
-                if ((i % 2) == 0) {
-                    digit = Integer.parseInt(String.valueOf(siret.charAt(i))) * 2;
-                    if (digit > 9) digit -= 9;
-                } else digit = Integer.parseInt(String.valueOf(siret.charAt(i)));
-                total += digit;
-            }
-            return (total % 10) == 0;
+            return siretValidator.isSiretSyntaxValide(siret);
         }
     }
 }
