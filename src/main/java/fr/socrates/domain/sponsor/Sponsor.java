@@ -3,11 +3,11 @@ package fr.socrates.domain.sponsor;
 public class Sponsor {
 
     private final SponsorID sponsorID;
-    private String name;
+    private final String name;
     private final Siret siret;
     private final String siren;
-    private String contractRepresentative;
-    private String contact;
+    private final String contractRepresentative;
+    private final String contact;
     private double amountOfSponsoring;
 
     @Override
