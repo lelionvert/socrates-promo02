@@ -101,9 +101,5 @@ public class Sponsor {
             }
             return (total % 10) == 0;
         }
-
-        private boolean isSiretSyntaxValide(String siret) {
-            return siretValidator.isSiretSyntaxValid(siret);
-        }
     }
 }
