@@ -5,8 +5,8 @@ import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.ConfirmationServiceImpl;
+import fr.socrates.domain.attendee.Payment;
 import fr.socrates.domain.candidate.*;
-import fr.socrates.domain.attendee.*;
 import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.checkin.CheckInRepository;
 import fr.socrates.domain.checkin.CheckInService;
@@ -73,12 +73,10 @@ class Main {
                     try {
                         create = candidateService.add(createCandidate(scanner, consolePrinter));
                     } catch (CandidatePersisteDataException e) {
-                        e.printStackTrace();
+                        consolePrinter.print(e.toString());
                     } catch (CandidateExistingException e) {
-                        e.printStackTrace();
+                        consolePrinter.print(e.toString());
                     }
-                    if(!create)
-                        consolePrinter.print("Le candidat a deja ete ajoute");
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -90,9 +88,9 @@ class Main {
                     break;
                 case THREE:
                     consolePrinter.print("Ajouter un sponsor : ");
-                    try{
+                    try {
                         sponsorService.addSponsor(createSponsor(scanner, consolePrinter));
-                    }catch (IllegalArgumentException e){
+                    } catch (IllegalArgumentException e) {
                         consolePrinter.print(" \n" +
                                 " /!\\ Erreur d'ajout du sponsor. Les SIREN et/ou SIRET sont invalides /!\\ \n");
                     }
