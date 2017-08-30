@@ -2,11 +2,11 @@ package fr.socrates.api.controller;
 
 import fr.socrates.SocratesApplication;
 import fr.socrates.api.DTO.ConfirmationDTO;
-import fr.socrates.domain.attendee.Accommodation;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.Payment;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateService;
+import fr.socrates.domain.common.AccommodationChoice;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,7 +56,7 @@ public class ConfirmationControllerTest {
     public void should_return_all_confirmations_as_json() throws Exception {
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
-        confirmationService.confirm("john@doe.fr", LocalDate.now(), Payment.TRANSFER, Accommodation.SINGLE_ROOM);
+        confirmationService.confirm("john@doe.fr", LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM);
 
         this.mvc.perform(get("/confirmations"))
                 .andExpect(status().isOk())
@@ -69,13 +69,13 @@ public class ConfirmationControllerTest {
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
 
-        ConfirmationDTO confirmationDTO = ConfirmationDTO.mapToDTO("johndoe@dodo.fr", Accommodation.SINGLE_ROOM, Payment.TRANSFER);
+        ConfirmationDTO confirmationDTO = ConfirmationDTO.mapToDTO("johndoe@dodo.fr", AccommodationChoice.SINGLE_ROOM, Payment.TRANSFER);
         this.mvc.perform(post("/confirmations")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(confirmationDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email", is("johndoe@dodo.fr")))
-                .andExpect(jsonPath("$.accommodation", is("SINGLE_ROOM")))
+                .andExpect(jsonPath("$.accommodationChoice", is("SINGLE_ROOM")))
                 .andExpect(jsonPath("$.payment", is("TRANSFER")));
     }
 
@@ -84,7 +84,7 @@ public class ConfirmationControllerTest {
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
 
-        ConfirmationDTO confirmationDTOOnNonExistingCandidate = ConfirmationDTO.mapToDTO("johndoe@notExistingCandidate.fr", Accommodation.SINGLE_ROOM, Payment.TRANSFER);
+        ConfirmationDTO confirmationDTOOnNonExistingCandidate = ConfirmationDTO.mapToDTO("johndoe@notExistingCandidate.fr", AccommodationChoice.SINGLE_ROOM, Payment.TRANSFER);
         this.mvc.perform(post("/confirmations")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(confirmationDTOOnNonExistingCandidate)))

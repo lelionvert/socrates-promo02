@@ -3,6 +3,7 @@ package fr.socrates.domain.attendee;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateService;
 import fr.socrates.domain.candidate.CandidateServiceImpl;
+import fr.socrates.domain.common.AccommodationChoice;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import fr.socrates.infra.repositories.InMemoryConfirmationRepository;
 import org.assertj.core.api.Assertions;
@@ -35,22 +36,22 @@ public class ConfirmationFeature {
         candidateService.add(patrick);
         candidateService.add(peter);
 
-        confirmationService.confirm("john@test.com", now, Payment.TRANSFER, Accommodation.SINGLE_ROOM);
-        confirmationService.confirm("patrick@test.com", now, Payment.AT_CHECKOUT, Accommodation.DOUBLE_ROOM);
+        confirmationService.confirm("john@test.com", now, Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM);
+        confirmationService.confirm("patrick@test.com", now, Payment.AT_CHECKOUT, AccommodationChoice.DOUBLE_ROOM);
 
         List<Confirmation> confirmations = confirmationService.getListConfirmations();
 
         final Confirmation johnConfirmation = confirmations.get(0);
         Assertions.assertThat(johnConfirmation.toString()).isEqualTo("Confirmation{candidateId=" + john.getCandidateId() +
                 ", confirmationDate=" + now +
-                ", accommodation=" + Accommodation.SINGLE_ROOM +
+                ", accommodationChoice=" + AccommodationChoice.SINGLE_ROOM +
                 ", payment=" + Payment.TRANSFER +
                 '}');
 
         final Confirmation patrickConfirmation = confirmations.get(1);
         Assertions.assertThat(patrickConfirmation.toString()).isEqualTo("Confirmation{candidateId=" + patrick.getCandidateId() +
                 ", confirmationDate=" + now +
-                ", accommodation=" + Accommodation.DOUBLE_ROOM +
+                ", accommodationChoice=" + AccommodationChoice.DOUBLE_ROOM +
                 ", payment=" + Payment.AT_CHECKOUT +
                 '}');
     }

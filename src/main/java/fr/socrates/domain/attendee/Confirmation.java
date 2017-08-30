@@ -2,19 +2,20 @@ package fr.socrates.domain.attendee;
 
 
 import fr.socrates.domain.CandidateId;
+import fr.socrates.domain.common.AccommodationChoice;
 
 import java.time.LocalDate;
 
 public class Confirmation {
     private final CandidateId candidateId;
     private final LocalDate confirmationDate;
-    private final Accommodation accommodation;
+    private final AccommodationChoice accommodationChoice;
     private final Payment payment;
 
-    public Confirmation(CandidateId candidateId, LocalDate date, Accommodation accommodation, Payment payment) {
+    public Confirmation(CandidateId candidateId, LocalDate date, AccommodationChoice accommodationChoice, Payment payment) {
         this.candidateId = candidateId;
         this.confirmationDate = date;
-        this.accommodation = accommodation;
+        this.accommodationChoice = accommodationChoice;
         this.payment = payment;
     }
 
@@ -27,7 +28,7 @@ public class Confirmation {
         return "Confirmation{" +
                 "candidateId=" + candidateId +
                 ", confirmationDate=" + confirmationDate +
-                ", accommodation=" + accommodation +
+                ", accommodationChoice=" + accommodationChoice +
                 ", payment=" + payment +
                 '}';
     }
@@ -41,7 +42,7 @@ public class Confirmation {
 
         if (!candidateId.equals(that.candidateId)) return false;
         if (!confirmationDate.equals(that.confirmationDate)) return false;
-        if (accommodation != that.accommodation) return false;
+        if (accommodationChoice != that.accommodationChoice) return false;
         return payment == that.payment;
     }
 
@@ -49,7 +50,7 @@ public class Confirmation {
     public int hashCode() {
         int result = candidateId.hashCode();
         result = 31 * result + confirmationDate.hashCode();
-        result = 31 * result + accommodation.hashCode();
+        result = 31 * result + accommodationChoice.hashCode();
         result = 31 * result + payment.hashCode();
         return result;
     }
@@ -58,8 +59,8 @@ public class Confirmation {
         return payment;
     }
 
-    public Accommodation getAccommodation() {
-        return accommodation;
+    public AccommodationChoice getAccommodationChoice() {
+        return accommodationChoice;
     }
 
 }

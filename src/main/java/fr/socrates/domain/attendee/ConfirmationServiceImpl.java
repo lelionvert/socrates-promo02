@@ -2,6 +2,7 @@ package fr.socrates.domain.attendee;
 
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
+import fr.socrates.domain.common.AccommodationChoice;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -36,7 +37,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     }
 
     @Override
-    public boolean confirm(String candidateEmail, LocalDate date, Payment payment, Accommodation accommodation) {
+    public boolean confirm(String candidateEmail, LocalDate date, Payment payment, AccommodationChoice accommodationChoice) {
         Optional<Candidate> foundCandidate = candidateRepository.findByEmail(candidateEmail);
         if (!foundCandidate.isPresent()) {
             return false;
@@ -48,7 +49,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
             return false;
         }
 
-        confirmationRepository.add(new Confirmation(candidate.getCandidateId(), date, accommodation, payment));
+        confirmationRepository.add(new Confirmation(candidate.getCandidateId(), date, accommodationChoice, payment));
         return true;
     }
 

@@ -1,4 +1,4 @@
-package fr.socrates.domain.candidate;
+package fr.socrates.domain.common;
 
 import java.util.Arrays;
 

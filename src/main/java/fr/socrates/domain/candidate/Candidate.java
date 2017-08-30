@@ -1,9 +1,11 @@
 package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.CandidateId;
+import fr.socrates.domain.common.AccommodationChoice;
+import fr.socrates.domain.common.AccommodationChoices;
 
-import static fr.socrates.domain.candidate.AccommodationChoices.*;
-import static fr.socrates.domain.candidate.AccommodationChoices.AccommodationChoicesBuilder.*;
+import static fr.socrates.domain.common.AccommodationChoices.*;
+import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder.*;
 import static fr.socrates.domain.candidate.Candidate.CandidateBuilder.aCandidate;
 
 public class Candidate {

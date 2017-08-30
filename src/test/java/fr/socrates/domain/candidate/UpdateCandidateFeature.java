@@ -1,6 +1,8 @@
 package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.CandidateId;
+import fr.socrates.domain.common.AccommodationChoice;
+import fr.socrates.domain.common.AccommodationChoices;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -9,8 +11,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Optional;
 
-import static fr.socrates.domain.candidate.AccommodationChoices.AccommodationChoicesBuilder;
-import static fr.socrates.domain.candidate.AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices;
+import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder;
+import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices;
 import static fr.socrates.domain.candidate.ContactInformation.ContactInformationsBuilder.aContactInformations;
 
 

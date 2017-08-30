@@ -1,20 +1,17 @@
 package fr.socrates.api.controller;
 
 import fr.socrates.api.DTO.ConfirmationDTO;
-import fr.socrates.domain.CandidateId;
-import fr.socrates.domain.attendee.Accommodation;
-import fr.socrates.domain.attendee.Confirmation;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.Payment;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateService;
+import fr.socrates.domain.common.AccommodationChoice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,7 +30,7 @@ public class ConfirmationController {
         ArrayList<ConfirmationDTO> confirmationDTOS = new ArrayList<>();
         confirmationService.getListConfirmations().forEach(confirmation ->{
             Optional<Candidate> candidateByCandidateID = candidateService.findCandidateByCandidateID(confirmation.getCandidateId());
-            candidateByCandidateID.ifPresent(candidate -> confirmationDTOS.add(ConfirmationDTO.mapToDTO(candidate.getEmail().getEmail(), confirmation.getAccommodation(), confirmation.getPayment())));
+            candidateByCandidateID.ifPresent(candidate -> confirmationDTOS.add(ConfirmationDTO.mapToDTO(candidate.getEmail().getEmail(), confirmation.getAccommodationChoice(), confirmation.getPayment())));
         } );
         return ResponseEntity.ok(confirmationDTOS);
     }
@@ -41,10 +38,10 @@ public class ConfirmationController {
     @PostMapping
     public ResponseEntity confirmCandidate(@RequestBody ConfirmationDTO confirmationDTO) {
 
-        boolean confirm = confirmationService.confirm(confirmationDTO.getEmail(), LocalDate.now(), Payment.TRANSFER, Accommodation.SINGLE_ROOM);
+        boolean confirm = confirmationService.confirm(confirmationDTO.getEmail(), LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM);
 
         if (confirm) {
-            return ResponseEntity.ok(ConfirmationDTO.mapToDTO(confirmationDTO.getEmail(), confirmationDTO.getAccommodation(), confirmationDTO.getPayment()));
+            return ResponseEntity.ok(ConfirmationDTO.mapToDTO(confirmationDTO.getEmail(), confirmationDTO.getAccommodationChoice(), confirmationDTO.getPayment()));
         } else {
             return ResponseEntity.notFound().build();
         }
