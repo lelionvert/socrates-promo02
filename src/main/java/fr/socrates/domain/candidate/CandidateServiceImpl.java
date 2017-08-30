@@ -18,12 +18,20 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public boolean add(Candidate candidate) throws CandidatePersisteDataException, CandidateExistingException {
-        if (candidateRepository.findByCandidateID(candidate.getCandidateId()).isPresent())
-            throw new CandidateExistingException("Candidate Already exist");
+        checkThatCandidateDoesntExist(candidate);
+        checkSuccessfulCandidateSave(candidate);
+        return true;
+    }
+
+    private void checkSuccessfulCandidateSave(Candidate candidate) throws CandidatePersisteDataException {
         final boolean successfulSave = candidateRepository.save(candidate);
         if (!successfulSave)
             throw new CandidatePersisteDataException("Cannot Save Candidate ");
-        return true;
+    }
+
+    private void checkThatCandidateDoesntExist(Candidate candidate) throws CandidateExistingException {
+        if (candidateRepository.findByCandidateID(candidate.getCandidateId()).isPresent())
+            throw new CandidateExistingException("Candidate Already exist");
     }
 
     @Override
