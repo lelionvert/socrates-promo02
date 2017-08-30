@@ -1,10 +1,15 @@
 package fr.socrates.domain.sponsor;
 
+import javax.validation.constraints.NotNull;
+
 public class SiretValidator {
+
+    private static final int CHAR_0 = 48;
+
     public SiretValidator() {
     }
 
-    boolean isSiretSyntaxValid(String siret) {
+    boolean isSiretSyntaxValid(@NotNull String siret) {
         if (siret == null) {
             return false;
         }
@@ -17,13 +22,19 @@ public class SiretValidator {
         int digit;
 
         for (int i = 0; i < siretWithoutSpaces.length(); i++) {
-
+            digit = charToInt(siretWithoutSpaces.charAt(i));
             if ((i % 2) == 0) {
-                digit = Integer.parseInt(String.valueOf(siretWithoutSpaces.charAt(i))) * 2;
-                if (digit > 9) digit -= 9;
-            } else digit = Integer.parseInt(String.valueOf(siretWithoutSpaces.charAt(i)));
+                digit = digit * 2;
+                if (digit > 9) {
+                    digit -= 9;
+                }
+            }
             total += digit;
         }
         return (total % 10) == 0;
+    }
+
+    private int charToInt(Character character) {
+        return character - CHAR_0;
     }
 }

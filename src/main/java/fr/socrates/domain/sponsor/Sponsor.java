@@ -4,7 +4,7 @@ public class Sponsor {
 
     private final SponsorID sponsorID;
     private String name;
-    private String siret;
+    private Siret siret;
     private final String siren;
     private String contractRepresentative;
     private String contact;
@@ -32,10 +32,10 @@ public class Sponsor {
                 '}';
     }
 
-    private Sponsor(SponsorID sponsorID, String name, String SIRET, String siren, String contractRepresentative, String contact, double amountOfSponsoring) {
+    private Sponsor(SponsorID sponsorID, String name, Siret siret, String siren, String contractRepresentative, String contact, double amountOfSponsoring) {
         this.sponsorID = sponsorID;
         this.name = name;
-        this.siret = SIRET;
+        this.siret = siret;
         this.siren = siren;
         this.contractRepresentative = contractRepresentative;
         this.contact = contact;
@@ -45,7 +45,7 @@ public class Sponsor {
     public static class SponsorBuilder {
         private final SiretValidator siretValidator = new SiretValidator();
         private String name;
-        private String siret;
+        private Siret siret;
         private String siren;
         private String contractRepresentative;
         private String contact;
@@ -57,7 +57,7 @@ public class Sponsor {
         }
 
         public SponsorBuilder withSIRET(String siret) {
-            this.siret = siret;
+            this.siret = Siret.of(siret);
             return this;
         }
 
@@ -84,8 +84,6 @@ public class Sponsor {
         public Sponsor createSponsor() {
             if ((siren == null || !this.isSirenValid(siren))) {
                 throw new IllegalStateException("Siren must be valid and not empty  ");
-            } else if ((siret != null && !siretValidator.isSiretSyntaxValid(siret))) {
-                throw new IllegalStateException("Siret must be valid");
             }
             return new Sponsor(new SponsorID(siren), name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
         }

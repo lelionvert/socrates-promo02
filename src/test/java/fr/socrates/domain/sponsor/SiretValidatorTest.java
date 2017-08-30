@@ -35,7 +35,7 @@ public class SiretValidatorTest {
     }
 
     @Test
-    public void spaces_should_not_interfere_with_sire_validation() throws Exception {
+    public void spaces_should_not_interfere_with_siret_validation() throws Exception {
         assertThat(siretValidator.isSiretSyntaxValid("513 205 344 00031")).isTrue();
     }
 

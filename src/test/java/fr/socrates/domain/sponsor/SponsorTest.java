@@ -7,4 +7,9 @@ public class SponsorTest {
     public void should_not_allow_null_siren() throws Exception {
         new Sponsor.SponsorBuilder().withSIREN(null).createSponsor();
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void should_not_allow_invalid_siret() throws Exception {
+        new Sponsor.SponsorBuilder().withSIRET("");
+    }
 }
