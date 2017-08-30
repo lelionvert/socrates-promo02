@@ -5,10 +5,7 @@ import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.ConfirmationServiceImpl;
-import fr.socrates.domain.candidate.Candidate;
-import fr.socrates.domain.candidate.CandidateRepository;
-import fr.socrates.domain.candidate.CandidateService;
-import fr.socrates.domain.candidate.CandidateServiceImpl;
+import fr.socrates.domain.candidate.*;
 import fr.socrates.domain.attendee.*;
 import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.checkin.CheckInRepository;
@@ -72,7 +69,14 @@ class Main {
             switch (choice) {
                 case ONE:
                     consolePrinter.print("Ajouter un candidat : ");
-                    boolean create = candidateService.add(createCandidate(scanner, consolePrinter));
+                    boolean create = false;
+                    try {
+                        create = candidateService.add(createCandidate(scanner, consolePrinter));
+                    } catch (CandidatePersisteDataException e) {
+                        e.printStackTrace();
+                    } catch (CandidateExistingException e) {
+                        e.printStackTrace();
+                    }
                     if(!create)
                         consolePrinter.print("Le candidat a deja ete ajoute");
                     consolePrinter.print(MENU_MESSAGE);

@@ -33,7 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {SocratesApplication.class})
 @SpringBootTest
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class ConfirmationControllerTest {
+public class
+ConfirmationControllerTest {
     private MockMvc mvc;
 
     @Autowired
