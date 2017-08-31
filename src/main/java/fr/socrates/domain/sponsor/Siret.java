@@ -1,46 +1,40 @@
 package fr.socrates.domain.sponsor;
 
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
+import java.util.Optional;
 
 public class Siret {
-    private final String siret;
+    private final Siren siren;
+    private final String nic;
 
-    public Siret(String siret) {
-        this.siret = siret;
+    public Siret(@NotNull String siret) {
+        final Optional<String> siretWithRightLength = Optional.of(siret)
+                .map(new WhitespaceRemover())
+                .filter(this::hasRightLength)
+                .filter(LuhnValidator.SIRET);
+
+        this.siren = siretWithRightLength
+                .map(this::extractSiren)
+                .map(Siren::new)
+                .orElseThrow(IllegalStateException::new);
+        this.nic = siretWithRightLength
+                .map(this::extractNic)
+                .orElseThrow(IllegalStateException::new);
     }
 
-    public static Siret of(@NotNull String siret) {
-        Objects.requireNonNull(siret);
-        if (!isSiretSyntaxValid(siret)) {
-            throw new IllegalStateException("Siret is invalid : " + siret);
-        }
-        return new Siret(siret);
+    private boolean hasRightLength(String s) {
+        return s.length() == 14;
     }
 
-    private static boolean isSiretSyntaxValid(String siret) {
-        String siretWithoutSpaces = siret.replaceAll(" ", "");
-        if (siretWithoutSpaces.length() != 14) {
-            return false;
-        }
-
-        int total = 0;
-        int digit;
-
-        for (int i = 0; i < siretWithoutSpaces.length(); i++) {
-            digit = siretWithoutSpaces.charAt(i) - 48;
-            if ((i % 2) == 0) {
-                digit = digit * 2;
-                if (digit > 9) {
-                    digit -= 9;
-                }
-            }
-            total += digit;
-        }
-        return (total % 10) == 0;
+    private String extractNic(String siret) {
+        return siret.substring(9);
     }
 
-    public Siren toSiren() {
-        return Siren.of(this.siret.substring(0, 9));
+    private String extractSiren(String siret) {
+        return siret.substring(0, 9);
+    }
+
+    public Siren getSiren() {
+        return this.siren;
     }
 }

@@ -51,7 +51,7 @@ public class Sponsor {
         }
 
         public SponsorBuilder withSIRET(String siret) {
-            this.withSIREN(Siret.of(siret).toSiren());
+            this.withSIREN(new Siret(siret).getSiren());
             return this;
         }
 
@@ -61,7 +61,7 @@ public class Sponsor {
         }
 
         public SponsorBuilder withSIREN(String siren) {
-            this.siren = Siren.of(siren);
+            this.siren = new Siren(siren);
             return this;
         }
 

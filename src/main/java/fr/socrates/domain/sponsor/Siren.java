@@ -1,41 +1,21 @@
 package fr.socrates.domain.sponsor;
 
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
+import java.util.Optional;
 
 public class Siren {
     private final String siren;
 
-    public Siren(String siren) {
-        this.siren = siren;
+    public Siren(@NotNull String siren) {
+        this.siren = Optional.of(siren)
+                .map(new WhitespaceRemover())
+                .filter(this::hasRightLength)
+                .filter(LuhnValidator.SIREN)
+                .orElseThrow(IllegalStateException::new);
     }
 
-    public static Siren of(@NotNull String siren) {
-        Objects.requireNonNull(siren);
-        if (!isSirenValid(siren)) {
-            throw new IllegalStateException();
-        }
-        return new Siren(siren);
-    }
-
-    private static boolean isSirenValid(String siren) {
-        String sirenWithoutSpaces = siren.replaceAll(" ", "");
-        if (sirenWithoutSpaces.length() != 9) {
-            return false;
-        }
-
-        int total = 0;
-        int digit = 0;
-
-        for (int i = 0; i < sirenWithoutSpaces.length(); i++) {
-            digit = sirenWithoutSpaces.charAt(i) - 48;
-            if ((i % 2) == 1) {
-                digit *= 2;
-                if (digit > 9) digit -= 9;
-            }
-            total += digit;
-        }
-        return (total % 10) == 0;
+    private boolean hasRightLength(String siren) {
+        return siren.length() == 9;
     }
 
     @Override
