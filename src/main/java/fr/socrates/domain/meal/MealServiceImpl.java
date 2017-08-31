@@ -52,43 +52,24 @@ public class MealServiceImpl implements MealService {
 
         List<MealTime> mealTimes = Arrays.asList(MealTime.values());
 
-        Map<Diet, Long> dietPerListOfDiet = getMapDietPerListOfDiet(attendees);
-
+        Map<Diet, List<Candidate>> dietPerListOfDiet = getMapDietPerListOfDiet(attendees);
 
         Map<DietOrder, Quantity> coversByDietByDay = new HashMap<>();
-        for (MealTime mealTime : mealTimes) {
-            for (Map.Entry<Diet, Long> diet : dietPerListOfDiet.entrySet()) {
+        for (Map.Entry<Diet, List<Candidate>> diet : dietPerListOfDiet.entrySet()) {
+            for (MealTime mealTime : mealTimes) {
                 DietOrder dietOrder = new DietOrder(mealTime, diet.getKey());
-                Quantity quantity = Quantity.of(diet.getValue());
+                List<Candidate> candidates = diet.getValue();
+                Quantity quantity = Quantity.of(candidates.stream()
+                        .filter(candidate -> checkInService.isCandidatePresentAt(candidate.getCandidateId(), mealTime.getDateTime()))
+                        .count());
                 coversByDietByDay.put(dietOrder, quantity);
             }
         }
-
-        adjustForThursday(coversByDietByDay,attendees);
         return new Catering(coversByDietByDay);
     }
 
-    private void adjustForThursday(Map<DietOrder, Quantity> coversByDietByDay,List<Candidate> attendees) {
-        for (Candidate attendee : attendees) {
-            boolean eatColdThursday = checkInService.doesCandidateArriveAfter(attendee.getCandidateId(), COLD_FOOD_HOUR);
-            if(eatColdThursday)
-            {
-                Diet diet = attendee.getDiet();
-                Quantity quantity = coversByDietByDay.get(new DietOrder(MealTime.THURSDAY_NIGHT,diet));
-                coversByDietByDay.put(new DietOrder(MealTime.THURSDAY_NIGHT,diet),Quantity.of(quantity.getQuantity()-1));
-            }
-        }
-
-    }
-
-    private Map<DietOrder, Quantity> createDietOrder(Map.Entry<Diet,Long> diet, MealTime mealTime) {
-        DietOrder dietOrder = new DietOrder(mealTime, diet.getKey());
-        Quantity quantity = Quantity.of(diet.getValue());
-        return Collections.singletonMap(dietOrder, quantity);
-    }
-
-    private Map<Diet, Long> getMapDietPerListOfDiet(List<Candidate> attendees) {
+    private Map<Diet, List<Candidate>> getMapDietPerListOfDiet(List<Candidate> attendees) {
         return attendees.stream()
-                .collect(Collectors.groupingBy(attendee -> attendee.getDiet(), Collectors.counting()));
+                .collect(Collectors.groupingBy(attendee -> attendee.getDiet()));
     }
 }

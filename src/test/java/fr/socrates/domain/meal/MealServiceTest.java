@@ -9,8 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static fr.socrates.domain.meal.Diet.NORMAL;
@@ -32,6 +34,7 @@ public class MealServiceTest {
     @Before
     public void setUp() throws Exception {
         mealService = new MealServiceImpl(checkInService, confirmationService);
+        when(checkInService.isCandidatePresentAt(Mockito.any(),Mockito.any())).thenReturn(true);
     }
 
     @Test
@@ -106,11 +109,8 @@ public class MealServiceTest {
                 new CandidateBuilder().withEmail("roi@loth.fr").withDiet(VEGAN).withCandidateId(new CandidateId("4")).createCandidate(),
                 new CandidateBuilder().withEmail("bo@hort.fr").withDiet(Diet.PESCATARIAN).withCandidateId(new CandidateId("5")).createCandidate());
         when(confirmationService.getListAttendee()).thenReturn(attendees);
-        when(checkInService.doesCandidateArriveAfter(attendees.get(0).getCandidateId(), 21)).thenReturn(false);
-        when(checkInService.doesCandidateArriveAfter(attendees.get(1).getCandidateId(), 21)).thenReturn(true);
-        when(checkInService.doesCandidateArriveAfter(attendees.get(2).getCandidateId(), 21)).thenReturn(false);
-        when(checkInService.doesCandidateArriveAfter(attendees.get(3).getCandidateId(), 21)).thenReturn(false);
-        when(checkInService.doesCandidateArriveAfter(attendees.get(4).getCandidateId(), 21)).thenReturn(false);
+
+        when(checkInService.isCandidatePresentAt(attendees.get(1).getCandidateId(), MealTime.THURSDAY_NIGHT.getDateTime())).thenReturn(false);
 
         Catering cateringOrdering = mealService.generateOrder();
 

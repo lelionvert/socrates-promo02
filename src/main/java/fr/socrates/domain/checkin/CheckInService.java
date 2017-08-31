@@ -2,8 +2,10 @@ package fr.socrates.domain.checkin;
 
 import fr.socrates.domain.CandidateId;
 
+import java.time.LocalDateTime;
+
 public interface CheckInService {
     long countCheckinAfter(int hour);
     boolean addNewCheckIn(CheckIn checkIn);
-    boolean doesCandidateArriveAfter(CandidateId candidateId, int hour);
+    boolean isCandidatePresentAt(CandidateId candidateId, LocalDateTime dateTime);
 }
