@@ -56,8 +56,8 @@ public class CandidateServiceImplTest {
     @Test
     public void should_accept_to_add_candidate_if_he_doesnt_exist_before() throws Exception {
         final String email = "john@doe.fr";
-        final boolean candidateAddingStatus = candidateService.add(Candidate.singleRoomWithEmail(email));
-        assertThat(candidateAddingStatus).isTrue();
+        candidateService.add(Candidate.singleRoomWithEmail(email));
+
     }
 
 
@@ -75,7 +75,7 @@ public class CandidateServiceImplTest {
         final Candidate candidate = Candidate.singleRoomWithEmail(email);
         candidateService = new CandidateServiceImpl(candidateRepository);
         when(candidateRepository.save(any())).thenReturn(false);
-        when(candidateRepository.findByCandidateID(any())).thenReturn(Optional.empty());
+        when(candidateRepository.findByEmail(any())).thenReturn(Optional.empty());
         candidateService.add(candidate);
 
 

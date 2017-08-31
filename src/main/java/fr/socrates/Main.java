@@ -69,12 +69,9 @@ class Main {
             switch (choice) {
                 case ONE:
                     consolePrinter.print("Ajouter un candidat : ");
-                    boolean create = false;
                     try {
-                        create = candidateService.add(createCandidate(scanner, consolePrinter));
-                    } catch (CandidatePersisteDataException e) {
-                        consolePrinter.print(e.toString());
-                    } catch (CandidateExistingException e) {
+                        candidateService.add(createCandidate(scanner, consolePrinter));
+                    } catch (CandidatePersisteDataException | CandidateExistingException e) {
                         consolePrinter.print(e.toString());
                     }
                     consolePrinter.print(MENU_MESSAGE);
