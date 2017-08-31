@@ -6,6 +6,7 @@ import fr.socrates.domain.checkin.CheckInService;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class MealServiceImpl implements MealService {
@@ -52,10 +53,10 @@ public class MealServiceImpl implements MealService {
 
         List<MealTime> mealTimes = Arrays.asList(MealTime.values());
 
-        Map<Diet, List<Diet>> dietPerListOfDiet = getMapDietPerListOfDiet(attendees);
+        Map<Diet, Long> dietPerListOfDiet = getMapDietPerListOfDiet(attendees);
 
         Map<DietOrder, Quantity> coversByDietByDay = Collections.emptyMap();
-        for (Map.Entry<Diet, List<Diet>> diet : dietPerListOfDiet.entrySet()) {
+        for (Map.Entry<Diet, Long> diet : dietPerListOfDiet.entrySet()) {
             for (MealTime mealTime : mealTimes) {
                 Map<DietOrder, Quantity> dietOrder = createDietOrder(diet, mealTime);
                 coversByDietByDay = concat(coversByDietByDay, dietOrder);
@@ -65,9 +66,9 @@ public class MealServiceImpl implements MealService {
         return new Catering(coversByDietByDay);
     }
 
-    private Map<DietOrder, Quantity> createDietOrder(Map.Entry<Diet, List<Diet>> diet, MealTime mealTime) {
+    private Map<DietOrder, Quantity> createDietOrder(Map.Entry<Diet,Long> diet, MealTime mealTime) {
         DietOrder dietOrder = new DietOrder(mealTime, diet.getKey());
-        Quantity quantity = Quantity.of(diet.getValue().size());
+        Quantity quantity = Quantity.of(diet.getValue());
         return Collections.singletonMap(dietOrder, quantity);
     }
 
@@ -78,9 +79,8 @@ public class MealServiceImpl implements MealService {
         return newMap;
     }
 
-    private Map<Diet, List<Diet>> getMapDietPerListOfDiet(List<Candidate> attendees) {
+    private Map<Diet, Long> getMapDietPerListOfDiet(List<Candidate> attendees) {
         return attendees.stream()
-                .map(Candidate::getDiet)
-                .collect(Collectors.groupingBy(Function.identity()));
+                .collect(Collectors.groupingBy(attendee -> attendee.getDiet(), Collectors.counting()));
     }
 }
