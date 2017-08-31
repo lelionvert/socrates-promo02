@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class ConfirmationServiceImpl implements ConfirmationService {
@@ -27,9 +30,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
         final List<Confirmation> confirmationsList = confirmationRepository.getConfirmations();
         for (Confirmation confirmation : confirmationsList) {
             Optional<Candidate> foundCandidate = candidateRepository.findByCandidateID(confirmation.getCandidateId());
-            if (foundCandidate.isPresent()) {
-                attendeesList.add(foundCandidate.get());
-            }
+            foundCandidate.ifPresent(attendeesList::add);
         }
         return attendeesList;
 

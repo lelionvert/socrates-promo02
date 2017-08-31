@@ -25,16 +25,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MealCoversFeature {
-    public static final String JOHN_DOE_FR = "john@doe.fr";
-    public static final String ARTHUR_LEROI_FR = "arthur@leroi.fr";
-    public static final String RAJESH_KOOTRAPOLI_COM = "rajesh@kootrapoli.com";
-    public static final String SHELDON_COOPER_COM = "sheldon@cooper.com";
-    public static final String LEONARD_HOFSTADTER_COM = "leonard@hofstadter.com";
-    public static final String HOWARD_WOLOWITZ_COM = "howard@wolowitz.com";
-    public static final String LEO_DAGAN_FR = "leo@dagan.fr";
-    public static final String KARA_DOC_FR = "kara@doc.fr";
-    public static final String PERSE_VAL_FR = "perse@val.fr";
+public class MealCateringFeature {
+    private static final String JOHN_DOE_FR = "john@doe.fr";
+    private static final String ARTHUR_LEROI_FR = "arthur@leroi.fr";
+    private static final String RAJESH_KOOTRAPOLI_COM = "rajesh@kootrapoli.com";
+    private static final String SHELDON_COOPER_COM = "sheldon@cooper.com";
+    private static final String LEONARD_HOFSTADTER_COM = "leonard@hofstadter.com";
+    private static final String HOWARD_WOLOWITZ_COM = "howard@wolowitz.com";
+    private static final String LEO_DAGAN_FR = "leo@dagan.fr";
+    private static final String KARA_DOC_FR = "kara@doc.fr";
+    private static final String PERSE_VAL_FR = "perse@val.fr";
     private Candidate johndoe;
     private Candidate arthurleroi;
     private Candidate rajeshkootrapoli;
@@ -108,33 +108,33 @@ public class MealCoversFeature {
         Map<MealTime, Map<Diet, Long>> expectedDietMap = new HashMap<>();
 
         Map<Diet, Long> numberOfDietsFridayNoon = new HashMap<>();
-        numberOfDietsFridayNoon.put(Diet.VEGAN, 3l);
-        numberOfDietsFridayNoon.put(Diet.PESCATARIAN, 2l);
-        numberOfDietsFridayNoon.put(Diet.NORMAL, 4l);
+        numberOfDietsFridayNoon.put(Diet.VEGAN, 3L);
+        numberOfDietsFridayNoon.put(Diet.PESCATARIAN, 2L);
+        numberOfDietsFridayNoon.put(Diet.NORMAL, 4L);
         expectedDietMap.put(MealTime.FRIDAY_NOON, numberOfDietsFridayNoon);
 
         Map<Diet, Long> numberOfDietsFridayNight = new HashMap<>();
-        numberOfDietsFridayNight.put(Diet.VEGAN,3l);
-        numberOfDietsFridayNight.put(Diet.PESCATARIAN, 2l);
-        numberOfDietsFridayNight.put(Diet.NORMAL, 4l);
+        numberOfDietsFridayNight.put(Diet.VEGAN, 3L);
+        numberOfDietsFridayNight.put(Diet.PESCATARIAN, 2L);
+        numberOfDietsFridayNight.put(Diet.NORMAL, 4L);
         expectedDietMap.put(MealTime.FRIDAY_NIGHT, numberOfDietsFridayNight);
 
         Map<Diet, Long> numberOfDietsSaturdayNoon = new HashMap<>();
-        numberOfDietsSaturdayNoon.put(Diet.VEGAN,3l);
-        numberOfDietsSaturdayNoon.put(Diet.PESCATARIAN, 2l);
-        numberOfDietsSaturdayNoon.put(Diet.NORMAL, 4l);
+        numberOfDietsSaturdayNoon.put(Diet.VEGAN, 3L);
+        numberOfDietsSaturdayNoon.put(Diet.PESCATARIAN, 2L);
+        numberOfDietsSaturdayNoon.put(Diet.NORMAL, 4L);
         expectedDietMap.put(MealTime.SATURDAY_NOON, numberOfDietsSaturdayNoon);
 
         Map<Diet, Long> numberOfDietsSaturdayNight = new HashMap<>();
-        numberOfDietsSaturdayNight.put(Diet.VEGAN,3l);
-        numberOfDietsSaturdayNight.put(Diet.PESCATARIAN, 2l);
-        numberOfDietsSaturdayNight.put(Diet.NORMAL, 4l);
+        numberOfDietsSaturdayNight.put(Diet.VEGAN, 3L);
+        numberOfDietsSaturdayNight.put(Diet.PESCATARIAN, 2L);
+        numberOfDietsSaturdayNight.put(Diet.NORMAL, 4L);
         expectedDietMap.put(MealTime.SATURDAY_NIGHT, numberOfDietsSaturdayNight);
 
         Map<Diet, Long> numberOfDietsSundayNoon = new HashMap<>();
-        numberOfDietsSundayNoon.put(Diet.VEGAN,3l);
-        numberOfDietsSundayNoon.put(Diet.PESCATARIAN, 2l);
-        numberOfDietsSundayNoon.put(Diet.NORMAL, 4l);
+        numberOfDietsSundayNoon.put(Diet.VEGAN, 3L);
+        numberOfDietsSundayNoon.put(Diet.PESCATARIAN, 2L);
+        numberOfDietsSundayNoon.put(Diet.NORMAL, 4L);
         expectedDietMap.put(MealTime.SUNDAY_NOON, numberOfDietsSundayNoon);
 
         return expectedDietMap;
