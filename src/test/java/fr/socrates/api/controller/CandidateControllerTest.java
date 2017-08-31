@@ -39,16 +39,16 @@ public class CandidateControllerTest {
     @Before
     public void setUp() throws Exception {
         this.mvc = MockMvcBuilders
-            .webAppContextSetup(context)
-            .build();
+                .webAppContextSetup(context)
+                .build();
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
     }
 
     @Test
     public void should_return_all_candidates_as_json() throws Exception {
         this.mvc.perform(get("/candidates"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].email", is("john@doe.fr")));
     }
 
@@ -60,14 +60,12 @@ public class CandidateControllerTest {
     }
 
     @Test
-    public void
-
-    should_add_one_candidate_to_repository() throws Exception{
+    public void should_add_one_candidate_to_repository() throws Exception {
         CandidateDTO candidateDTO = CandidateDTO.domainToDTO(Candidate.singleRoomWithEmail("test@test.fr"));
         this.mvc.perform(post("/candidates")
-            .contentType(TestUtils.APPLICATION_JSON_UTF8)
-            .content(TestUtils.convertObjectToJsonBytes(candidateDTO)))
-            .andExpect(status().isOk())
+                .contentType(TestUtils.APPLICATION_JSON_UTF8)
+                .content(TestUtils.convertObjectToJsonBytes(candidateDTO)))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email", is("test@test.fr")));
     }
 }
