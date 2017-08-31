@@ -6,8 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SponsorTest {
     @Test(expected = IllegalStateException.class)
-    public void should_not_allow_null_siren() throws Exception {
-        new Sponsor.SponsorBuilder().withSIREN(null).createSponsor();
+    public void should_not_allow_invalid_siren() throws Exception {
+        new Sponsor.SponsorBuilder().withSIREN("");
     }
 
     @Test(expected = IllegalStateException.class)

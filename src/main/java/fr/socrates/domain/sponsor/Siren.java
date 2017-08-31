@@ -1,6 +1,7 @@
 package fr.socrates.domain.sponsor;
 
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 public class Siren {
     private final String siren;
@@ -9,17 +10,15 @@ public class Siren {
         this.siren = siren;
     }
 
-    public static Siren of(String siren) {
+    public static Siren of(@NotNull String siren) {
+        Objects.requireNonNull(siren);
         if (!isSirenValid(siren)) {
             throw new IllegalStateException();
         }
         return new Siren(siren);
     }
 
-    private static boolean isSirenValid(@NotNull String siren) {
-        if (siren == null) {
-            return false;
-        }
+    private static boolean isSirenValid(String siren) {
         String sirenWithoutSpaces = siren.replaceAll(" ", "");
         if (sirenWithoutSpaces.length() != 9) {
             return false;

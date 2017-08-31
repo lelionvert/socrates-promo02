@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SirenTest {
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = NullPointerException.class)
     public void null_parameter_should_not_be_valid() throws Exception {
         Siren.of(null);
     }
