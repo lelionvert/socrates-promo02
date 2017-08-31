@@ -72,14 +72,14 @@ public class CandidateEntity {
 
         CandidateEntity that = (CandidateEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return email != null ? email.equals(that.email) : that.email == null;
+        if (!candidateId.equals(that.candidateId)) return false;
+        return email.equals(that.email);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (email != null ? email.hashCode() : 0);
+        int result = candidateId.hashCode();
+        result = 31 * result + email.hashCode();
         return result;
     }
 

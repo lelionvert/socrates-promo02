@@ -16,7 +16,7 @@ public class ConfirmationEntity {
     @Column(name = "id")
     private Long id;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id_candidate", nullable = false)
     private CandidateEntity candidate;
     @Column(name = "confirmation_date")
     private Date confirmationDate;
@@ -55,15 +55,12 @@ public class ConfirmationEntity {
 
         ConfirmationEntity that = (ConfirmationEntity) o;
 
-        if (candidate != null ? !candidate.equals(that.candidate) : that.candidate != null) return false;
-        return confirmationDate != null ? confirmationDate.equals(that.confirmationDate) : that.confirmationDate == null;
+        return candidate.equals(that.candidate);
     }
 
     @Override
     public int hashCode() {
-        int result = candidate != null ? candidate.hashCode() : 0;
-        result = 31 * result + (confirmationDate != null ? confirmationDate.hashCode() : 0);
-        return result;
+        return candidate.hashCode();
     }
 
     public static ConfirmationEntity fromDomain(Confirmation confirmation, CandidateEntity candidate) {

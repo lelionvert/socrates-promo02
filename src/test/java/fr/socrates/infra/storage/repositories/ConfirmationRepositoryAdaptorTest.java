@@ -4,11 +4,8 @@ import fr.socrates.SocratesApplication;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.Confirmation;
 import fr.socrates.domain.attendee.ConfirmationRepository;
-import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.infra.storage.entities.CandidateEntity;
 import fr.socrates.infra.storage.entities.ConfirmationEntity;
-import org.assertj.core.api.Assertions;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,34 +33,38 @@ public class ConfirmationRepositoryAdaptorTest {
     @Autowired
     JpaConfirmationRepository jpaConfirmationRepository;
     private ConfirmationRepository confirmationRepository;
+    private Date canfirmationDate;
+    private LocalDateTime confirmationLocalDate;
+    private CandidateEntity candidate;
 
     @Before
     public void setUp() throws Exception {
-        jpaConfirmationRepository.deleteAll();
-        jpaCandidateRepository.deleteAll();
         confirmationRepository = new ConfirmationRepositoryAdaptor(jpaConfirmationRepository, jpaCandidateRepository);
+        candidate = createCandidate();
+        confirmationLocalDate = LocalDateTime.of(2017, 8, 31, 14, 0, 0);
+        canfirmationDate = Date.from(confirmationLocalDate.atZone(ZoneId.systemDefault()).toInstant());
+
+
+    }
+
+    private CandidateEntity createCandidate() {
+        CandidateEntity candidate = new CandidateEntity();
+        candidate.setEmail("testa@doe.fr");
+        candidate.setCandidateId("testa@doe.fr");
+        jpaCandidateRepository.save(candidate);
+        return candidate;
     }
 
     @Test
     public void should_add_a_confirmation_of_a_candidate() throws Exception {
-        LocalDateTime confirmationDate = LocalDateTime.of(2017, 8, 31, 14, 0, 0);
-        Date date = Date.from(confirmationDate.atZone(ZoneId.systemDefault()).toInstant());
-
-        CandidateEntity candidate = new CandidateEntity();
-        candidate.setEmail("test@doe.fr");
-        candidate.setCandidateId("test@doe.fr");
-        jpaCandidateRepository.save(candidate);
-
-        Confirmation candidateConfirmation = new Confirmation(new CandidateId("test@doe.fr"), confirmationDate);
+        Confirmation candidateConfirmation = new Confirmation(new CandidateId("testa@doe.fr"), confirmationLocalDate);
         confirmationRepository.add(candidateConfirmation);
-
-        System.out.println(jpaCandidateRepository.findAll());
-
         ConfirmationEntity confirmationEntity = new ConfirmationEntity();
         confirmationEntity.setCandidate(candidate);
-        confirmationEntity.setConfirmationDate(date);
+        confirmationEntity.setConfirmationDate(canfirmationDate);
         List<ConfirmationEntity> all = jpaConfirmationRepository.findAll();
-        System.out.println(all);
         assertThat(all).containsExactly(confirmationEntity);
     }
+
+
 }
