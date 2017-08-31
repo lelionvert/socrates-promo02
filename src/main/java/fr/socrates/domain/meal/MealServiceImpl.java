@@ -5,8 +5,6 @@ import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.checkin.CheckInService;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class MealServiceImpl implements MealService {
@@ -56,11 +54,13 @@ public class MealServiceImpl implements MealService {
 
         Map<Diet, Long> dietPerListOfDiet = getMapDietPerListOfDiet(attendees);
 
-        Map<DietOrder, Quantity> coversByDietByDay = Collections.emptyMap();
-        for (Map.Entry<Diet, Long> diet : dietPerListOfDiet.entrySet()) {
-            for (MealTime mealTime : mealTimes) {
-                Map<DietOrder, Quantity> dietOrder = createDietOrder(diet, mealTime);
-                coversByDietByDay = concat(coversByDietByDay, dietOrder);
+
+        Map<DietOrder, Quantity> coversByDietByDay = new HashMap<>();
+        for (MealTime mealTime : mealTimes) {
+            for (Map.Entry<Diet, Long> diet : dietPerListOfDiet.entrySet()) {
+                DietOrder dietOrder = new DietOrder(mealTime, diet.getKey());
+                Quantity quantity = Quantity.of(diet.getValue());
+                coversByDietByDay.put(dietOrder, quantity);
             }
         }
 
@@ -85,13 +85,6 @@ public class MealServiceImpl implements MealService {
         DietOrder dietOrder = new DietOrder(mealTime, diet.getKey());
         Quantity quantity = Quantity.of(diet.getValue());
         return Collections.singletonMap(dietOrder, quantity);
-    }
-
-    private static Map<DietOrder, Quantity> concat(Map<DietOrder, Quantity> map1, Map<DietOrder, Quantity> map2) {
-        Map<DietOrder, Quantity> newMap = new HashMap<>();
-        newMap.putAll(map1);
-        newMap.putAll(map2);
-        return newMap;
     }
 
     private Map<Diet, Long> getMapDietPerListOfDiet(List<Candidate> attendees) {
