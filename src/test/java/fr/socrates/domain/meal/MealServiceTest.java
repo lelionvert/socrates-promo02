@@ -71,6 +71,7 @@ public class MealServiceTest {
     }
 
     private void addDiet(Map<DietOrder, Quantity> coversByDietByDay, Diet diet) {
+        coversByDietByDay.put(new DietOrder(MealTime.THURSDAY_NIGHT, diet), Quantity.of(1));
         coversByDietByDay.put(new DietOrder(MealTime.FRIDAY_NOON, diet), Quantity.of(1));
         coversByDietByDay.put(new DietOrder(MealTime.FRIDAY_NIGHT, diet), Quantity.of(1));
         coversByDietByDay.put(new DietOrder(MealTime.SATURDAY_NOON, diet), Quantity.of(1));
