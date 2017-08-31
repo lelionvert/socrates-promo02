@@ -6,6 +6,7 @@ public interface MealService {
     long countColdMeal();
 
 
+    @Deprecated
     Map<MealTime, Map<Diet, Long>> getCoversByDiet();
 
     Catering generateOrder();

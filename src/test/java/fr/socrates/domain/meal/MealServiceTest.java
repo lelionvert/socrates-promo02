@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.*;
 
 import static fr.socrates.domain.meal.Diet.NORMAL;
+import static fr.socrates.domain.meal.Diet.PESCATARIAN;
 import static fr.socrates.domain.meal.Diet.VEGAN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -100,14 +101,21 @@ public class MealServiceTest {
     public void should_get_number_of_covers_by_diet_by_mealtime_for_several_attendees_except_thursday_for_one_attendee() throws Exception {
         List<Candidate> attendees = Arrays.asList(
                 new CandidateBuilder().withEmail("kara@doc.fr").withDiet(Diet.NORMAL).withCandidateId(new CandidateId("1")).createCandidate(),
-                new CandidateBuilder().withEmail("perce@val.fr").withDiet(VEGAN).withCandidateId(new CandidateId("2")).createCandidate());
+                new CandidateBuilder().withEmail("perce@val.fr").withDiet(VEGAN).withCandidateId(new CandidateId("2")).createCandidate(),
+                new CandidateBuilder().withEmail("dame@seli.fr").withDiet(VEGAN).withCandidateId(new CandidateId("3")).createCandidate(),
+                new CandidateBuilder().withEmail("roi@loth.fr").withDiet(VEGAN).withCandidateId(new CandidateId("4")).createCandidate(),
+                new CandidateBuilder().withEmail("bo@hort.fr").withDiet(Diet.PESCATARIAN).withCandidateId(new CandidateId("5")).createCandidate());
         when(confirmationService.getListAttendee()).thenReturn(attendees);
         when(checkInService.doesCandidateArriveAfter(attendees.get(0).getCandidateId(), 21)).thenReturn(false);
         when(checkInService.doesCandidateArriveAfter(attendees.get(1).getCandidateId(), 21)).thenReturn(true);
+        when(checkInService.doesCandidateArriveAfter(attendees.get(2).getCandidateId(), 21)).thenReturn(false);
+        when(checkInService.doesCandidateArriveAfter(attendees.get(3).getCandidateId(), 21)).thenReturn(false);
+        when(checkInService.doesCandidateArriveAfter(attendees.get(4).getCandidateId(), 21)).thenReturn(false);
 
         Catering cateringOrdering = mealService.generateOrder();
 
         assertThat(cateringOrdering.numberOfCover(MealTime.THURSDAY_NIGHT, NORMAL)).isEqualTo(Quantity.of(1));
-        assertThat(cateringOrdering.numberOfCover(MealTime.THURSDAY_NIGHT, VEGAN)).isEqualTo(Quantity.of(0));
+        assertThat(cateringOrdering.numberOfCover(MealTime.THURSDAY_NIGHT, PESCATARIAN)).isEqualTo(Quantity.of(1));
+        assertThat(cateringOrdering.numberOfCover(MealTime.THURSDAY_NIGHT, VEGAN)).isEqualTo(Quantity.of(2));
     }
 }

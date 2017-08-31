@@ -1,26 +1,29 @@
 package fr.socrates.domain.meal;
 
 import fr.socrates.common.Printer;
+import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.ConfirmationServiceImpl;
-import fr.socrates.domain.candidate.Candidate;
-import fr.socrates.domain.candidate.CandidateService;
-import fr.socrates.domain.candidate.CandidateServiceImpl;
+import fr.socrates.domain.candidate.*;
+import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.checkin.CheckInService;
 import fr.socrates.domain.checkin.CheckInServiceImpl;
 import fr.socrates.infra.repositories.InMemoryCandidateRepository;
 import fr.socrates.infra.repositories.InMemoryCheckInRepository;
 import fr.socrates.infra.repositories.InMemoryConfirmationRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import static fr.socrates.domain.meal.Diet.NORMAL;
+import static fr.socrates.domain.meal.Diet.PESCATARIAN;
+import static fr.socrates.domain.meal.Diet.VEGAN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
@@ -43,32 +46,41 @@ public class MealCateringFeature {
     private Candidate howardwolowitz;
     private Candidate leodagan;
     private Candidate karadoc;
-    private Candidate perseval;
+    private Candidate perceval;
     private ConfirmationService confirmationService;
     private MealService mealService;
-    private CheckInService checkInService;
 
     @Mock
     private Printer console;
 
     @Before
     public void setUp() throws Exception {
-        johndoe = Candidate.withEmail(JOHN_DOE_FR);
-        arthurleroi = Candidate.withEmail(ARTHUR_LEROI_FR);
-        rajeshkootrapoli = Candidate.withEmail(RAJESH_KOOTRAPOLI_COM);
-        sheldoncooper = Candidate.withEmail(SHELDON_COOPER_COM);
-        leonardhofstadter = Candidate.withEmail(LEONARD_HOFSTADTER_COM);
-        howardwolowitz = Candidate.withEmail(HOWARD_WOLOWITZ_COM);
-        leodagan = Candidate.withEmail(LEO_DAGAN_FR);
-        karadoc = Candidate.withEmail(KARA_DOC_FR);
-        perseval = Candidate.withEmail(PERSE_VAL_FR);
+        johndoe = new CandidateBuilder().withCandidateId(new CandidateId("1")).withEmail(EMail.of(JOHN_DOE_FR)).createCandidate();
+        arthurleroi = new CandidateBuilder().withCandidateId(new CandidateId("2")).withEmail(EMail.of(ARTHUR_LEROI_FR)).createCandidate();
+        rajeshkootrapoli = new CandidateBuilder().withCandidateId(new CandidateId("3")).withEmail(EMail.of(RAJESH_KOOTRAPOLI_COM)).createCandidate();
+        sheldoncooper = new CandidateBuilder().withCandidateId(new CandidateId("4")).withEmail(EMail.of(SHELDON_COOPER_COM)).createCandidate();
+        leonardhofstadter = new CandidateBuilder().withCandidateId(new CandidateId("5")).withEmail(EMail.of(LEONARD_HOFSTADTER_COM)).createCandidate();
+        howardwolowitz = new CandidateBuilder().withCandidateId(new CandidateId("6")).withEmail(EMail.of(HOWARD_WOLOWITZ_COM)).createCandidate();
+        leodagan = new CandidateBuilder().withCandidateId(new CandidateId("7")).withEmail(EMail.of(LEO_DAGAN_FR)).createCandidate();
+        karadoc = new CandidateBuilder().withCandidateId(new CandidateId("8")).withEmail(EMail.of(KARA_DOC_FR)).createCandidate();
+        perceval = new CandidateBuilder().withCandidateId(new CandidateId("9")).withEmail(EMail.of(PERSE_VAL_FR)).createCandidate();
 
         InMemoryCandidateRepository candidateRepository = new InMemoryCandidateRepository();
         CandidateService candidateService = new CandidateServiceImpl(candidateRepository);
         confirmationService = new ConfirmationServiceImpl(candidateRepository, new InMemoryConfirmationRepository());
         CheckInService checkInService = new CheckInServiceImpl(new InMemoryCheckInRepository());
         mealService = new MealServiceImpl(checkInService, confirmationService);
-            // TODO : ADD CHECKIN FOR EVERYONE! ! ! ! ! ! ! ! ! !
+
+        checkInService.addNewCheckIn(new CheckIn(johndoe.getCandidateId(), LocalDateTime.of          (2017, 10, 26, 23, 30)));
+        checkInService.addNewCheckIn(new CheckIn(arthurleroi.getCandidateId(), LocalDateTime.of      (2017, 10, 26, 18, 30)));
+        checkInService.addNewCheckIn(new CheckIn(rajeshkootrapoli.getCandidateId(), LocalDateTime.of (2017, 10, 26, 18, 30)));
+        checkInService.addNewCheckIn(new CheckIn(sheldoncooper.getCandidateId(), LocalDateTime.of    (2017, 10, 26, 18, 30)));
+        checkInService.addNewCheckIn(new CheckIn(leonardhofstadter.getCandidateId(), LocalDateTime.of(2017, 10, 26, 18, 30)));
+        checkInService.addNewCheckIn(new CheckIn(howardwolowitz.getCandidateId(), LocalDateTime.of   (2017, 10, 26, 18, 30)));
+        checkInService.addNewCheckIn(new CheckIn(leodagan.getCandidateId(), LocalDateTime.of         (2017, 10, 26, 18, 30)));
+        checkInService.addNewCheckIn(new CheckIn(karadoc.getCandidateId(), LocalDateTime.of          (2017, 10, 26, 18, 30)));
+        checkInService.addNewCheckIn(new CheckIn(perceval.getCandidateId(), LocalDateTime.of         (2017, 10, 26, 18, 30)));
+
         candidateService.add(johndoe);
         candidateService.add(arthurleroi);
         candidateService.add(rajeshkootrapoli);
@@ -77,7 +89,7 @@ public class MealCateringFeature {
         candidateService.add(howardwolowitz);
         candidateService.add(leodagan);
         candidateService.add(karadoc);
-        candidateService.add(perseval);
+        candidateService.add(perceval);
 
         confirmationService.confirm(JOHN_DOE_FR);
         confirmationService.confirm(ARTHUR_LEROI_FR);
@@ -99,51 +111,29 @@ public class MealCateringFeature {
         confirmationService.addDiet(SHELDON_COOPER_COM, Diet.PESCATARIAN);
         confirmationService.addDiet(LEONARD_HOFSTADTER_COM, Diet.PESCATARIAN);
 
-        Map<MealTime, Map<Diet, Long>> dietMap = mealService.getCoversByDiet();
-        Map<MealTime, Map<Diet, Long>> expectedDietMap = createExpectedDietMap();
+        Catering cateringOrdering = mealService.generateOrder();
 
-        assertThat(dietMap).isEqualTo(expectedDietMap);
+        assertThat(cateringOrdering.numberOfCover(MealTime.THURSDAY_NIGHT, VEGAN)).isEqualTo(Quantity.of(2));
+        assertThat(cateringOrdering.numberOfCover(MealTime.FRIDAY_NOON, VEGAN)).isEqualTo(Quantity.of(3));
+        assertThat(cateringOrdering.numberOfCover(MealTime.FRIDAY_NIGHT, VEGAN)).isEqualTo(Quantity.of(3));
+        assertThat(cateringOrdering.numberOfCover(MealTime.SATURDAY_NOON, VEGAN)).isEqualTo(Quantity.of(3));
+        assertThat(cateringOrdering.numberOfCover(MealTime.SATURDAY_NIGHT, VEGAN)).isEqualTo(Quantity.of(3));
+        assertThat(cateringOrdering.numberOfCover(MealTime.SUNDAY_NOON, VEGAN)).isEqualTo(Quantity.of(3));
+
+        assertThat(cateringOrdering.numberOfCover(MealTime.THURSDAY_NIGHT, PESCATARIAN)).isEqualTo(Quantity.of(2));
+        assertThat(cateringOrdering.numberOfCover(MealTime.FRIDAY_NOON, PESCATARIAN)).isEqualTo(Quantity.of(2));
+        assertThat(cateringOrdering.numberOfCover(MealTime.FRIDAY_NIGHT, PESCATARIAN)).isEqualTo(Quantity.of(2));
+        assertThat(cateringOrdering.numberOfCover(MealTime.SATURDAY_NOON, PESCATARIAN)).isEqualTo(Quantity.of(2));
+        assertThat(cateringOrdering.numberOfCover(MealTime.SATURDAY_NIGHT, PESCATARIAN)).isEqualTo(Quantity.of(2));
+        assertThat(cateringOrdering.numberOfCover(MealTime.SUNDAY_NOON, PESCATARIAN)).isEqualTo(Quantity.of(2));
+
+        assertThat(cateringOrdering.numberOfCover(MealTime.THURSDAY_NIGHT, NORMAL)).isEqualTo(Quantity.of(4));
+        assertThat(cateringOrdering.numberOfCover(MealTime.FRIDAY_NOON, NORMAL)).isEqualTo(Quantity.of(4));
+        assertThat(cateringOrdering.numberOfCover(MealTime.FRIDAY_NIGHT, NORMAL)).isEqualTo(Quantity.of(4));
+        assertThat(cateringOrdering.numberOfCover(MealTime.SATURDAY_NOON, NORMAL)).isEqualTo(Quantity.of(4));
+        assertThat(cateringOrdering.numberOfCover(MealTime.SATURDAY_NIGHT, NORMAL)).isEqualTo(Quantity.of(4));
+        assertThat(cateringOrdering.numberOfCover(MealTime.SUNDAY_NOON, NORMAL)).isEqualTo(Quantity.of(4));
+
     }
 
-    private Map<MealTime, Map<Diet, Long>> createExpectedDietMap() {
-        Map<MealTime, Map<Diet, Long>> expectedDietMap = new HashMap<>();
-
-        Map<Diet, Long> numberOfDietsThursdayNight = new HashMap<>();
-        numberOfDietsThursdayNight.put(Diet.VEGAN, 2L);
-        numberOfDietsThursdayNight.put(Diet.PESCATARIAN, 2L);
-        numberOfDietsThursdayNight.put(Diet.NORMAL, 4L);
-        expectedDietMap.put(MealTime.THURSDAY_NIGHT, numberOfDietsThursdayNight);
-
-        Map<Diet, Long> numberOfDietsFridayNoon = new HashMap<>();
-        numberOfDietsFridayNoon.put(Diet.VEGAN, 3L);
-        numberOfDietsFridayNoon.put(Diet.PESCATARIAN, 2L);
-        numberOfDietsFridayNoon.put(Diet.NORMAL, 4L);
-        expectedDietMap.put(MealTime.FRIDAY_NOON, numberOfDietsFridayNoon);
-
-        Map<Diet, Long> numberOfDietsFridayNight = new HashMap<>();
-        numberOfDietsFridayNight.put(Diet.VEGAN, 3L);
-        numberOfDietsFridayNight.put(Diet.PESCATARIAN, 2L);
-        numberOfDietsFridayNight.put(Diet.NORMAL, 4L);
-        expectedDietMap.put(MealTime.FRIDAY_NIGHT, numberOfDietsFridayNight);
-
-        Map<Diet, Long> numberOfDietsSaturdayNoon = new HashMap<>();
-        numberOfDietsSaturdayNoon.put(Diet.VEGAN, 3L);
-        numberOfDietsSaturdayNoon.put(Diet.PESCATARIAN, 2L);
-        numberOfDietsSaturdayNoon.put(Diet.NORMAL, 4L);
-        expectedDietMap.put(MealTime.SATURDAY_NOON, numberOfDietsSaturdayNoon);
-
-        Map<Diet, Long> numberOfDietsSaturdayNight = new HashMap<>();
-        numberOfDietsSaturdayNight.put(Diet.VEGAN, 3L);
-        numberOfDietsSaturdayNight.put(Diet.PESCATARIAN, 2L);
-        numberOfDietsSaturdayNight.put(Diet.NORMAL, 4L);
-        expectedDietMap.put(MealTime.SATURDAY_NIGHT, numberOfDietsSaturdayNight);
-
-        Map<Diet, Long> numberOfDietsSundayNoon = new HashMap<>();
-        numberOfDietsSundayNoon.put(Diet.VEGAN, 3L);
-        numberOfDietsSundayNoon.put(Diet.PESCATARIAN, 2L);
-        numberOfDietsSundayNoon.put(Diet.NORMAL, 4L);
-        expectedDietMap.put(MealTime.SUNDAY_NOON, numberOfDietsSundayNoon);
-
-        return expectedDietMap;
-    }
 }

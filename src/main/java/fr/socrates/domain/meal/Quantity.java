@@ -3,7 +3,6 @@ package fr.socrates.domain.meal;
 public class Quantity {
 
     private  long quantity;
-    private long value;
 
     private Quantity(long quantity) {
         this.quantity = quantity;
@@ -36,7 +35,7 @@ public class Quantity {
                 '}';
     }
 
-    public long getValue() {
-        return value;
+    public long getQuantity() {
+        return quantity;
     }
 }

@@ -26,6 +26,7 @@ public class MealServiceImpl implements MealService {
 
 
     @Override
+    @Deprecated
     public Map<MealTime, Map<Diet, Long>> getCoversByDiet() {
         List<Candidate> attendees = confirmationService.getListAttendee();
         Map<MealTime, Map<Diet, Long>> covers = new HashMap<>();
@@ -74,7 +75,7 @@ public class MealServiceImpl implements MealService {
             {
                 Diet diet = attendee.getDiet();
                 Quantity quantity = coversByDietByDay.get(new DietOrder(MealTime.THURSDAY_NIGHT,diet));
-                coversByDietByDay.put(new DietOrder(MealTime.THURSDAY_NIGHT,diet),Quantity.of(quantity.getValue()-1));
+                coversByDietByDay.put(new DietOrder(MealTime.THURSDAY_NIGHT,diet),Quantity.of(quantity.getQuantity()-1));
             }
         }
 

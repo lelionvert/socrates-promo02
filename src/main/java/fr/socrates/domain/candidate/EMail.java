@@ -12,7 +12,7 @@ public class EMail {
         return email;
     }
 
-    static EMail of(String email) {
+    public static EMail of(String email) {
         if (email == null) {
             throw new IllegalStateException();
         }
