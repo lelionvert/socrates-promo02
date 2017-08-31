@@ -8,11 +8,11 @@ import javax.persistence.*;
 @Table(name = "candidates")
 public class CandidateEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "candidates_id")
     @SequenceGenerator(name="candidates_id", sequenceName="candidates_id_seq", allocationSize=1)
     @Column(name = "id")
     private Long id;
-    @Column(name = "candidate_id")
+    @Column(name = "candidate_id", unique = true)
     private String candidateId;
     @Column(name = "email")
     private String email;

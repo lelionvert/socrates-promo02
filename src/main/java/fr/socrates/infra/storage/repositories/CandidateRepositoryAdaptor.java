@@ -12,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CandidateRepositoryImpl implements CandidateRepository {
+public class CandidateRepositoryAdaptor implements CandidateRepository {
     private JpaCandidateRepository jpaCandidateRepository;
 
     @Autowired
-    public CandidateRepositoryImpl(JpaCandidateRepository jpaCandidateRepository) {
+    public CandidateRepositoryAdaptor(JpaCandidateRepository jpaCandidateRepository) {
         this.jpaCandidateRepository = jpaCandidateRepository;
     }
 

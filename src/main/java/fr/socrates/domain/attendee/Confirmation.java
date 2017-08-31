@@ -10,7 +10,6 @@ public class Confirmation {
     private final LocalDateTime confirmationDate;
 
     public Confirmation(CandidateId candidateId, LocalDateTime confirmationDate) {
-
         this.candidateId = candidateId;
         this.confirmationDate = confirmationDate;
     }

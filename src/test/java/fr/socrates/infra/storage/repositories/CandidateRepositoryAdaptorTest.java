@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = {SocratesApplication.class})
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
-public class CandidateRepositoryImplTest {
+public class CandidateRepositoryAdaptorTest {
     @Autowired
     private JpaCandidateRepository jpaCandidateRepository;
 
@@ -31,7 +31,7 @@ public class CandidateRepositoryImplTest {
 
     @Before
     public void setUp() throws Exception {
-        candidateRepository = new CandidateRepositoryImpl(jpaCandidateRepository);
+        candidateRepository = new CandidateRepositoryAdaptor(jpaCandidateRepository);
     }
 
     @After
