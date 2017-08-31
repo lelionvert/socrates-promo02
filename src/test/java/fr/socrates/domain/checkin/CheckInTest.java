@@ -67,6 +67,14 @@ public class CheckInTest {
         assertThat(checkInService.countCheckinAfter(21)).isEqualTo(1);
     }
 
+    @Test
+    public void should_return_hour_of_arrival_of_attendee() {
+        CandidateId candidateId = new CandidateId("1");
+        CheckIn checkIn = new CheckIn(candidateId, dateTimeFirstDay(19, 0));
+        checkInService.addNewCheckIn(checkIn);
+        assertThat(checkInService.getTimeOfArrivalOf(candidateId)).isEqualTo(19);
+    }
+
     private LocalDateTime dateTimeFirstDay(int hour, int minutes) {
         return LocalDateTime.of(2017, Month.OCTOBER, 20, hour, minutes);
     }

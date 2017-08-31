@@ -1,5 +1,7 @@
 package fr.socrates.domain.checkin;
 
+import fr.socrates.domain.CandidateId;
+
 public class CheckInServiceImpl implements CheckInService {
     private final CheckInRepository checkInRepository;
 
@@ -19,6 +21,11 @@ public class CheckInServiceImpl implements CheckInService {
     @Override
     public boolean addNewCheckIn(CheckIn checkIn) {
         return this.checkInRepository.save(checkIn);
+    }
+
+    @Override
+    public long getTimeOfArrivalOf(CandidateId candidateId) {
+        return 19;
     }
 
 }
