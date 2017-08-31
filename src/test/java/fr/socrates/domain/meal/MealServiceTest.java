@@ -117,5 +117,7 @@ public class MealServiceTest {
         assertThat(cateringOrdering.numberOfCover(MealTime.THURSDAY_NIGHT, NORMAL)).isEqualTo(Quantity.of(1));
         assertThat(cateringOrdering.numberOfCover(MealTime.THURSDAY_NIGHT, PESCATARIAN)).isEqualTo(Quantity.of(1));
         assertThat(cateringOrdering.numberOfCover(MealTime.THURSDAY_NIGHT, VEGAN)).isEqualTo(Quantity.of(2));
+        Catering expectedCateringOrder = new Catering(Collections.emptyMap());
+        assertThat(cateringOrdering).isEqualTo(expectedCateringOrder);
     }
 }
