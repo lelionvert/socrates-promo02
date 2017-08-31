@@ -6,7 +6,7 @@ import fr.socrates.domain.common.AccommodationChoices;
 import java.util.List;
 import java.util.Optional;
 public interface CandidateService {
-    boolean add(Candidate candidate);
+    void add(Candidate candidate) throws CandidatePersisteDataException, CandidateExistingException;
     List<Candidate> getRegisteredCandidates();
     Optional<Candidate> findCandidateByEmail(String email);
     Optional<Candidate> findCandidateByCandidateID(CandidateId candidateId);

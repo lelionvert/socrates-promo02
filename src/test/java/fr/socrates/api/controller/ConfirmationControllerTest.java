@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {SocratesApplication.class})
 @SpringBootTest
-@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class ConfirmationControllerTest {
     private MockMvc mvc;
 
@@ -65,7 +65,7 @@ public class ConfirmationControllerTest {
     }
 
     @Test
-    public void should_confirm_one_candidate() throws Exception{
+    public void should_confirm_one_candidate() throws Exception {
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
 
@@ -80,7 +80,7 @@ public class ConfirmationControllerTest {
     }
 
     @Test
-    public void should__return_not_found_error() throws Exception{
+    public void should__return_not_found_error() throws Exception {
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
 

@@ -17,10 +17,22 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public boolean add(Candidate candidate) {
-        if (candidateRepository.findByCandidateID(candidate.getCandidateId()).isPresent())
-            return false;
-        return candidateRepository.save(candidate);
+    public void add(Candidate candidate) throws CandidatePersisteDataException, CandidateExistingException {
+        checkThatCandidateDoesntExist(candidate);
+        saveCandidate(candidate);
+    }
+
+    private void checkThatCandidateDoesntExist(Candidate candidate) throws CandidateExistingException {
+        if (candidateRepository.findByEmail(candidate.getEmail().getEmail()).isPresent()) {
+            throw new CandidateExistingException("Candidate Already exist");
+        }
+    }
+
+    private void saveCandidate(Candidate candidate) throws CandidatePersisteDataException {
+        final boolean successfulSave = candidateRepository.save(candidate);
+        if (!successfulSave) {
+            throw new CandidatePersisteDataException("Cannot Save Candidate ");
+        }
     }
 
     @Override
@@ -46,10 +58,12 @@ public class CandidateServiceImpl implements CandidateService {
         final Optional<Candidate> candidate = candidateRepository.findByEmail(email.getEmail());
         if (candidate.isPresent()) {
             final CandidateId candidateId = candidate.get().getCandidateId();
-            if (null != accommodationChoices)
+            if (null != accommodationChoices) {
                 candidateRepository.updateAccommodationChoices(candidateId, accommodationChoices);
-            if (null != contactInformation)
+            }
+            if (null != contactInformation) {
                 candidateRepository.updateContactInfos(candidateId, contactInformation);
+            }
         } else {
             throw new RuntimeException("the Candidate doesn't exist");
         }

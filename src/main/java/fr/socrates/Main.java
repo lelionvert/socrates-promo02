@@ -5,11 +5,8 @@ import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.ConfirmationServiceImpl;
-import fr.socrates.domain.candidate.Candidate;
-import fr.socrates.domain.candidate.CandidateRepository;
-import fr.socrates.domain.candidate.CandidateService;
-import fr.socrates.domain.candidate.CandidateServiceImpl;
-import fr.socrates.domain.attendee.*;
+import fr.socrates.domain.attendee.Payment;
+import fr.socrates.domain.candidate.*;
 import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.checkin.CheckInRepository;
 import fr.socrates.domain.checkin.CheckInService;
@@ -72,9 +69,11 @@ class Main {
             switch (choice) {
                 case ONE:
                     consolePrinter.print("Ajouter un candidat : ");
-                    boolean create = candidateService.add(createCandidate(scanner, consolePrinter));
-                    if(!create)
-                        consolePrinter.print("Le candidat a deja ete ajoute");
+                    try {
+                        candidateService.add(createCandidate(scanner, consolePrinter));
+                    } catch (CandidatePersisteDataException | CandidateExistingException e) {
+                        consolePrinter.print(e.toString());
+                    }
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -86,9 +85,9 @@ class Main {
                     break;
                 case THREE:
                     consolePrinter.print("Ajouter un sponsor : ");
-                    try{
+                    try {
                         sponsorService.addSponsor(createSponsor(scanner, consolePrinter));
-                    }catch (IllegalArgumentException e){
+                    } catch (IllegalArgumentException e) {
                         consolePrinter.print(" \n" +
                                 " /!\\ Erreur d'ajout du sponsor. Les SIREN et/ou SIRET sont invalides /!\\ \n");
                     }
