@@ -1,5 +1,8 @@
 package fr.socrates.domain.sponsor;
 
+import fr.socrates.domain.inseeCode.Siren;
+import fr.socrates.domain.inseeCode.Siret;
+
 public class Sponsor {
 
     private final String name;

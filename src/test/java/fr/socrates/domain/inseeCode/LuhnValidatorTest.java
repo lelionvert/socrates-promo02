@@ -1,4 +1,4 @@
-package fr.socrates.domain.sponsor;
+package fr.socrates.domain.inseeCode;
 
 import org.junit.Before;
 import org.junit.Test;

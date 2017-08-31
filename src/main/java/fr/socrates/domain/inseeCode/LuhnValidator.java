@@ -1,4 +1,4 @@
-package fr.socrates.domain.sponsor;
+package fr.socrates.domain.inseeCode;
 
 import java.util.function.Predicate;
 
