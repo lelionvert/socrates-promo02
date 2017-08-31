@@ -68,11 +68,19 @@ public class CheckInTest {
     }
 
     @Test
-    public void should_return_hour_of_arrival_of_attendee() {
+    public void should_return_false_if_hour_of_arrival_of_attendee_is_after_twenty_one() {
         CandidateId candidateId = new CandidateId("1");
-        CheckIn checkIn = new CheckIn(candidateId, dateTimeFirstDay(19, 0));
+        CheckIn checkIn = new CheckIn(candidateId, dateTimeFirstDay(20, 0));
         checkInService.addNewCheckIn(checkIn);
-        assertThat(checkInService.getTimeOfArrivalOf(candidateId)).isEqualTo(19);
+        assertThat(checkInService.doesCandidateArriveAfter(candidateId, 21)).isFalse();
+    }
+
+    @Test
+    public void should_return_true_if_hour_of_arrival_of_attendee_is_after_twenty_one() {
+        CandidateId candidateId = new CandidateId("1");
+        CheckIn checkIn = new CheckIn(candidateId, dateTimeFirstDay(22, 0));
+        checkInService.addNewCheckIn(checkIn);
+        assertThat(checkInService.doesCandidateArriveAfter(candidateId,21 )).isTrue();
     }
 
     private LocalDateTime dateTimeFirstDay(int hour, int minutes) {

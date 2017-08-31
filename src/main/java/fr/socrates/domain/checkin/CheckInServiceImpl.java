@@ -2,6 +2,8 @@ package fr.socrates.domain.checkin;
 
 import fr.socrates.domain.CandidateId;
 
+import java.util.Optional;
+
 public class CheckInServiceImpl implements CheckInService {
     private final CheckInRepository checkInRepository;
 
@@ -24,8 +26,11 @@ public class CheckInServiceImpl implements CheckInService {
     }
 
     @Override
-    public long getTimeOfArrivalOf(CandidateId candidateId) {
-        return 19;
+    public boolean doesCandidateArriveAfter(CandidateId candidateId, int hour) {
+        Optional<CheckIn> foundCheckIn = checkInRepository.getCheckInOf(candidateId);
+        if(foundCheckIn.isPresent())
+            return foundCheckIn.get().getCheckInHour() > hour;
+        return false;
     }
 
 }
