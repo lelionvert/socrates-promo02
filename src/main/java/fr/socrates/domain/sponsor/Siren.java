@@ -10,7 +10,7 @@ public class Siren {
         this.siren = Optional.of(siren)
                 .map(new WhitespaceRemover())
                 .filter(this::hasRightLength)
-                .filter(LuhnValidator.SIREN)
+                .filter(new LuhnValidator())
                 .orElseThrow(IllegalStateException::new);
     }
 

@@ -11,7 +11,7 @@ public class Siret {
         final Optional<String> siretWithRightLength = Optional.of(siret)
                 .map(new WhitespaceRemover())
                 .filter(this::hasRightLength)
-                .filter(LuhnValidator.SIRET);
+                .filter(new LuhnValidator());
 
         this.siren = siretWithRightLength
                 .map(this::extractSiren)
