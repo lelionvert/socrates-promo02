@@ -109,8 +109,8 @@ public class MealServiceTest {
                 new CandidateBuilder().withEmail("roi@loth.fr").withDiet(VEGAN).withCandidateId(new CandidateId("4")).createCandidate(),
                 new CandidateBuilder().withEmail("bo@hort.fr").withDiet(Diet.PESCATARIAN).withCandidateId(new CandidateId("5")).createCandidate());
         when(confirmationService.getListAttendee()).thenReturn(attendees);
-        when(checkInService.doesCandidateArriveAfter(attendees.get(0).getCandidateId(), 21)).thenReturn(false);
-        when(checkInService.doesCandidateArriveAfter(attendees.get(1).getCandidateId(), 21)).thenReturn(true);
+
+        when(checkInService.isCandidatePresentAt(attendees.get(1).getCandidateId(), MealTime.THURSDAY_NIGHT.getDateTime())).thenReturn(false);
 
         when(checkInService.isCandidatePresentAt(attendees.get(1).getCandidateId(), MealTime.THURSDAY_NIGHT.getDateTime())).thenReturn(false);
 
