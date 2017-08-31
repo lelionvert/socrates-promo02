@@ -1,5 +1,7 @@
 package fr.socrates.domain.sponsor;
 
+import javax.validation.constraints.NotNull;
+
 public class Siren {
     private final String siren;
 
@@ -8,7 +10,33 @@ public class Siren {
     }
 
     public static Siren of(String siren) {
+        if (!isSirenValid(siren)) {
+            throw new IllegalStateException();
+        }
         return new Siren(siren);
+    }
+
+    private static boolean isSirenValid(@NotNull String siren) {
+        if (siren == null) {
+            return false;
+        }
+        String sirenWithoutSpaces = siren.replaceAll(" ", "");
+        if (sirenWithoutSpaces.length() != 9) {
+            return false;
+        }
+
+        int total = 0;
+        int digit = 0;
+
+        for (int i = 0; i < sirenWithoutSpaces.length(); i++) {
+            digit = sirenWithoutSpaces.charAt(i) - 48;
+            if ((i % 2) == 1) {
+                digit *= 2;
+                if (digit > 9) digit -= 9;
+            }
+            total += digit;
+        }
+        return (total % 10) == 0;
     }
 
     @Override

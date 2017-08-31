@@ -41,7 +41,6 @@ public class Sponsor {
     }
 
     public static class SponsorBuilder {
-        private final SirenValidator sirenValidator = new SirenValidator();
         private String name;
         private Siret siret;
         private Siren siren;
@@ -61,9 +60,6 @@ public class Sponsor {
         }
 
         public SponsorBuilder withSIREN(String siren) {
-            if ((siren == null || !sirenValidator.isSirenValid(siren))) {
-                throw new IllegalStateException("Siren must be valid and not empty  ");
-            }
             this.siren = Siren.of(siren);
             return this;
         }
