@@ -3,7 +3,6 @@ package fr.socrates.infra.repositories;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.common.AccommodationChoices;
 import fr.socrates.domain.candidate.Candidate;
-import fr.socrates.domain.candidate.CandidateBuilder;
 import fr.socrates.domain.candidate.CandidateRepository;
 import fr.socrates.domain.meal.Diet;
 import fr.socrates.domain.candidate.ContactInformation;
@@ -65,7 +64,7 @@ public class InMemoryCandidateRepository implements CandidateRepository {
                     .withCandidateId(candidateToUpdate.getCandidateId())
                     .withAccommodationChoices(accommodationChoices)
                     .withEmail(candidateToUpdate.getEmail())
-                    .withContactInformations(candidateToUpdate.getContactInformations())
+                    .withContactInformations(candidateToUpdate.getContactInformation())
                     .build();
             candidateList.remove(candidateToUpdate);
             candidateList.add(candidateUpdated);
@@ -77,7 +76,7 @@ public class InMemoryCandidateRepository implements CandidateRepository {
         Optional<Candidate> foundCandidate = candidateList.stream().filter(candidate -> candidate.hasCandidateID(candidateId)).findAny();
         if (foundCandidate.isPresent()) {
             candidateList.remove(foundCandidate.get());
-            candidateList.add(new CandidateBuilder().fromCandidate(foundCandidate.get()).withDiet(diet).createCandidate());
+            candidateList.add(new Candidate.CandidateBuilder().fromCandidate(foundCandidate.get()).withDiet(diet).build());
         }
     }
 }

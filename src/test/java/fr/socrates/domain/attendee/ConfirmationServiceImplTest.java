@@ -96,9 +96,10 @@ public class ConfirmationServiceImplTest {
 
     @Test
     public void should_add_a_vegan_diet_for_a_given_participant() throws Exception {
-        Candidate candidate = Candidate.withEmail("john@doe.fr");
+        Candidate candidate = Candidate.singleRoomWithEmail("john@doe.fr");
         Mockito.doReturn(Optional.of(candidate)).when(candidateRepository).findByEmail("john@doe.fr");
-        confirmationService.confirm("john@doe.fr");
+        final LocalDate now = LocalDate.now();
+        confirmationService.confirm("john@doe.fr", now, Payment.AT_CHECKOUT, AccommodationChoice.DOUBLE_ROOM);
 
         confirmationService.addDiet("john@doe.fr", VEGAN);
 
