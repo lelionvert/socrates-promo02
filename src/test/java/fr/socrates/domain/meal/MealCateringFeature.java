@@ -46,6 +46,7 @@ public class MealCateringFeature {
     private Candidate perseval;
     private ConfirmationService confirmationService;
     private MealService mealService;
+    private CheckInService checkInService;
 
     @Mock
     private Printer console;
@@ -67,7 +68,7 @@ public class MealCateringFeature {
         confirmationService = new ConfirmationServiceImpl(candidateRepository, new InMemoryConfirmationRepository());
         CheckInService checkInService = new CheckInServiceImpl(new InMemoryCheckInRepository());
         mealService = new MealServiceImpl(checkInService, confirmationService);
-
+            // TODO : ADD CHECKIN FOR EVERYONE! ! ! ! ! ! ! ! ! !
         candidateService.add(johndoe);
         candidateService.add(arthurleroi);
         candidateService.add(rajeshkootrapoli);
@@ -106,6 +107,12 @@ public class MealCateringFeature {
 
     private Map<MealTime, Map<Diet, Long>> createExpectedDietMap() {
         Map<MealTime, Map<Diet, Long>> expectedDietMap = new HashMap<>();
+
+        Map<Diet, Long> numberOfDietsThursdayNight = new HashMap<>();
+        numberOfDietsThursdayNight.put(Diet.VEGAN, 2L);
+        numberOfDietsThursdayNight.put(Diet.PESCATARIAN, 2L);
+        numberOfDietsThursdayNight.put(Diet.NORMAL, 4L);
+        expectedDietMap.put(MealTime.THURSDAY_NIGHT, numberOfDietsThursdayNight);
 
         Map<Diet, Long> numberOfDietsFridayNoon = new HashMap<>();
         numberOfDietsFridayNoon.put(Diet.VEGAN, 3L);
