@@ -3,15 +3,13 @@ package fr.socrates.domain.sponsor;
 public class Sponsor {
 
     private final String name;
-    private final Siret siret;
     private final Siren siren;
     private final String contractRepresentative;
     private final String contact;
     private double amountOfSponsoring;
 
-    private Sponsor(String name, Siret siret, Siren siren, String contractRepresentative, String contact, double amountOfSponsoring) {
+    private Sponsor(String name, Siren siren, String contractRepresentative, String contact, double amountOfSponsoring) {
         this.name = name;
-        this.siret = siret;
         this.siren = siren;
         this.contractRepresentative = contractRepresentative;
         this.contact = contact;
@@ -42,7 +40,6 @@ public class Sponsor {
 
     public static class SponsorBuilder {
         private String name;
-        private Siret siret;
         private Siren siren;
         private String contractRepresentative;
         private String contact;
@@ -54,8 +51,12 @@ public class Sponsor {
         }
 
         public SponsorBuilder withSIRET(String siret) {
-            this.siret = Siret.of(siret);
-            this.withSIREN(siret.substring(0, 9));
+            this.withSIREN(Siret.of(siret).toSiren());
+            return this;
+        }
+
+        private SponsorBuilder withSIREN(Siren siren) {
+            this.siren = siren;
             return this;
         }
 
@@ -80,7 +81,7 @@ public class Sponsor {
         }
 
         public Sponsor createSponsor() {
-            return new Sponsor(name, siret, siren, contractRepresentative, contact, amountOfSponsoring);
+            return new Sponsor(name, siren, contractRepresentative, contact, amountOfSponsoring);
         }
     }
 }

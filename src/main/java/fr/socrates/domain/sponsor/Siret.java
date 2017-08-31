@@ -40,4 +40,8 @@ public class Siret {
         }
         return (total % 10) == 0;
     }
+
+    public Siren toSiren() {
+        return Siren.of(this.siret.substring(0, 9));
+    }
 }
