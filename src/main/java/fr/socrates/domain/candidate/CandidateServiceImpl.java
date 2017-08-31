@@ -17,21 +17,21 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void add(Candidate candidate) throws CandidatePersisteDataException, CandidateExistingException {
+    public void add(Candidate candidate) throws CandidateException.CandidatePersisteDataException, CandidateException.CandidateExistingException {
         checkThatCandidateDoesntExist(candidate);
         saveCandidate(candidate);
     }
 
-    private void checkThatCandidateDoesntExist(Candidate candidate) throws CandidateExistingException {
+    private void checkThatCandidateDoesntExist(Candidate candidate) throws CandidateException.CandidateExistingException {
         if (candidateRepository.findByEmail(candidate.getEmail().getEmail()).isPresent()) {
-            throw new CandidateExistingException("Candidate Already exist");
+            throw new CandidateException.CandidateExistingException("Candidate Already exist");
         }
     }
 
-    private void saveCandidate(Candidate candidate) throws CandidatePersisteDataException {
+    private void saveCandidate(Candidate candidate) throws CandidateException.CandidatePersisteDataException {
         final boolean successfulSave = candidateRepository.save(candidate);
         if (!successfulSave) {
-            throw new CandidatePersisteDataException("Cannot Save Candidate ");
+            throw new CandidateException.CandidatePersisteDataException("Cannot Save Candidate ");
         }
     }
 
@@ -54,10 +54,10 @@ public class CandidateServiceImpl implements CandidateService {
 
 
     @Override
-    public void update(EMail email, AccommodationChoices accommodationChoices, ContactInformation contactInformation) {
+    public void update(EMail email, AccommodationChoices accommodationChoices, ContactInformation contactInformation) throws CandidateException.NotFoundException {
         final Optional<Candidate> candidate = candidateRepository.findByEmail(email.getEmail());
         if (!candidate.isPresent()) {
-            throw new RuntimeException("the Candidate doesn't exist");
+            throw new CandidateException.NotFoundException(email + " does not exist");
         }
         final CandidateId candidateId = candidate.get().getCandidateId();
         if (accommodationChoices != null) {
