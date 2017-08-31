@@ -3,13 +3,14 @@ package fr.socrates.domain.meal;
 public class Quantity {
 
     private  long quantity;
+    private long value;
 
     private Quantity(long quantity) {
         this.quantity = quantity;
     }
 
     public static Quantity of(long quantity) {
-
+        if(quantity <= 0) return new Quantity(0);
         return new Quantity(quantity);
     }
 
@@ -33,5 +34,9 @@ public class Quantity {
         return "Quantity{" +
                 "quantity=" + quantity +
                 '}';
+    }
+
+    public long getValue() {
+        return value;
     }
 }

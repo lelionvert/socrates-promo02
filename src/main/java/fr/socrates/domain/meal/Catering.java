@@ -32,4 +32,7 @@ public class Catering {
                 '}';
     }
 
+    public Quantity numberOfCover(MealTime mealTime, Diet diet) {
+        return this.coversByDietByDay.get(new DietOrder(mealTime, diet));
+    }
 }

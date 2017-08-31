@@ -63,7 +63,21 @@ public class MealServiceImpl implements MealService {
             }
         }
 
+        adjustForThursday(coversByDietByDay,attendees);
         return new Catering(coversByDietByDay);
+    }
+
+    private void adjustForThursday(Map<DietOrder, Quantity> coversByDietByDay,List<Candidate> attendees) {
+        for (Candidate attendee : attendees) {
+            boolean eatColdThursday = checkInService.doesCandidateArriveAfter(attendee.getCandidateId(), COLD_FOOD_HOUR);
+            if(eatColdThursday)
+            {
+                Diet diet = attendee.getDiet();
+                Quantity quantity = coversByDietByDay.get(new DietOrder(MealTime.THURSDAY_NIGHT,diet));
+                coversByDietByDay.put(new DietOrder(MealTime.THURSDAY_NIGHT,diet),Quantity.of(quantity.getValue()-1));
+            }
+        }
+
     }
 
     private Map<DietOrder, Quantity> createDietOrder(Map.Entry<Diet,Long> diet, MealTime mealTime) {
