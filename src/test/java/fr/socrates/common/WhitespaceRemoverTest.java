@@ -1,4 +1,4 @@
-package fr.socrates.domain.sponsor;
+package fr.socrates.common;
 
 import org.junit.Test;
 

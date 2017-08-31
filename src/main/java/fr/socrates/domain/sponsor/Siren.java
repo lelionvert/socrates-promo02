@@ -1,5 +1,7 @@
 package fr.socrates.domain.sponsor;
 
+import fr.socrates.common.WhitespaceRemover;
+
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 

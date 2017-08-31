@@ -1,4 +1,4 @@
-package fr.socrates.domain.sponsor;
+package fr.socrates.common;
 
 import java.util.function.UnaryOperator;
 
