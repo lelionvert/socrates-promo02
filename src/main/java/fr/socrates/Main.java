@@ -2,13 +2,19 @@ package fr.socrates;
 
 import fr.socrates.common.Printer;
 import fr.socrates.domain.CandidateId;
-import fr.socrates.domain.candidate.exceptions.CandidateException;
-import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.ConfirmationServiceImpl;
-import fr.socrates.domain.candidate.*;
-import fr.socrates.domain.checkin.*;
+import fr.socrates.domain.attendee.exceptions.UnknownConfirmationException;
+import fr.socrates.domain.candidate.Candidate;
+import fr.socrates.domain.candidate.CandidateRepository;
+import fr.socrates.domain.candidate.CandidateService;
+import fr.socrates.domain.candidate.CandidateServiceImpl;
+import fr.socrates.domain.candidate.exceptions.CandidateException;
+import fr.socrates.domain.checkin.CheckIn;
+import fr.socrates.domain.checkin.CheckInRepository;
+import fr.socrates.domain.checkin.CheckInService;
+import fr.socrates.domain.checkin.CheckInServiceImpl;
 import fr.socrates.domain.meal.MealService;
 import fr.socrates.domain.meal.MealServiceImpl;
 import fr.socrates.domain.sponsor.Sponsor;
@@ -23,7 +29,10 @@ import fr.socrates.infra.storage.repositories.InMemorySponsorRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 class Main {
@@ -64,7 +73,7 @@ class Main {
                     consolePrinter.print("Ajouter un candidat : ");
                     boolean create = false;
                     create = candidateService.add(createCandidate(scanner, consolePrinter));
-                    if(!create)
+                    if (!create)
                         consolePrinter.print("Le candidat a deja ete ajoute");
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
@@ -77,9 +86,9 @@ class Main {
                     break;
                 case THREE:
                     consolePrinter.print("Ajouter un sponsor : ");
-                    try{
+                    try {
                         sponsorService.addSponsor(createSponsor(scanner, consolePrinter));
-                    }catch (IllegalArgumentException e){
+                    } catch (IllegalArgumentException e) {
                         consolePrinter.print(" \n" +
                                 " /!\\ Erreur d'ajout du sponsor. Les SIREN et/ou SIRET sont invalides /!\\ \n");
                     }
@@ -110,9 +119,12 @@ class Main {
                 case SEVEN:
                     consolePrinter.print(format(candidateService.getRegisteredCandidates()));
                     consolePrinter.print("Tape l'email du candidat à confirmer");
-                    boolean confirmation = confirmationService.confirm(scanner.next());
-                    if (!confirmation)
+                    boolean confirmation = false;
+                    try {
+                        confirmation = confirmationService.confirm(scanner.next());
+                    } catch (UnknownConfirmationException e) {
                         consolePrinter.print("Erreur la confirmation a echoue");
+                    }
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;

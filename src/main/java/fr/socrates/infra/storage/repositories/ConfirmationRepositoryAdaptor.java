@@ -3,6 +3,7 @@ package fr.socrates.infra.storage.repositories;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.Confirmation;
 import fr.socrates.domain.attendee.ConfirmationRepository;
+import fr.socrates.domain.attendee.exceptions.UnknownConfirmationException;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.infra.storage.entities.CandidateEntity;
 import fr.socrates.infra.storage.entities.ConfirmationEntity;
@@ -39,6 +40,17 @@ public class ConfirmationRepositoryAdaptor implements ConfirmationRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public boolean confirmationExists(Candidate candidate) throws UnknownConfirmationException {
+
+        final String candidateId = candidate.getCandidateId().getId();
+        final ConfirmationEntity confirmation = jpaConfirmationRepository.findByCandidateCandidateId(candidateId);
+        if (confirmation == null)
+            throw new UnknownConfirmationException();
+        return true;
+
+
+    }
     private Confirmation createConfirmation(ConfirmationEntity confirmationEntity) {
         final CandidateId candidateId = new CandidateId(confirmationEntity.getCandidate().getCandidateId());
         final Date confirmationDate = confirmationEntity.getConfirmationDate();
@@ -48,12 +60,5 @@ public class ConfirmationRepositoryAdaptor implements ConfirmationRepository {
 
     private LocalDateTime convertConfirmationDate(Date confirmationDate) {
        return LocalDateTime.ofInstant(confirmationDate.toInstant(), ZoneId.systemDefault());
-    }
-
-
-    @Override
-    public boolean confirmationExists(Candidate candidate) {
-
-        throw new UnsupportedOperationException();
     }
 }

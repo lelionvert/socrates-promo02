@@ -4,6 +4,7 @@ import fr.socrates.SocratesApplication;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.Confirmation;
 import fr.socrates.domain.attendee.ConfirmationRepository;
+import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.infra.storage.entities.CandidateEntity;
 import fr.socrates.infra.storage.entities.ConfirmationEntity;
 import org.junit.After;
@@ -36,7 +37,7 @@ public class ConfirmationRepositoryAdaptorTest {
     private ConfirmationRepository confirmationRepository;
     private Date canfirmationDate;
     private LocalDateTime confirmationLocalDate;
-    private CandidateEntity candidate;
+    private CandidateEntity candidateEntity;
 
     @Before
     public void setUp() throws Exception {
@@ -55,8 +56,8 @@ public class ConfirmationRepositoryAdaptorTest {
 
     @Test
     public void should_add_a_confirmation_of_a_candidate() throws Exception {
-        candidate = createCandidate(1);
-        createConfirmation(candidate);
+        candidateEntity = createCandidateEntity(1);
+        createConfirmation(candidateEntity);
         ConfirmationEntity confirmationEntity = getConfirmationEntity();
         List<ConfirmationEntity> all = jpaConfirmationRepository.findAll();
         assertThat(all).containsExactly(confirmationEntity);
@@ -64,10 +65,22 @@ public class ConfirmationRepositoryAdaptorTest {
 
     @Test
     public void should_list_all_confirmations_of_candidates() throws Exception {
-        candidate = createCandidate(2);
-        final Confirmation confirmation = createConfirmation(candidate);
+        candidateEntity = createCandidateEntity(2);
+        final Confirmation confirmation = createConfirmation(candidateEntity);
         assertThat(confirmationRepository.getConfirmations()).containsExactly(confirmation);
 
+    }
+
+    @Test
+    public void should_confirm_that_confirmation_exists() throws Exception {
+        candidateEntity = createCandidateEntity(3);
+        final Confirmation confirmation = createConfirmation(candidateEntity);
+        assertThat(confirmationRepository.confirmationExists(createCandidate(candidateEntity))).isTrue();
+
+    }
+
+    private Candidate createCandidate(CandidateEntity candidateEntity) {
+        return Candidate.withEmailAndId(candidateEntity.getEmail());
     }
 
     private Confirmation createConfirmation(CandidateEntity candidate) {
@@ -78,12 +91,12 @@ public class ConfirmationRepositoryAdaptorTest {
 
     private ConfirmationEntity getConfirmationEntity() {
         ConfirmationEntity confirmationEntity = new ConfirmationEntity();
-        confirmationEntity.setCandidate(candidate);
+        confirmationEntity.setCandidate(candidateEntity);
         confirmationEntity.setConfirmationDate(canfirmationDate);
         return confirmationEntity;
     }
 
-    private CandidateEntity createCandidate(int unicityNumber) {
+    private CandidateEntity createCandidateEntity(int unicityNumber) {
         CandidateEntity candidate = new CandidateEntity();
         candidate.setEmail(unicityNumber + "mail@server.fr");
         candidate.setCandidateId(unicityNumber + "mail@server.fr");
