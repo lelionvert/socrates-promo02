@@ -1,5 +1,6 @@
 package fr.socrates.infra.storage.repositories;
 
+import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.Confirmation;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.candidate.Candidate;
@@ -7,7 +8,11 @@ import fr.socrates.infra.storage.entities.CandidateEntity;
 import fr.socrates.infra.storage.entities.ConfirmationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConfirmationRepositoryAdaptor implements ConfirmationRepository {
     private JpaConfirmationRepository jpaConfirmationRepository;
@@ -27,11 +32,28 @@ public class ConfirmationRepositoryAdaptor implements ConfirmationRepository {
 
     @Override
     public List<Confirmation> getConfirmations() {
-        return null;
+       
+       return  jpaConfirmationRepository.findAll()
+                .stream()
+                .map(confirmationEntity -> createConfirmation(confirmationEntity))
+                .collect(Collectors.toList());
     }
+
+    private Confirmation createConfirmation(ConfirmationEntity confirmationEntity) {
+        final CandidateId candidateId = new CandidateId(confirmationEntity.getCandidate().getCandidateId());
+        final Date confirmationDate = confirmationEntity.getConfirmationDate();
+
+        return new Confirmation(candidateId,convertConfirmationDate(confirmationDate));
+    }
+
+    private LocalDateTime convertConfirmationDate(Date confirmationDate) {
+       return LocalDateTime.ofInstant(confirmationDate.toInstant(), ZoneId.systemDefault());
+    }
+
 
     @Override
     public boolean confirmationExists(Candidate candidate) {
-        return false;
+
+        throw new UnsupportedOperationException();
     }
 }

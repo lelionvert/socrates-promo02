@@ -6,6 +6,7 @@ import fr.socrates.domain.attendee.Confirmation;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.infra.storage.entities.CandidateEntity;
 import fr.socrates.infra.storage.entities.ConfirmationEntity;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,32 +40,54 @@ public class ConfirmationRepositoryAdaptorTest {
 
     @Before
     public void setUp() throws Exception {
+
         confirmationRepository = new ConfirmationRepositoryAdaptor(jpaConfirmationRepository, jpaCandidateRepository);
-        candidate = createCandidate();
         confirmationLocalDate = LocalDateTime.of(2017, 8, 31, 14, 0, 0);
         canfirmationDate = Date.from(confirmationLocalDate.atZone(ZoneId.systemDefault()).toInstant());
 
-
     }
 
-    private CandidateEntity createCandidate() {
-        CandidateEntity candidate = new CandidateEntity();
-        candidate.setEmail("testa@doe.fr");
-        candidate.setCandidateId("testa@doe.fr");
-        jpaCandidateRepository.save(candidate);
-        return candidate;
+    @After
+    public void tearDown() throws Exception {
+        jpaConfirmationRepository.deleteAll();
+        jpaCandidateRepository.deleteAll();
     }
 
     @Test
     public void should_add_a_confirmation_of_a_candidate() throws Exception {
-        Confirmation candidateConfirmation = new Confirmation(new CandidateId("testa@doe.fr"), confirmationLocalDate);
-        confirmationRepository.add(candidateConfirmation);
-        ConfirmationEntity confirmationEntity = new ConfirmationEntity();
-        confirmationEntity.setCandidate(candidate);
-        confirmationEntity.setConfirmationDate(canfirmationDate);
+        candidate = createCandidate(1);
+        createConfirmation(candidate);
+        ConfirmationEntity confirmationEntity = getConfirmationEntity();
         List<ConfirmationEntity> all = jpaConfirmationRepository.findAll();
         assertThat(all).containsExactly(confirmationEntity);
     }
 
+    @Test
+    public void should_list_all_confirmations_of_candidates() throws Exception {
+        candidate = createCandidate(2);
+        final Confirmation confirmation = createConfirmation(candidate);
+        assertThat(confirmationRepository.getConfirmations()).containsExactly(confirmation);
 
+    }
+
+    private Confirmation createConfirmation(CandidateEntity candidate) {
+        Confirmation candidateConfirmation = new Confirmation(new CandidateId(candidate.getCandidateId()), confirmationLocalDate);
+        confirmationRepository.add(candidateConfirmation);
+        return candidateConfirmation;
+    }
+
+    private ConfirmationEntity getConfirmationEntity() {
+        ConfirmationEntity confirmationEntity = new ConfirmationEntity();
+        confirmationEntity.setCandidate(candidate);
+        confirmationEntity.setConfirmationDate(canfirmationDate);
+        return confirmationEntity;
+    }
+
+    private CandidateEntity createCandidate(int unicityNumber) {
+        CandidateEntity candidate = new CandidateEntity();
+        candidate.setEmail(unicityNumber + "mail@server.fr");
+        candidate.setCandidateId(unicityNumber + "mail@server.fr");
+        jpaCandidateRepository.save(candidate);
+        return candidate;
+    }
 }
