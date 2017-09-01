@@ -80,11 +80,10 @@ public class ConfirmationRepositoryAdaptorTest {
     }
 
     @Test
-    public void should_confirm_that_condidate_doesnt_be_confirmed_before() throws Exception {
-        candidateEntity = createCandidateEntity(4);
-        CandidateEntity candidateEntityWithoutConfirmation = createCandidateEntity(5);
-        final Confirmation confirmation = createConfirmation(candidateEntity);
-        assertThat(confirmationRepository.confirmationExists(createCandidate(candidateEntityWithoutConfirmation))).isFalse();
+    public void should_have_no_confirmation_for_a_new_candidate() throws Exception {
+        final Candidate newCandidate = Candidate.withEmailAndId("test");
+        final boolean isCandidateConfirmed = confirmationRepository.confirmationExists(newCandidate);
+        assertThat(isCandidateConfirmed).isFalse();
 
     }
 
