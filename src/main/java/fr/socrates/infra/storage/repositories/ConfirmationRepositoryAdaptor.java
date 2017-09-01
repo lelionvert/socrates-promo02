@@ -8,6 +8,7 @@ import fr.socrates.infra.storage.entities.CandidateEntity;
 import fr.socrates.infra.storage.entities.ConfirmationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -58,7 +59,7 @@ public class ConfirmationRepositoryAdaptor implements ConfirmationRepository {
         return new Confirmation(candidateId, convertConfirmationDate(confirmationDate));
     }
 
-    private LocalDateTime convertConfirmationDate(Date confirmationDate) {
-        return LocalDateTime.ofInstant(confirmationDate.toInstant(), ZoneId.systemDefault());
+    private LocalDate convertConfirmationDate(Date confirmationDate) {
+        return confirmationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 }

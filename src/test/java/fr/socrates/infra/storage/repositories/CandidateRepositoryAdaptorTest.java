@@ -41,7 +41,7 @@ public class CandidateRepositoryAdaptorTest {
 
     @Test
     public void should_find_all_candidates_from_jpa_repository() throws Exception {
-        jpaCandidateRepository.save(CandidateEntity.fromDomain(Candidate.withEmailAndId("hello@world.fr")));
+        jpaCandidateRepository.save(CandidateEntity.fromDomain(Candidate.singleRoomWithEmail("hello@world.fr")));
         assertThat(candidateRepository.findAll()).extracting("email").containsOnly("hello@world.fr");
     }
 
@@ -52,7 +52,7 @@ public class CandidateRepositoryAdaptorTest {
 
     @Test
     public void should_save_a_candidate_in_repository() throws Exception {
-        assertThat(candidateRepository.addCandidate(Candidate.withEmailAndId("john@doe.fr"))).extracting("email").containsOnly("john@doe.fr");
+        assertThat(candidateRepository.addCandidate(Candidate.singleRoomWithEmail("john@doe.fr"))).extracting("email").containsOnly("john@doe.fr");
         assertThat(jpaCandidateRepository.findAll()).extracting("email").containsOnly("john@doe.fr");
     }
 
@@ -63,23 +63,23 @@ public class CandidateRepositoryAdaptorTest {
 
     @Test(expected = UnknownCandidateException.class)
     public void should_throw_update_candidate_unknown_candidate_exception_if_old_email_is_null() throws Exception {
-        candidateRepository.updateCandidate(Candidate.withEmailAndId("john@doe.fr"), null);
+        candidateRepository.updateCandidate(Candidate.singleRoomWithEmail("john@doe.fr"), null);
     }
 
     @Test(expected = UnknownCandidateException.class)
     public void should_throw_update_candidate_unknown_candidate_exception_if_old_email_is_empty() throws Exception {
-        candidateRepository.updateCandidate(Candidate.withEmailAndId("john@doe.fr"), "");
+        candidateRepository.updateCandidate(Candidate.singleRoomWithEmail("john@doe.fr"), "");
     }
 
     @Test(expected = UnknownCandidateException.class)
     public void should_throw_update_candidate_unknown_candidate_exception_if_candidate_is_not_found() throws Exception {
-        candidateRepository.updateCandidate(Candidate.withEmailAndId("john@doe.fr"), "hello@word.fr");
+        candidateRepository.updateCandidate(Candidate.singleRoomWithEmail("john@doe.fr"), "hello@word.fr");
     }
 
     @Test
     public void should_update_a_candidate_in_repository() throws Exception {
-        jpaCandidateRepository.save(CandidateEntity.fromDomain(Candidate.withEmailAndId("john@doe.fr")));
-        Candidate updatedCandidate = Candidate.withEmailAndId("johndoe@socrates.fr");
+        jpaCandidateRepository.save(CandidateEntity.fromDomain(Candidate.singleRoomWithEmail("john@doe.fr")));
+        Candidate updatedCandidate = Candidate.singleRoomWithEmail("johndoe@socrates.fr");
         assertThat(candidateRepository.updateCandidate(updatedCandidate, "john@doe.fr")).extracting("email").containsOnly("johndoe@socrates.fr");
         assertThat(jpaCandidateRepository.findAll()).extracting("email").containsOnly("johndoe@socrates.fr");
     }
@@ -91,7 +91,7 @@ public class CandidateRepositoryAdaptorTest {
 
     @Test
     public void should_return_candidate_when_a_candidate_has_been_found_with_its_email() throws Exception {
-        jpaCandidateRepository.save(CandidateEntity.fromDomain(Candidate.withEmailAndId("john@doe.fr")));
+        jpaCandidateRepository.save(CandidateEntity.fromDomain(Candidate.singleRoomWithEmail("john@doe.fr")));
         assertThat(candidateRepository.findCandidateByEmail("john@doe.fr")).extracting("email").containsOnly("john@doe.fr");
     }
 
@@ -102,7 +102,7 @@ public class CandidateRepositoryAdaptorTest {
 
     @Test
     public void should_return_candidate_when_a_candidate_has_been_found_with_its_candidate_id() throws Exception {
-        jpaCandidateRepository.save(CandidateEntity.fromDomain(Candidate.withEmailAndId("john@doe.fr")));
-        assertThat(candidateRepository.findCandidateById(new CandidateId("john@doe.fr"))).isEqualTo(Candidate.withEmailAndId("john@doe.fr"));
+        jpaCandidateRepository.save(CandidateEntity.fromDomain(Candidate.singleRoomWithEmail("john@doe.fr")));
+        assertThat(candidateRepository.findCandidateById(new CandidateId("john@doe.fr"))).isEqualTo(Candidate.singleRoomWithEmail("john@doe.fr"));
     }
 }

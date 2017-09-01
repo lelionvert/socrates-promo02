@@ -54,7 +54,7 @@ public class CandidateEntity {
     }
 
     public Candidate toDomain() {
-        return Candidate.withEmailAndId(email);
+        return Candidate.singleRoomWithEmail(email);
     }
 
     public static CandidateEntity fromDomain(Candidate candidate) {

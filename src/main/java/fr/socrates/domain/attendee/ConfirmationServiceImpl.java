@@ -3,11 +3,14 @@ package fr.socrates.domain.attendee;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
 import fr.socrates.domain.candidate.exceptions.CandidateException;
+import fr.socrates.domain.common.AccommodationChoice;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ConfirmationServiceImpl implements ConfirmationService {
     private CandidateRepository candidateRepository;
     private ConfirmationRepository confirmationRepository;
@@ -28,14 +31,19 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     }
 
     @Override
-    public boolean confirm(String candidateEmail) throws CandidateException {
+    public boolean confirm(String candidateEmail, LocalDate date, Payment payment, AccommodationChoice accommodationChoice) throws CandidateException {
         final Candidate candidate = candidateRepository.findCandidateByEmail(candidateEmail);
         final boolean confirmationExists = confirmationRepository.confirmationExists(candidate);
         if (confirmationExists) {
             return false;
         }
 
-        confirmationRepository.add(new Confirmation(candidate.getCandidateId(), LocalDateTime.now()));
+        confirmationRepository.add(new Confirmation(candidate.getCandidateId(), date, accommodationChoice, payment));
         return true;
+    }
+
+    @Override
+    public List<Confirmation> getListConfirmations() {
+        return confirmationRepository.getConfirmations();
     }
 }

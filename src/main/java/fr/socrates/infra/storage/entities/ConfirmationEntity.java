@@ -66,7 +66,7 @@ public class ConfirmationEntity {
     public static ConfirmationEntity fromDomain(Confirmation confirmation, CandidateEntity candidate) {
         ConfirmationEntity confirmationEntity = new ConfirmationEntity();
         confirmationEntity.setCandidate(candidate);
-        confirmationEntity.setConfirmationDate(Date.from(confirmation.getConfirmationDate().atZone(ZoneId.systemDefault()).toInstant()));
+        confirmationEntity.setConfirmationDate(Date.from(confirmation.getConfirmationDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         return confirmationEntity;
     }
 }

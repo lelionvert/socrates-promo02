@@ -2,9 +2,11 @@ package fr.socrates.infra.storage.repositories;
 
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.candidate.Candidate;
+import fr.socrates.domain.candidate.ContactInformation;
 import fr.socrates.domain.candidate.exceptions.CandidateException;
 import fr.socrates.domain.candidate.CandidateRepository;
 import fr.socrates.domain.candidate.exceptions.UnknownCandidateException;
+import fr.socrates.domain.common.AccommodationChoices;
 
 import java.util.*;
 
@@ -29,7 +31,7 @@ public class InMemoryCandidateRepository implements CandidateRepository {
 
     @Override
     public Candidate findCandidateByEmail(String email) throws CandidateException {
-        Optional<Candidate> foundCandidate = candidateList.stream().filter(candidate -> candidate.hasEmail(email)).findFirst();
+        Optional<Candidate> foundCandidate = candidateList.stream().filter(candidate -> candidate.getEmail().equals(email)).findFirst();
         if (foundCandidate.isPresent())
             return foundCandidate.get();
         throw new UnknownCandidateException();
@@ -41,5 +43,15 @@ public class InMemoryCandidateRepository implements CandidateRepository {
         if (foundCandidate.isPresent())
             return foundCandidate.get();
         return null;
+    }
+
+    @Override
+    public void updateContactInfos(CandidateId candidateId, ContactInformation contactInformation) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void updateAccommodationChoices(CandidateId candidateId, AccommodationChoices accommodationChoices) {
+        throw new UnsupportedOperationException();
     }
 }

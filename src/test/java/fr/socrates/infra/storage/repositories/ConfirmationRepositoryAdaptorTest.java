@@ -17,6 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -36,16 +37,14 @@ public class ConfirmationRepositoryAdaptorTest {
     JpaConfirmationRepository jpaConfirmationRepository;
     private ConfirmationRepository confirmationRepository;
     private Date canfirmationDate;
-    private LocalDateTime confirmationLocalDate;
+    private LocalDate confirmationLocalDate;
     private CandidateEntity candidateEntity;
 
     @Before
     public void setUp() throws Exception {
-
         confirmationRepository = new ConfirmationRepositoryAdaptor(jpaConfirmationRepository, jpaCandidateRepository);
-        confirmationLocalDate = LocalDateTime.of(2017, 8, 31, 14, 0, 0);
-        canfirmationDate = Date.from(confirmationLocalDate.atZone(ZoneId.systemDefault()).toInstant());
-
+        confirmationLocalDate = LocalDate.of(2017, 8, 31);
+        canfirmationDate = Date.from(confirmationLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     @After
@@ -81,14 +80,14 @@ public class ConfirmationRepositoryAdaptorTest {
 
     @Test
     public void should_have_no_confirmation_for_a_new_candidate() throws Exception {
-        final Candidate newCandidate = Candidate.withEmailAndId("test");
+        final Candidate newCandidate = Candidate.singleRoomWithEmail("test");
         final boolean isCandidateConfirmed = confirmationRepository.confirmationExists(newCandidate);
         assertThat(isCandidateConfirmed).isFalse();
 
     }
 
     private Candidate createCandidate(CandidateEntity candidateEntity) {
-        return Candidate.withEmailAndId(candidateEntity.getEmail());
+        return Candidate.singleRoomWithEmail(candidateEntity.getEmail());
     }
 
     private Confirmation createConfirmation(CandidateEntity candidate) {

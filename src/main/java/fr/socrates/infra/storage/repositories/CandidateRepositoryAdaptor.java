@@ -6,12 +6,15 @@ import fr.socrates.domain.candidate.exceptions.AddCandidateException;
 import fr.socrates.domain.candidate.exceptions.CandidateException;
 import fr.socrates.domain.candidate.exceptions.UnknownCandidateException;
 import fr.socrates.domain.candidate.exceptions.UpdateCandidateNoNewDefinitionException;
+import fr.socrates.domain.common.AccommodationChoices;
 import fr.socrates.infra.storage.entities.CandidateEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
 public class CandidateRepositoryAdaptor implements CandidateRepository {
     private JpaCandidateRepository jpaCandidateRepository;
 
@@ -63,5 +66,15 @@ public class CandidateRepositoryAdaptor implements CandidateRepository {
             throw new UnknownCandidateException();
         candidateToUpdate.update(updateOfCandidate);
         return jpaCandidateRepository.save(candidateToUpdate).toDomain();
+    }
+
+    @Override
+    public void updateContactInfos(CandidateId candidateId, ContactInformation contactInformation) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void updateAccommodationChoices(CandidateId candidateId, AccommodationChoices accommodationChoices) {
+        throw new UnsupportedOperationException();
     }
 }

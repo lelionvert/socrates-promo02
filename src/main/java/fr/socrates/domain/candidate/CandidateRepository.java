@@ -1,6 +1,7 @@
 package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.CandidateId;
+import fr.socrates.domain.common.AccommodationChoices;
 import fr.socrates.domain.candidate.exceptions.AddCandidateException;
 import fr.socrates.domain.candidate.exceptions.CandidateException;
 import fr.socrates.domain.candidate.exceptions.UnknownCandidateException;
@@ -17,4 +18,8 @@ public interface CandidateRepository {
     Candidate findCandidateByEmail(String email) throws CandidateException;
 
     Candidate findCandidateById(CandidateId candidateId) throws UnknownCandidateException;
+
+    void updateContactInfos(CandidateId candidateId, ContactInformation contactInformation);
+
+    void updateAccommodationChoices(CandidateId candidateId, AccommodationChoices accommodationChoices);
 }

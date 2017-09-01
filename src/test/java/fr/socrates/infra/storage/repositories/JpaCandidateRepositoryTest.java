@@ -27,7 +27,7 @@ public class JpaCandidateRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        jpaCandidateRepository.save(CandidateEntity.fromDomain(Candidate.withEmailAndId("hello@world.fr")));
+        jpaCandidateRepository.save(CandidateEntity.fromDomain(Candidate.singleRoomWithEmail("hello@world.fr")));
     }
 
     @After
@@ -42,6 +42,6 @@ public class JpaCandidateRepositoryTest {
 
     @Test
     public void should_find_a_candidate_by_email() throws Exception {
-        assertThat(jpaCandidateRepository.findByEmail("hello@world.fr").toDomain()).isEqualTo(Candidate.withEmailAndId("hello@world.fr"));
+        assertThat(jpaCandidateRepository.findByEmail("hello@world.fr").toDomain()).isEqualTo(Candidate.singleRoomWithEmail("hello@world.fr"));
     }
 }

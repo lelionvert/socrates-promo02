@@ -5,7 +5,9 @@ import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.ConfirmationServiceImpl;
+import fr.socrates.domain.attendee.Payment;
 import fr.socrates.domain.candidate.Candidate;
+import fr.socrates.domain.candidate.exceptions.CandidateException.CandidatePersisteDataException;
 import fr.socrates.domain.candidate.CandidateRepository;
 import fr.socrates.domain.candidate.CandidateService;
 import fr.socrates.domain.candidate.CandidateServiceImpl;
@@ -14,6 +16,7 @@ import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.checkin.CheckInRepository;
 import fr.socrates.domain.checkin.CheckInService;
 import fr.socrates.domain.checkin.CheckInServiceImpl;
+import fr.socrates.domain.common.AccommodationChoice;
 import fr.socrates.domain.meal.MealService;
 import fr.socrates.domain.meal.MealServiceImpl;
 import fr.socrates.domain.sponsor.Sponsor;
@@ -26,6 +29,7 @@ import fr.socrates.infra.storage.repositories.InMemoryCheckInRepository;
 import fr.socrates.infra.storage.repositories.InMemoryConfirmationRepository;
 import fr.socrates.infra.storage.repositories.InMemorySponsorRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -70,10 +74,7 @@ class Main {
             switch (choice) {
                 case ONE:
                     consolePrinter.print("Ajouter un candidat : ");
-                    boolean create = false;
-                    create = candidateService.add(createCandidate(scanner, consolePrinter));
-                    if (!create)
-                        consolePrinter.print("Le candidat a deja ete ajoute");
+                    candidateService.add(createCandidate(scanner, consolePrinter));
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
@@ -120,7 +121,7 @@ class Main {
                     consolePrinter.print("Tape l'email du candidat à confirmer");
                     boolean confirmation = false;
 
-                    confirmation = confirmationService.confirm(scanner.next());
+                    confirmation = confirmationService.confirm(scanner.next(), LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM);
                     if (!confirmation) {
                         consolePrinter.print("Erreur la confirmation a echoue");
                     }
@@ -163,7 +164,8 @@ class Main {
             consolePrinter.print(candidateInfo + ":");
             candidateInputs.add(scanner.next());
         }
-        return Candidate.withEmail(candidateInputs.get(0));
+        // TODO ask for choices for candidate
+        return Candidate.singleRoomWithEmail(candidateInputs.get(0));
     }
 
     private static <T> List<String> format(List<T> list) {

@@ -7,10 +7,7 @@ public class CandidateId {
         this.id = id;
     }
 
-    public String getId() {
-        return id;
-    }
-
+   
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -31,5 +28,9 @@ public class CandidateId {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public String getId() {
+        return id;
     }
 }
