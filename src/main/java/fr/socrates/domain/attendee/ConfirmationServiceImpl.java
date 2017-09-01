@@ -2,17 +2,14 @@ package fr.socrates.domain.attendee;
 
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
-import fr.socrates.domain.meal.Diet;
 import fr.socrates.domain.common.AccommodationChoice;
+import fr.socrates.domain.meal.Diet;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class ConfirmationServiceImpl implements ConfirmationService {
@@ -60,8 +57,8 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     public void addDiet(String candidateEmail, Diet diet) {
         Optional<Candidate> foundCandidate = candidateRepository.findByEmail(candidateEmail);
 
-        final Candidate candidate = foundCandidate.get();
-        if (confirmationRepository.confirmationExists(candidate))
-            foundCandidate.ifPresent(participant -> candidateRepository.updateDietOf(participant.getCandidateId(), diet));
+        foundCandidate
+                .filter(confirmationRepository::confirmationExists)
+                .ifPresent(candidate -> candidateRepository.updateDietOf(candidate.getCandidateId(), diet));
     }
 }
