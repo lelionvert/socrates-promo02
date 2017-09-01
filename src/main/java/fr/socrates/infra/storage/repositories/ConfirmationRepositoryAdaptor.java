@@ -3,7 +3,6 @@ package fr.socrates.infra.storage.repositories;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.Confirmation;
 import fr.socrates.domain.attendee.ConfirmationRepository;
-import fr.socrates.domain.attendee.exceptions.UnknownConfirmationException;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.infra.storage.entities.CandidateEntity;
 import fr.socrates.infra.storage.entities.ConfirmationEntity;
@@ -33,32 +32,33 @@ public class ConfirmationRepositoryAdaptor implements ConfirmationRepository {
 
     @Override
     public List<Confirmation> getConfirmations() {
-       
-       return  jpaConfirmationRepository.findAll()
+
+        return jpaConfirmationRepository.findAll()
                 .stream()
                 .map(confirmationEntity -> createConfirmation(confirmationEntity))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public boolean confirmationExists(Candidate candidate) throws UnknownConfirmationException {
+    public boolean confirmationExists(Candidate candidate) {
 
         final String candidateId = candidate.getCandidateId().getId();
         final ConfirmationEntity confirmation = jpaConfirmationRepository.findByCandidateCandidateId(candidateId);
         if (confirmation == null)
-            throw new UnknownConfirmationException();
+            return false;
         return true;
 
 
     }
+
     private Confirmation createConfirmation(ConfirmationEntity confirmationEntity) {
         final CandidateId candidateId = new CandidateId(confirmationEntity.getCandidate().getCandidateId());
         final Date confirmationDate = confirmationEntity.getConfirmationDate();
 
-        return new Confirmation(candidateId,convertConfirmationDate(confirmationDate));
+        return new Confirmation(candidateId, convertConfirmationDate(confirmationDate));
     }
 
     private LocalDateTime convertConfirmationDate(Date confirmationDate) {
-       return LocalDateTime.ofInstant(confirmationDate.toInstant(), ZoneId.systemDefault());
+        return LocalDateTime.ofInstant(confirmationDate.toInstant(), ZoneId.systemDefault());
     }
 }

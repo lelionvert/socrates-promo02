@@ -5,7 +5,6 @@ import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.ConfirmationServiceImpl;
-import fr.socrates.domain.attendee.exceptions.UnknownConfirmationException;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
 import fr.socrates.domain.candidate.CandidateService;
@@ -120,9 +119,9 @@ class Main {
                     consolePrinter.print(format(candidateService.getRegisteredCandidates()));
                     consolePrinter.print("Tape l'email du candidat à confirmer");
                     boolean confirmation = false;
-                    try {
-                        confirmation = confirmationService.confirm(scanner.next());
-                    } catch (UnknownConfirmationException e) {
+
+                    confirmation = confirmationService.confirm(scanner.next());
+                    if (!confirmation) {
                         consolePrinter.print("Erreur la confirmation a echoue");
                     }
                     consolePrinter.print(MENU_MESSAGE);

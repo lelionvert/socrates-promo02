@@ -1,6 +1,5 @@
 package fr.socrates.domain.attendee;
 
-import fr.socrates.domain.attendee.exceptions.UnknownConfirmationException;
 import fr.socrates.domain.candidate.Candidate;
 
 import java.util.List;
@@ -11,5 +10,5 @@ public interface ConfirmationRepository {
 
     List<Confirmation> getConfirmations();
 
-    boolean confirmationExists(Candidate candidate) throws UnknownConfirmationException;
+    boolean confirmationExists(Candidate candidate);
 }

@@ -79,6 +79,15 @@ public class ConfirmationRepositoryAdaptorTest {
 
     }
 
+    @Test
+    public void should_confirm_that_condidate_doesnt_be_confirmed_before() throws Exception {
+        candidateEntity = createCandidateEntity(4);
+        CandidateEntity candidateEntityWithoutConfirmation = createCandidateEntity(5);
+        final Confirmation confirmation = createConfirmation(candidateEntity);
+        assertThat(confirmationRepository.confirmationExists(createCandidate(candidateEntityWithoutConfirmation))).isFalse();
+
+    }
+
     private Candidate createCandidate(CandidateEntity candidateEntity) {
         return Candidate.withEmailAndId(candidateEntity.getEmail());
     }

@@ -1,9 +1,8 @@
 package fr.socrates.domain.attendee;
 
-import fr.socrates.domain.attendee.exceptions.UnknownConfirmationException;
 import fr.socrates.domain.candidate.Candidate;
-import fr.socrates.domain.candidate.exceptions.CandidateException;
 import fr.socrates.domain.candidate.CandidateRepository;
+import fr.socrates.domain.candidate.exceptions.CandidateException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     }
 
     @Override
-    public boolean confirm(String candidateEmail) throws CandidateException, UnknownConfirmationException {
+    public boolean confirm(String candidateEmail) throws CandidateException {
         final Candidate candidate = candidateRepository.findCandidateByEmail(candidateEmail);
         final boolean confirmationExists = confirmationRepository.confirmationExists(candidate);
         if (confirmationExists) {
