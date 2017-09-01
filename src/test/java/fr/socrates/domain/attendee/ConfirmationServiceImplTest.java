@@ -28,7 +28,7 @@ public class ConfirmationServiceImplTest {
 
     @Test
     public void should_not_have_any_attendee_by_default() throws Exception {
-        assertThat(new ConfirmationServiceImpl(candidateRepository, new InMemoryConfirmationRepository()).getListAttendee()).isEmpty();
+        assertThat(new ConfirmationServiceImpl(candidateRepository, new InMemoryConfirmationRepository()).getAttendee()).isEmpty();
     }
 
     @Test
@@ -36,7 +36,7 @@ public class ConfirmationServiceImplTest {
         final String email = "john@doe.fr";
         Mockito.doReturn(Optional.empty()).when(candidateRepository).findByEmail(email);
         assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isFalse();
-        assertThat(confirmationService.getListAttendee()).isEmpty();
+        assertThat(confirmationService.getAttendee()).isEmpty();
     }
 
     @Test
@@ -45,7 +45,7 @@ public class ConfirmationServiceImplTest {
         Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByEmail(email);
         Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
         assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isTrue();
-        assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
+        assertThat(confirmationService.getAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
     }
 
   @Test
@@ -55,7 +55,7 @@ public class ConfirmationServiceImplTest {
     Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
     assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isTrue();
     assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isFalse();
-    assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
+      assertThat(confirmationService.getAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
   }
 
     @Test
@@ -67,7 +67,7 @@ public class ConfirmationServiceImplTest {
         confirmationService.confirm(email, now, Payment.TRANSFER, AccommodationChoice.NO_ACCOMMODATION);
 
         Confirmation confirmationExpected = new Confirmation(new CandidateId(email), now, AccommodationChoice.NO_ACCOMMODATION, Payment.TRANSFER);
-        assertThat(confirmationService.getListConfirmations()).containsExactly(confirmationExpected);
+        assertThat(confirmationService.getConfirmations()).containsExactly(confirmationExpected);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class ConfirmationServiceImplTest {
         confirmationService.confirm(email, now, Payment.TRANSFER, AccommodationChoice.DOUBLE_ROOM);
 
         Confirmation confirmationExpected = new Confirmation(new CandidateId(email), now, AccommodationChoice.DOUBLE_ROOM, Payment.TRANSFER);
-        assertThat(confirmationService.getListConfirmations()).containsExactly(confirmationExpected);
+        assertThat(confirmationService.getConfirmations()).containsExactly(confirmationExpected);
     }
 
     @Test
@@ -91,7 +91,7 @@ public class ConfirmationServiceImplTest {
         confirmationService.confirm(email, now, Payment.AT_CHECKOUT, AccommodationChoice.DOUBLE_ROOM);
 
         Confirmation confirmationExpected = new Confirmation(new CandidateId(email), now, AccommodationChoice.DOUBLE_ROOM, Payment.AT_CHECKOUT);
-        assertThat(confirmationService.getListConfirmations()).containsExactly(confirmationExpected);
+        assertThat(confirmationService.getConfirmations()).containsExactly(confirmationExpected);
     }
 
     @Test

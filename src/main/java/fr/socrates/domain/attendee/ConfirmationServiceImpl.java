@@ -22,14 +22,14 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     }
 
     @Override
-    public List<Candidate> getListAttendee() {
-        final List<Candidate> attendeesList = new ArrayList<>();
-        final List<Confirmation> confirmationsList = confirmationRepository.getConfirmations();
-        for (Confirmation confirmation : confirmationsList) {
+    public List<Candidate> getAttendee() {
+        final List<Candidate> attendees = new ArrayList<>();
+        final List<Confirmation> confirmations = confirmationRepository.getConfirmations();
+        for (Confirmation confirmation : confirmations) {
             Optional<Candidate> foundCandidate = candidateRepository.findByCandidateID(confirmation.getCandidateId());
-            foundCandidate.ifPresent(attendeesList::add);
+            foundCandidate.ifPresent(attendees::add);
         }
-        return attendeesList;
+        return attendees;
 
     }
 
@@ -49,7 +49,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     }
 
     @Override
-    public List<Confirmation> getListConfirmations() {
+    public List<Confirmation> getConfirmations() {
         return confirmationRepository.getConfirmations();
     }
 

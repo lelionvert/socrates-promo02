@@ -26,7 +26,7 @@ public class MealServiceImpl implements MealService {
     @Override
     @Deprecated
     public Map<MealTime, Map<Diet, Long>> getCoversByDiet() {
-        List<Candidate> attendees = confirmationService.getListAttendee();
+        List<Candidate> attendees = confirmationService.getAttendee();
         Map<MealTime, Map<Diet, Long>> covers = new HashMap<>();
 
         for (MealTime mealTime : MealTime.values()) {
@@ -45,7 +45,7 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Catering generateOrder() {
-        List<Candidate> attendees = confirmationService.getListAttendee();
+        List<Candidate> attendees = confirmationService.getAttendee();
 
         if (attendees.isEmpty())
             return new Catering(Collections.emptyMap());

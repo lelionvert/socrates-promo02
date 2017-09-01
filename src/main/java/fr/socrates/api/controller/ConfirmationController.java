@@ -28,7 +28,7 @@ public class ConfirmationController {
     @GetMapping
     public ResponseEntity<Collection<ConfirmationDTO>> getConfirmations() {
         ArrayList<ConfirmationDTO> confirmationDTOS = new ArrayList<>();
-        confirmationService.getListConfirmations().forEach(confirmation ->{
+        confirmationService.getConfirmations().forEach(confirmation -> {
             Optional<Candidate> candidateByCandidateID = candidateService.findCandidateByCandidateID(confirmation.getCandidateId());
             candidateByCandidateID.ifPresent(candidate -> confirmationDTOS.add(ConfirmationDTO.mapToDTO(candidate.getEmail().getEmail(), confirmation.getAccommodationChoice(), confirmation.getPayment())));
         } );

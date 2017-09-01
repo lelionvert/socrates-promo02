@@ -13,11 +13,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-import static fr.socrates.domain.meal.Diet.NORMAL;
-import static fr.socrates.domain.meal.Diet.PESCATARIAN;
-import static fr.socrates.domain.meal.Diet.VEGAN;
+import static fr.socrates.domain.meal.Diet.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -39,7 +39,7 @@ public class MealServiceTest {
 
     @Test
     public void should_no_produce_an_order_without_attendes() throws Exception {
-        when(confirmationService.getListAttendee()).thenReturn(Collections.emptyList());
+        when(confirmationService.getAttendee()).thenReturn(Collections.emptyList());
 
         Catering cateringOrdering = mealService.generateOrder();
 
@@ -56,7 +56,7 @@ public class MealServiceTest {
                         .withCandidateId(new CandidateId("1"))
                         .withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM)
                         .build());
-        when(confirmationService.getListAttendee()).thenReturn(attendees);
+        when(confirmationService.getAttendee()).thenReturn(attendees);
 
         Catering cateringOrdering = mealService.generateOrder();
 
@@ -72,7 +72,7 @@ public class MealServiceTest {
         List<Candidate> attendees = Arrays.asList(
                 new Candidate.CandidateBuilder().withEmail(EMail.of("kara@doc.fr")).withDiet(Diet.NORMAL).withCandidateId(new CandidateId("1")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
                 new Candidate.CandidateBuilder().withEmail(EMail.of("perce@val.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("2")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build());
-        when(confirmationService.getListAttendee()).thenReturn(attendees);
+        when(confirmationService.getAttendee()).thenReturn(attendees);
 
         Catering cateringOrdering = mealService.generateOrder();
 
@@ -95,7 +95,7 @@ public class MealServiceTest {
         List<Candidate> attendees = Arrays.asList(
                 new Candidate.CandidateBuilder().withEmail(EMail.of("kara@doc.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("1")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
                 new Candidate.CandidateBuilder().withEmail(EMail.of("perce@val.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("2")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build());
-        when(confirmationService.getListAttendee()).thenReturn(attendees);
+        when(confirmationService.getAttendee()).thenReturn(attendees);
 
         Catering cateringOrdering = mealService.generateOrder();
 
@@ -114,7 +114,7 @@ public class MealServiceTest {
                 new Candidate.CandidateBuilder().withEmail(EMail.of("dame@seli.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("3")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
                 new Candidate.CandidateBuilder().withEmail(EMail.of("roi@loth.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("4")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
                 new Candidate.CandidateBuilder().withEmail(EMail.of("bo@hort.fr")).withDiet(Diet.PESCATARIAN).withCandidateId(new CandidateId("5")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build());
-        when(confirmationService.getListAttendee()).thenReturn(attendees);
+        when(confirmationService.getAttendee()).thenReturn(attendees);
 
         when(checkInService.isCandidatePresentAt(attendees.get(1).getCandidateId(), MealTime.THURSDAY_NIGHT.getDateTime())).thenReturn(false);
 

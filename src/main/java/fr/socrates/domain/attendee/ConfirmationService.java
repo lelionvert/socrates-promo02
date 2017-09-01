@@ -8,10 +8,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ConfirmationService {
-    List<Candidate> getListAttendee();
+    List<Candidate> getAttendee();
 
     boolean confirm(String candidateEmail, LocalDate date, Payment transfer, AccommodationChoice singleRoom);
-    List<Confirmation> getListConfirmations();
+
+    List<Confirmation> getConfirmations();
 
     void addDiet(String candidateEmail, Diet diet);
 }

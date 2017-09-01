@@ -126,7 +126,7 @@ class Main {
                     break;
                 case EIGHT:
                     consolePrinter.print("Liste des confirmes :");
-                    consolePrinter.print(format(confirmationService.getListAttendee()));
+                    consolePrinter.print(format(confirmationService.getAttendee()));
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;
