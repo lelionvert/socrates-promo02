@@ -71,7 +71,7 @@ class Main {
                     consolePrinter.print("Ajouter un candidat : ");
                     try {
                         candidateService.add(createCandidate(scanner, consolePrinter));
-                    } catch (CandidatePersisteDataException | CandidateExistingException e) {
+                    } catch (CandidateException.CandidatePersisteDataException | CandidateException.CandidateExistingException e) {
                         consolePrinter.print(e.toString());
                     }
                     consolePrinter.print(MENU_MESSAGE);

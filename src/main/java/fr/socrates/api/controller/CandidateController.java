@@ -2,8 +2,7 @@ package fr.socrates.api.controller;
 
 import fr.socrates.api.DTO.CandidateDTO;
 import fr.socrates.domain.candidate.Candidate;
-import fr.socrates.domain.candidate.CandidateExistingException;
-import fr.socrates.domain.candidate.CandidatePersisteDataException;
+import fr.socrates.domain.candidate.CandidateException;
 import fr.socrates.domain.candidate.CandidateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,9 +45,9 @@ public class CandidateController {
             else
                 return ResponseEntity.noContent().build();
 
-        } catch (CandidatePersisteDataException e) {
+        } catch (CandidateException.CandidatePersisteDataException e) {
             return ResponseEntity.badRequest().build();
-        } catch (CandidateExistingException e) {
+        } catch (CandidateException.CandidateExistingException e) {
             return ResponseEntity.status(409).build();
         }
 

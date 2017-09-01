@@ -37,7 +37,7 @@ public class CandidateServiceImplTest {
                 .containsExactly(Candidate.singleRoomWithEmail(email));
     }
 
-    @Test(expected = CandidateExistingException.class)
+    @Test(expected = CandidateException.CandidateExistingException.class)
     public void should_guaranty_unicity_of_candidates() throws Exception {
         final String email = "test@test.net";
         candidateService.add(Candidate.singleRoomWithEmail(email));
@@ -61,7 +61,7 @@ public class CandidateServiceImplTest {
     }
 
 
-    @Test(expected = CandidateExistingException.class)
+    @Test(expected = CandidateException.CandidateExistingException.class)
     public void should_reject_candidate_when_already_exists() throws Exception {
         final String email = "john@doe.fr";
         candidateService.add(Candidate.singleRoomWithEmail(email));
@@ -69,7 +69,7 @@ public class CandidateServiceImplTest {
 
     }
 
-    @Test(expected = CandidatePersisteDataException.class)
+    @Test(expected = CandidateException.CandidatePersisteDataException.class)
     public void should_manage_candidate_failure_in_persistence() throws Exception {
         final String email = "john@doe.fr";
         final Candidate candidate = Candidate.singleRoomWithEmail(email);

@@ -11,9 +11,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Optional;
 
+import static fr.socrates.domain.candidate.ContactInformation.ContactInformationsBuilder.aContactInformations;
 import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder;
 import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices;
-import static fr.socrates.domain.candidate.ContactInformation.ContactInformationsBuilder.aContactInformations;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -22,8 +22,6 @@ public class UpdateCandidateFeature {
 
     @Test
     public void should_candidate_be_updated() throws Exception {
-
-
         final String emailCandidate = "toto@gmail.com";
 
         Candidate candidate = Candidate.CandidateBuilder.aCandidate()
