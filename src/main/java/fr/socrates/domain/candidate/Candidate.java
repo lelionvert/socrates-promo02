@@ -5,9 +5,9 @@ import fr.socrates.domain.common.AccommodationChoice;
 import fr.socrates.domain.common.AccommodationChoices;
 import fr.socrates.domain.meal.Diet;
 
-import static fr.socrates.domain.common.AccommodationChoices.*;
-import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder.*;
 import static fr.socrates.domain.candidate.Candidate.CandidateBuilder.aCandidate;
+import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder;
+import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices;
 
 public class Candidate {
     private final CandidateId candidateId;
@@ -99,7 +99,7 @@ public class Candidate {
         private ContactInformation contactInformation;
         private Diet diet = Diet.NORMAL;
 
-        public CandidateBuilder() {
+        private CandidateBuilder() {
         }
 
         public static CandidateBuilder aCandidate() {
@@ -148,13 +148,13 @@ public class Candidate {
             return new Candidate(candidateId, email, contactInformation, accommodationChoices, diet);
         }
 
-        public CandidateBuilder fromCandidate(Candidate candidate) {
-            this.diet = candidate.getDiet();
-            this.accommodationChoices = candidate.getAccommodationChoices();
-            this.candidateId = candidate.getCandidateId();
-            this.contactInformation = candidate.getContactInformation();
-            this.email = candidate.getEmail();
-            return this;
+        public static CandidateBuilder fromCandidate(Candidate candidate) {
+            return new CandidateBuilder()
+                    .withEmail(candidate.getEmail())
+                    .withDiet(candidate.getDiet())
+                    .withAccommodationChoices(candidate.getAccommodationChoices())
+                    .withCandidateId(candidate.getCandidateId())
+                    .withContactInformations(candidate.getContactInformation());
         }
     }
 }

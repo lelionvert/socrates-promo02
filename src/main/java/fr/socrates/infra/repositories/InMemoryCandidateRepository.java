@@ -1,11 +1,11 @@
 package fr.socrates.infra.repositories;
 
 import fr.socrates.domain.CandidateId;
-import fr.socrates.domain.common.AccommodationChoices;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
-import fr.socrates.domain.meal.Diet;
 import fr.socrates.domain.candidate.ContactInformation;
+import fr.socrates.domain.common.AccommodationChoices;
+import fr.socrates.domain.meal.Diet;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class InMemoryCandidateRepository implements CandidateRepository {
         Optional<Candidate> foundCandidate = candidateList.stream().filter(candidate -> candidate.hasCandidateID(candidateId)).findAny();
         if (foundCandidate.isPresent()) {
             candidateList.remove(foundCandidate.get());
-            candidateList.add(new Candidate.CandidateBuilder().fromCandidate(foundCandidate.get()).withDiet(diet).build());
+            candidateList.add(Candidate.CandidateBuilder.fromCandidate(foundCandidate.get()).withDiet(diet).build());
         }
     }
 }

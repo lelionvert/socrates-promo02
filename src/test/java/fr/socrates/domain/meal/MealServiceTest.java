@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static fr.socrates.domain.candidate.Candidate.CandidateBuilder;
 import static fr.socrates.domain.meal.Diet.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -50,7 +51,7 @@ public class MealServiceTest {
     @Test
     public void should_get_number_of_covers_by_diet_by_mealtime_when_only_one_attendee() throws Exception {
         List<Candidate> attendees = Collections.singletonList(
-                new Candidate.CandidateBuilder()
+                CandidateBuilder.aCandidate()
                         .withEmail(EMail.of("kara@doc.fr"))
                         .withDiet(Diet.NORMAL)
                         .withCandidateId(new CandidateId("1"))
@@ -70,8 +71,8 @@ public class MealServiceTest {
     @Test
     public void should_get_number_of_covers_by_diet_by_mealtime_for_several_attendees() throws Exception {
         List<Candidate> attendees = Arrays.asList(
-                new Candidate.CandidateBuilder().withEmail(EMail.of("kara@doc.fr")).withDiet(Diet.NORMAL).withCandidateId(new CandidateId("1")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
-                new Candidate.CandidateBuilder().withEmail(EMail.of("perce@val.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("2")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build());
+                CandidateBuilder.aCandidate().withEmail(EMail.of("kara@doc.fr")).withDiet(Diet.NORMAL).withCandidateId(new CandidateId("1")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
+                CandidateBuilder.aCandidate().withEmail(EMail.of("perce@val.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("2")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build());
         when(confirmationService.getAttendee()).thenReturn(attendees);
 
         Catering cateringOrdering = mealService.generateOrder();
@@ -93,8 +94,8 @@ public class MealServiceTest {
     @Test
     public void should_get_number_of_covers_by_diet_by_mealtime_for_several_attendees_same_diet() throws Exception {
         List<Candidate> attendees = Arrays.asList(
-                new Candidate.CandidateBuilder().withEmail(EMail.of("kara@doc.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("1")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
-                new Candidate.CandidateBuilder().withEmail(EMail.of("perce@val.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("2")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build());
+                CandidateBuilder.aCandidate().withEmail(EMail.of("kara@doc.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("1")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
+                CandidateBuilder.aCandidate().withEmail(EMail.of("perce@val.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("2")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build());
         when(confirmationService.getAttendee()).thenReturn(attendees);
 
         Catering cateringOrdering = mealService.generateOrder();
@@ -109,11 +110,11 @@ public class MealServiceTest {
     @Test
     public void should_get_number_of_covers_by_diet_by_mealtime_for_several_attendees_except_thursday_for_one_attendee() throws Exception {
         List<Candidate> attendees = Arrays.asList(
-                new Candidate.CandidateBuilder().withEmail(EMail.of("kara@doc.fr")).withDiet(Diet.NORMAL).withCandidateId(new CandidateId("1")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
-                new Candidate.CandidateBuilder().withEmail(EMail.of("perce@val.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("2")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
-                new Candidate.CandidateBuilder().withEmail(EMail.of("dame@seli.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("3")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
-                new Candidate.CandidateBuilder().withEmail(EMail.of("roi@loth.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("4")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
-                new Candidate.CandidateBuilder().withEmail(EMail.of("bo@hort.fr")).withDiet(Diet.PESCATARIAN).withCandidateId(new CandidateId("5")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build());
+                CandidateBuilder.aCandidate().withEmail(EMail.of("kara@doc.fr")).withDiet(Diet.NORMAL).withCandidateId(new CandidateId("1")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
+                CandidateBuilder.aCandidate().withEmail(EMail.of("perce@val.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("2")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
+                CandidateBuilder.aCandidate().withEmail(EMail.of("dame@seli.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("3")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
+                CandidateBuilder.aCandidate().withEmail(EMail.of("roi@loth.fr")).withDiet(VEGAN).withCandidateId(new CandidateId("4")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build(),
+                CandidateBuilder.aCandidate().withEmail(EMail.of("bo@hort.fr")).withDiet(Diet.PESCATARIAN).withCandidateId(new CandidateId("5")).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build());
         when(confirmationService.getAttendee()).thenReturn(attendees);
 
         when(checkInService.isCandidatePresentAt(attendees.get(1).getCandidateId(), MealTime.THURSDAY_NIGHT.getDateTime())).thenReturn(false);
