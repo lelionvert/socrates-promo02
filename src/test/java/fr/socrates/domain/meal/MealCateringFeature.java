@@ -52,9 +52,6 @@ public class MealCateringFeature {
     private ConfirmationService confirmationService;
     private MealService mealService;
 
-    @Mock
-    private Printer console;
-
     @Before
     public void setUp() throws Exception {
         johndoe = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("1")).withEmail(EMail.of(JOHN_DOE_FR)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
