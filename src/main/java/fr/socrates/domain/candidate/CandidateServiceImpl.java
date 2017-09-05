@@ -1,7 +1,6 @@
 package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.CandidateId;
-
 import fr.socrates.domain.candidate.exceptions.AddCandidateException;
 import fr.socrates.domain.candidate.exceptions.CandidateException;
 import fr.socrates.domain.common.AccommodationChoices;
