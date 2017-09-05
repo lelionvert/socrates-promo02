@@ -25,7 +25,7 @@ public class CandidateServiceImpl implements CandidateService {
         saveCandidate(candidate);
     }
 
-    private void checkThatCandidateDoesntExist(Candidate candidate) throws fr.socrates.domain.candidate.exceptions.CandidateException.CandidateExistingException, fr.socrates.domain.candidate.exceptions.CandidateException {
+    private void checkThatCandidateDoesntExist(Candidate candidate) throws fr.socrates.domain.candidate.exceptions.CandidateException {
         if (candidateRepository.findCandidateByEmail(candidate.getEmail()) != null) {
             throw new fr.socrates.domain.candidate.exceptions.CandidateException.CandidateExistingException();
         }

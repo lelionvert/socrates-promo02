@@ -42,14 +42,9 @@ public class ConfirmationRepositoryAdaptor implements ConfirmationRepository {
 
     @Override
     public boolean confirmationExists(Candidate candidate) {
-
         final String candidateId = candidate.getCandidateId().getId();
         final ConfirmationEntity confirmation = jpaConfirmationRepository.findByCandidateCandidateId(candidateId);
-        if (confirmation == null)
-            return false;
-        return true;
-
-
+        return confirmation != null;
     }
 
     private Confirmation createConfirmation(ConfirmationEntity confirmationEntity) {

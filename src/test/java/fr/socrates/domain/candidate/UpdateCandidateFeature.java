@@ -15,7 +15,6 @@ import static fr.socrates.domain.candidate.ContactInformation.ContactInformation
 import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder;
 import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class UpdateCandidateFeature {
     @Test
@@ -29,7 +28,6 @@ public class UpdateCandidateFeature {
                         .withAccommodationChoices(AccommodationChoice.SINGLE_ROOM).build()).build();
 
         CandidateService candidateService = new CandidateServiceImpl(new InMemoryCandidateRepository());
-
 
         candidateService.add(candidate);
 
@@ -46,6 +44,4 @@ public class UpdateCandidateFeature {
         Assertions.assertThat(candidateToCheckPresence.get().printDetail()).isEqualTo("Candidate{candidateId=CandidateId{id='toto@gmail.com'}, email=toto@gmail.com, accommodationChoices=AccommodationChoices{accommodationChoices=[AccommodationChoice{accommodationChoiceValue='Double Room'}, null, null, null], remarks='j'aime la moto'}, contactInformation=ContactInformation{twitter='@Arolla', phoneNumber=PhoneNumber{phoneNumber='0600010203'}}}");
 
     }
-
-
 }

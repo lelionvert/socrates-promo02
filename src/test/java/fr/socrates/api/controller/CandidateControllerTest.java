@@ -4,13 +4,17 @@ import fr.socrates.SocratesApplication;
 import fr.socrates.api.DTO.CandidateDTO;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateService;
+import fr.socrates.infra.storage.entities.CandidateEntity;
+import fr.socrates.infra.storage.repositories.JpaCandidateRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -18,6 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -36,12 +41,17 @@ public class CandidateControllerTest {
     @Autowired
     private WebApplicationContext context;
 
+    @MockBean
+    private JpaCandidateRepository jpaCandidateRepository;
+
     @Before
     public void setUp() throws Exception {
         this.mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
+
+        given(jpaCandidateRepository.findByEmail("john@doe.fr")).willReturn(new CandidateEntity(1L, "john@doe.fr"));
     }
 
     @Test

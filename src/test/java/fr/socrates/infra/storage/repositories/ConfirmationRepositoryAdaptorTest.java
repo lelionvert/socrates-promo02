@@ -7,36 +7,35 @@ import fr.socrates.domain.attendee.ConfirmationRepository;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.infra.storage.entities.CandidateEntity;
 import fr.socrates.infra.storage.entities.ConfirmationEntity;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {SocratesApplication.class})
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application-test.properties")
 public class ConfirmationRepositoryAdaptorTest {
-    @Autowired
+    @MockBean
     JpaCandidateRepository jpaCandidateRepository;
 
-    @Autowired
+    @MockBean
     JpaConfirmationRepository jpaConfirmationRepository;
+
     private ConfirmationRepository confirmationRepository;
-    private Date canfirmationDate;
+    private Date confirmationDate;
     private LocalDate confirmationLocalDate;
     private CandidateEntity candidateEntity;
 
@@ -44,22 +43,21 @@ public class ConfirmationRepositoryAdaptorTest {
     public void setUp() throws Exception {
         confirmationRepository = new ConfirmationRepositoryAdaptor(jpaConfirmationRepository, jpaCandidateRepository);
         confirmationLocalDate = LocalDate.of(2017, 8, 31);
-        canfirmationDate = Date.from(confirmationLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        jpaConfirmationRepository.deleteAll();
-        jpaCandidateRepository.deleteAll();
+        confirmationDate = Date.from(confirmationLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     @Test
     public void should_add_a_confirmation_of_a_candidate() throws Exception {
-        candidateEntity = createCandidateEntity(1);
-        createConfirmation(candidateEntity);
-        ConfirmationEntity confirmationEntity = getConfirmationEntity();
-        List<ConfirmationEntity> all = jpaConfirmationRepository.findAll();
-        assertThat(all).containsExactly(confirmationEntity);
+        // GIVEN
+        CandidateEntity candidate = new CandidateEntity(1L, "mail@server.fr");
+        candidate.setCandidateId("mail@server.fr");
+        given(jpaCandidateRepository.findByCandidateId("mail@server.fr")).willReturn(candidate);
+        // WHEN
+        Confirmation candidateConfirmation = new Confirmation(new CandidateId(candidate.getCandidateId()), confirmationLocalDate);
+        confirmationRepository.add(candidateConfirmation);
+        // THEN
+        ConfirmationEntity confirmation = ConfirmationEntity.fromDomain(candidateConfirmation, candidate);
+        verify(jpaConfirmationRepository).save(confirmation);
     }
 
     @Test
@@ -99,7 +97,7 @@ public class ConfirmationRepositoryAdaptorTest {
     private ConfirmationEntity getConfirmationEntity() {
         ConfirmationEntity confirmationEntity = new ConfirmationEntity();
         confirmationEntity.setCandidate(candidateEntity);
-        confirmationEntity.setConfirmationDate(canfirmationDate);
+        confirmationEntity.setConfirmationDate(confirmationDate);
         return confirmationEntity;
     }
 
