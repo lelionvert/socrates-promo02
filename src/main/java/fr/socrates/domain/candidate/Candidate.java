@@ -80,10 +80,6 @@ public class Candidate {
         return candidateId;
     }
 
-    public String printDetail() {
-        return this.toString();
-    }
-
     public AccommodationChoices getAccommodationChoices() {
         return accommodationChoices;
     }
