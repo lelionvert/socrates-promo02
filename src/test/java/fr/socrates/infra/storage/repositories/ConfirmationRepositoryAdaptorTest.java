@@ -1,6 +1,5 @@
 package fr.socrates.infra.storage.repositories;
 
-import fr.socrates.SocratesApplication;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.Confirmation;
 import fr.socrates.domain.attendee.ConfirmationRepository;
@@ -10,13 +9,12 @@ import fr.socrates.infra.storage.entities.ConfirmationEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -24,14 +22,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {SocratesApplication.class})
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 public class ConfirmationRepositoryAdaptorTest {
-    @MockBean
+    @Mock
     JpaCandidateRepository jpaCandidateRepository;
 
-    @MockBean
+    @Mock
     JpaConfirmationRepository jpaConfirmationRepository;
 
     private ConfirmationRepository confirmationRepository;
@@ -62,26 +58,44 @@ public class ConfirmationRepositoryAdaptorTest {
 
     @Test
     public void should_list_all_confirmations_of_candidates() throws Exception {
-        candidateEntity = createCandidateEntity(2);
-        final Confirmation confirmation = createConfirmation(candidateEntity);
-        assertThat(confirmationRepository.getConfirmations()).containsExactly(confirmation);
-
+        // GIVEN
+        CandidateEntity candidate = new CandidateEntity(1L, "john@doe.fr");
+        candidate.setCandidateId("john@doe.fr");
+        ConfirmationEntity confirmationEntity = new ConfirmationEntity();
+        confirmationEntity.setCandidate(candidate);
+        confirmationEntity.setConfirmationDate(confirmationDate);
+        given(jpaConfirmationRepository.findAll()).willReturn(Collections.singletonList(confirmationEntity));
+        // WHEN
+        List<Confirmation> confirmations = confirmationRepository.getConfirmations();
+        // THEN
+        verify(jpaConfirmationRepository).findAll();
+        assertThat(confirmations).containsExactly(confirmationEntity.toDomain());
     }
 
     @Test
     public void should_confirm_that_confirmation_exists() throws Exception {
-        candidateEntity = createCandidateEntity(3);
-        final Confirmation confirmation = createConfirmation(candidateEntity);
-        assertThat(confirmationRepository.confirmationExists(createCandidate(candidateEntity))).isTrue();
+        CandidateEntity candidate = new CandidateEntity(1L, "john@doe.fr");
+        candidate.setCandidateId("john@doe.fr");
+        ConfirmationEntity confirmationEntity = new ConfirmationEntity();
+        confirmationEntity.setCandidate(candidate);
+        confirmationEntity.setConfirmationDate(confirmationDate);
+        given(jpaConfirmationRepository.findByCandidateCandidateId("john@doe.fr")).willReturn(confirmationEntity);
 
+        boolean doesConfirmationExists = confirmationRepository.confirmationExists(candidate.toDomain());
+
+        verify(jpaConfirmationRepository).findByCandidateCandidateId("john@doe.fr");
+        assertThat(doesConfirmationExists).isTrue();
     }
 
     @Test
     public void should_have_no_confirmation_for_a_new_candidate() throws Exception {
         final Candidate newCandidate = Candidate.singleRoomWithEmail("test");
-        final boolean isCandidateConfirmed = confirmationRepository.confirmationExists(newCandidate);
-        assertThat(isCandidateConfirmed).isFalse();
+        given(jpaConfirmationRepository.findByCandidateCandidateId("test")).willReturn(null);
 
+        final boolean isCandidateConfirmed = confirmationRepository.confirmationExists(newCandidate);
+
+        verify(jpaConfirmationRepository).findByCandidateCandidateId("test");
+        assertThat(isCandidateConfirmed).isFalse();
     }
 
     private Candidate createCandidate(CandidateEntity candidateEntity) {

@@ -33,7 +33,6 @@ public class ConfirmationRepositoryAdaptor implements ConfirmationRepository {
 
     @Override
     public List<Confirmation> getConfirmations() {
-
         return jpaConfirmationRepository.findAll()
                 .stream()
                 .map(confirmationEntity -> createConfirmation(confirmationEntity))

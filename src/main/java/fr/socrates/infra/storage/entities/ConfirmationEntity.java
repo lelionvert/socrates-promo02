@@ -1,5 +1,6 @@
 package fr.socrates.infra.storage.entities;
 
+import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.Confirmation;
 import fr.socrates.domain.candidate.Candidate;
 
@@ -61,6 +62,11 @@ public class ConfirmationEntity {
     @Override
     public int hashCode() {
         return candidate.hashCode();
+    }
+
+    public Confirmation toDomain() {
+        Confirmation confirmation = new Confirmation(new CandidateId(candidate.getCandidateId()), confirmationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        return confirmation;
     }
 
     public static ConfirmationEntity fromDomain(Confirmation confirmation, CandidateEntity candidate) {
