@@ -31,36 +31,36 @@ public class ConfirmationServiceImplTest {
         assertThat(new ConfirmationServiceImpl(candidateRepository, new InMemoryConfirmationRepository()).getListAttendee()).isEmpty();
     }
 
-  @Test(expected = UnknownCandidateException.class)
-  public void should_throw_unknown_candidate_exception_when_confirm_candidate_by_email_who_does_not_exists() throws Exception {
-    final String email = "john@doe.fr";
-    given(candidateRepository.findCandidateByEmail(email)).willThrow(UnknownCandidateException.class);
-    confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM);
-  }
+    @Test(expected = UnknownCandidateException.class)
+    public void should_throw_unknown_candidate_exception_when_confirm_candidate_by_email_who_does_not_exists() throws Exception {
+        final String email = "john@doe.fr";
+        given(candidateRepository.findCandidateByEmail(email)).willThrow(UnknownCandidateException.class);
+        confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM);
+    }
 
-  @Test
-  public void should_confirm_one_existing_candidate_with_his_email() throws Exception {
-    final String email = "test@test.fr";
-    Mockito.doReturn(Candidate.singleRoomWithEmail(email)).when(candidateRepository).findCandidateByEmail(email);
-    Mockito.doReturn(Candidate.singleRoomWithEmail(email)).when(candidateRepository).findCandidateById(new CandidateId(email));
-    assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isTrue();
-    assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
-  }
+    @Test
+    public void should_confirm_one_existing_candidate_with_his_email() throws Exception {
+        final String email = "test@test.fr";
+        Mockito.doReturn(Candidate.singleRoomWithEmail(email)).when(candidateRepository).findCandidateByEmail(email);
+        Mockito.doReturn(Candidate.singleRoomWithEmail(email)).when(candidateRepository).findCandidateById(new CandidateId(email));
+        assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isTrue();
+        assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
+    }
 
-  @Test
-  public void should_not_confirm_a_candidate_twice() throws Exception {
-    final String email = "test@test.fr";
-    Mockito.doReturn(Candidate.singleRoomWithEmail(email)).when(candidateRepository).findCandidateByEmail(email);
-    Mockito.doReturn(Candidate.singleRoomWithEmail(email)).when(candidateRepository).findCandidateById(new CandidateId(email));
-    assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isTrue();
-    assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isFalse();
-    assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
-  }
+    @Test
+    public void should_not_confirm_a_candidate_twice() throws Exception {
+        final String email = "test@test.fr";
+        Mockito.doReturn(Candidate.singleRoomWithEmail(email)).when(candidateRepository).findCandidateByEmail(email);
+        Mockito.doReturn(Candidate.singleRoomWithEmail(email)).when(candidateRepository).findCandidateById(new CandidateId(email));
+        assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isTrue();
+        assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isFalse();
+        assertThat(confirmationService.getListAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
+    }
 
     @Test
     public void should_save_confirmation_date() throws Exception {
         final String email = "test@test.fr";
-        Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findCandidateByEmail(email);
+        Mockito.doReturn(Candidate.singleRoomWithEmail(email)).when(candidateRepository).findCandidateByEmail(email);
 
         final LocalDate now = LocalDate.now();
         confirmationService.confirm(email, now, Payment.TRANSFER, AccommodationChoice.NO_ACCOMMODATION);
