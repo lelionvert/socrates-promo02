@@ -28,7 +28,7 @@ public class Candidate {
         return this.candidateId.equals(candidateId);
     }
 
-    private Candidate(CandidateId candidateId, EMail email, ContactInformation contactInformation, AccommodationChoices accommodationChoices) {
+    private Candidate(CandidateId candidateId, EMail email, ContactInformation contactInformation, AccommodationChoices accommodationChoices, Diet diet) {
         this.candidateId = candidateId;
         this.email = email;
         this.contactInformation = contactInformation;
@@ -38,14 +38,6 @@ public class Candidate {
 
     public Diet getDiet() {
         return diet;
-    }
-
-    public boolean hasEmail(String email) {
-        return this.email.equals(EMail.of(email));
-    }
-
-    public boolean hasCandidateID(CandidateId candidateId) {
-        return this.candidateId.equals(candidateId);
     }
 
     @Deprecated
@@ -159,7 +151,7 @@ public class Candidate {
 
         public static CandidateBuilder fromCandidate(Candidate candidate) {
             return new CandidateBuilder()
-                    .withEmail(candidate.getEmail())
+                    .withEmail(EMail.of(candidate.getEmail()))
                     .withDiet(candidate.getDiet())
                     .withAccommodationChoices(candidate.getAccommodationChoices())
                     .withCandidateId(candidate.getCandidateId())
