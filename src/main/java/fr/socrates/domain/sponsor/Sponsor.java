@@ -10,6 +10,7 @@ public class Sponsor {
     private final String contractRepresentative;
     private final String contact;
     private double amountOfSponsoring;
+    private String id;
 
     private Sponsor(String name, Siren siren, String contractRepresentative, String contact, double amountOfSponsoring) {
         this.name = name;
@@ -41,6 +42,30 @@ public class Sponsor {
                 '}';
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public Siren getSiren() {
+        return siren;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getContractRepresentative() {
+        return contractRepresentative;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public double getAmountOfSponsoring() {
+        return amountOfSponsoring;
+    }
+
     public static class SponsorBuilder {
         private String name;
         private Siren siren;
@@ -54,7 +79,9 @@ public class Sponsor {
         }
 
         public SponsorBuilder withSIRET(String siret) {
-            this.withSIREN(new Siret(siret).getSiren());
+            if (siret != null) {
+                this.withSIREN(new Siret(siret).getSiren());
+            }
             return this;
         }
 

@@ -40,8 +40,8 @@ public class MealControllerTest {
         this.mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
-        checkInService.addNewCheckIn(new CheckIn(Candidate.withEmail("john@doe.fr").getCandidateId(), LocalDateTime.of(2017, 10, 9, 22, 00)));
-        checkInService.addNewCheckIn(new CheckIn(Candidate.withEmail("john@pasdoe.fr").getCandidateId(), LocalDateTime.of(2017, 10, 9, 18, 00)));
+        checkInService.addNewCheckIn(new CheckIn(Candidate.singleRoomWithEmail("john@doe.fr").getCandidateId(), LocalDateTime.of(2017, 10, 9, 22, 00)));
+        checkInService.addNewCheckIn(new CheckIn(Candidate.singleRoomWithEmail("john@pasdoe.fr").getCandidateId(), LocalDateTime.of(2017, 10, 9, 18, 00)));
     }
 
     @Ignore

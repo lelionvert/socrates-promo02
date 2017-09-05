@@ -48,6 +48,7 @@ public class Candidate {
         return this.candidateId.equals(candidateId);
     }
 
+    @Deprecated
     public static Candidate singleRoomWithEmail(String email) {
         return aCandidate()
                 .withCandidateId(new CandidateId(email))
@@ -85,10 +86,6 @@ public class Candidate {
 
     public CandidateId getCandidateId() {
         return candidateId;
-    }
-
-    public EMail getEmail() {
-        return email;
     }
 
     public String printDetail() {

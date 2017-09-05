@@ -16,7 +16,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -63,9 +64,7 @@ public class SponsorControllerTest {
         this.mvc.perform(get("/sponsors"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].id", is("513205344")))
                 .andExpect(jsonPath("$[0].name", is("Arolla")))
-                .andExpect(jsonPath("$[0].siret", is("51320534400031")))
                 .andExpect(jsonPath("$[0].siren", is("513205344")))
                 .andExpect(jsonPath("$[0].contractRepresentative", is("arolla@arolla.fr")))
                 .andExpect(jsonPath("$[0].contact", is("arolla@arolla.fr")))
@@ -85,11 +84,21 @@ public class SponsorControllerTest {
     @Test
     public void should_send_bad_request_when_siren_is_invalid() throws Exception {
         SponsorDTO sponsorDTO = SponsorDTO.domainToDTO(sponsor);
-        sponsorDTO.setSiren("");
-        this.mvc.perform(post("/sponsors")
+        sponsorDTO.setSiren("123");
+        this.mvc.perform(post("/sponsors/")
+                .contentType(TestUtils.APPLICATION_JSON_UTF8)
+                .content(TestUtils.convertObjectToJsonBytes(sponsorDTO)))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void should_send_bad_request_when_siren_is_invalid2() throws Exception {
+        SponsorDTO sponsorDTO = SponsorDTO.domainToDTO(sponsor);
+        sponsorDTO.setSiren("123456789");
+        this.mvc.perform(post("/sponsors/")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(sponsorDTO)))
                 .andExpect(status().is4xxClientError())
-                .andExpect(content().string(containsString("Invalid SIREN : ")));
+                .andExpect(content().string("Invalid SIREN : 123456789"));
     }
 }

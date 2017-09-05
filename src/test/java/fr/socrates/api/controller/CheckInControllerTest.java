@@ -4,6 +4,7 @@ import fr.socrates.SocratesApplication;
 import fr.socrates.api.DTO.CheckInDTO;
 import fr.socrates.domain.checkin.CheckInRepository;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class CheckInControllerTest {
                 .build();
     }
 
+    @Ignore
     @Test
     public void should_add_one_checkin_to_repository() throws Exception {
         CheckInDTO checkInDTO = new CheckInDTO();

@@ -13,7 +13,7 @@ public class Siren {
                 .map(new WhitespaceRemover())
                 .filter(this::hasRightLength)
                 .filter(new LuhnValidator())
-                .orElseThrow(IllegalStateException::new);
+                .orElseThrow(() -> new IllegalStateException("Invalid SIREN : " + siren));
     }
 
     private boolean hasRightLength(String siren) {
@@ -33,5 +33,9 @@ public class Siren {
     @Override
     public int hashCode() {
         return siren.hashCode();
+    }
+
+    public String getSiren() {
+        return siren;
     }
 }

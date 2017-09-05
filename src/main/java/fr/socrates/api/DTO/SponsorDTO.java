@@ -1,6 +1,5 @@
 package fr.socrates.api.DTO;
 
-import fr.socrates.domain.sponsor.InvalidSponsorException;
 import fr.socrates.domain.sponsor.Sponsor;
 
 import javax.validation.constraints.NotNull;
@@ -11,7 +10,6 @@ public class SponsorDTO {
     @NotNull
     @Size(min = 9, max = 11)
     private String siren;
-    @NotNull
     @Size(min = 14, max = 14)
     private String siret;
     @NotNull
@@ -26,10 +24,10 @@ public class SponsorDTO {
     public SponsorDTO() {
     }
 
-    public SponsorDTO(String id, String siren, String siret, String name, String contractRepresentative, String contact, double amount) {
+    public SponsorDTO(String id, String siret, String siren, String name, String contractRepresentative, String contact, double amount) {
         this.id = id;
-        this.siren = siren;
         this.siret = siret;
+        this.siren = siren;
         this.name = name;
         this.contractRepresentative = contractRepresentative;
         this.contact = contact;
@@ -39,8 +37,7 @@ public class SponsorDTO {
     public static SponsorDTO domainToDTO(Sponsor sponsor) {
         return new SponsorDTOBuilder()
                 .withId(sponsor.getId())
-                .withSiren(sponsor.getSiren())
-                .withSiret(sponsor.getSiret())
+                .withSiren(sponsor.getSiren().getSiren())
                 .withName(sponsor.getName())
                 .withContractRepresentative(sponsor.getContractRepresentative())
                 .withContact(sponsor.getContact())
@@ -62,14 +59,6 @@ public class SponsorDTO {
 
     public void setSiren(String siren) {
         this.siren = siren;
-    }
-
-    public String getSiret() {
-        return siret;
-    }
-
-    public void setSiret(String siret) {
-        this.siret = siret;
     }
 
     public String getName() {
@@ -104,14 +93,22 @@ public class SponsorDTO {
         this.amount = amount;
     }
 
-    public static Sponsor dTOtoDomain(SponsorDTO sponsorDTO) throws InvalidSponsorException {
+    public static Sponsor dTOtoDomain(SponsorDTO sponsorDTO) {
         return new Sponsor.SponsorBuilder()
-                .withSIREN(sponsorDTO.siren)
                 .withSIRET(sponsorDTO.siret)
+                .withSIREN(sponsorDTO.siren)
                 .withName(sponsorDTO.name)
                 .withContractRepresentative(sponsorDTO.contractRepresentative)
                 .withContact(sponsorDTO.contact)
                 .withAmountOfSponsoring(sponsorDTO.amount)
                 .createSponsor();
+    }
+
+    public String getSiret() {
+        return siret;
+    }
+
+    public void setSiret(String siret) {
+        this.siret = siret;
     }
 }

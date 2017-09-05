@@ -1,9 +1,12 @@
 package fr.socrates.api.DTO;
 
 import fr.socrates.domain.attendee.Payment;
+import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.common.AccommodationChoice;
 
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class ConfirmationDTO {
     @NotNull
@@ -17,10 +20,10 @@ public class ConfirmationDTO {
     public ConfirmationDTO() {
     }
 
-    public ConfirmationDTO(String email, AccommodationChoice accommodationChoice, Payment payment) {
+    public ConfirmationDTO(String email) {
         this.email = email;
-        this.accommodationChoice = accommodationChoice;
-        this.payment = payment;
+        this.accommodationChoice = AccommodationChoice.SINGLE_ROOM;
+        this.payment = Payment.TRANSFER;
     }
 
     public String getEmail() {

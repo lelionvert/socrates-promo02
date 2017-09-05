@@ -66,25 +66,26 @@ public class ConfirmationControllerTest {
 
     @Test
     public void should_confirm_one_candidate() throws Exception {
-        candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
+        final Candidate candidate = Candidate.singleRoomWithEmail("john@doe.fr");
+        candidateService.add(candidate);
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
 
-        ConfirmationDTO confirmationDTO = ConfirmationDTO.mapToDTO("johndoe@dodo.fr", AccommodationChoice.SINGLE_ROOM, Payment.TRANSFER);
+        ConfirmationDTO confirmationDTO = ConfirmationDTO.domainToDTO(candidate);
         this.mvc.perform(post("/confirmations")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(confirmationDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email", is("johndoe@dodo.fr")))
+                .andExpect(jsonPath("$.email", is("john@doe.fr")))
                 .andExpect(jsonPath("$.accommodationChoice", is("SINGLE_ROOM")))
                 .andExpect(jsonPath("$.payment", is("TRANSFER")));
     }
 
     @Test
-    public void should__return_not_found_error() throws Exception {
+    public void should_return_not_found_error() throws Exception {
         candidateService.add(Candidate.singleRoomWithEmail("john@doe.fr"));
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
 
-        ConfirmationDTO confirmationDTOOnNonExistingCandidate = ConfirmationDTO.mapToDTO("johndoe@notExistingCandidate.fr", AccommodationChoice.SINGLE_ROOM, Payment.TRANSFER);
+        ConfirmationDTO confirmationDTOOnNonExistingCandidate = ConfirmationDTO.domainToDTO(Candidate.singleRoomWithEmail("johndoe@notExistingCandidate.fr"));
         this.mvc.perform(post("/confirmations")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(confirmationDTOOnNonExistingCandidate)))

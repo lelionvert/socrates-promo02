@@ -18,10 +18,10 @@ public class Siret {
         this.siren = siretWithRightLength
                 .map(this::extractSiren)
                 .map(Siren::new)
-                .orElseThrow(IllegalStateException::new);
+                .orElseThrow(() -> new IllegalStateException("Invalid SIRET : " + siret));
         this.nic = siretWithRightLength
                 .map(this::extractNic)
-                .orElseThrow(IllegalStateException::new);
+                .orElseThrow(() -> new IllegalStateException("Invalid SIRET : " + siret));
     }
 
     private boolean hasRightLength(String s) {

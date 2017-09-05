@@ -1,9 +1,10 @@
 package fr.socrates.api.controller;
 
 import fr.socrates.api.DTO.SponsorDTO;
-import fr.socrates.domain.sponsor.InvalidSponsorException;
 import fr.socrates.domain.sponsor.SponsorService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,9 +34,16 @@ public class SponsorController {
     public ResponseEntity addSponsor(@Valid @RequestBody SponsorDTO sponsorDTO) {
         try {
             sponsorService.addSponsor(SponsorDTO.dTOtoDomain(sponsorDTO));
-        } catch (InvalidSponsorException e) {
+        } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public String handleIOException(MethodArgumentNotValidException e) {
+        return e.getMessage();
     }
 }

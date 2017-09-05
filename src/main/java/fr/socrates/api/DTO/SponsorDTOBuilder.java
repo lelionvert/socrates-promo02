@@ -45,6 +45,6 @@ public class SponsorDTOBuilder {
     }
 
     public SponsorDTO createSponsorDTO() {
-        return new SponsorDTO(id, siren, siret, name, contractRepresentative, contact, amount);
+        return new SponsorDTO(id, siret, siren, name, contractRepresentative, contact, amount);
     }
 }

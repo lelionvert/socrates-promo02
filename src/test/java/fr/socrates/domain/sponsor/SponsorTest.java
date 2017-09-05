@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SponsorTest {
-    @Test(expected = InvalidSIRENException.class)
+    @Test(expected = IllegalStateException.class)
     public void should_not_allow_invalid_siren() throws Exception {
         new Sponsor.SponsorBuilder().withSIREN("");
     }

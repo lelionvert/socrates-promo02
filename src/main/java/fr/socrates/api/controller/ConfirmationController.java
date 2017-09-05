@@ -30,7 +30,7 @@ public class ConfirmationController {
         ArrayList<ConfirmationDTO> confirmationDTOS = new ArrayList<>();
         confirmationService.getConfirmations().forEach(confirmation -> {
             Optional<Candidate> candidateByCandidateID = candidateService.findCandidateByCandidateID(confirmation.getCandidateId());
-            candidateByCandidateID.ifPresent(candidate -> confirmationDTOS.add(ConfirmationDTO.mapToDTO(candidate.getEmail().getEmail(), confirmation.getAccommodationChoice(), confirmation.getPayment())));
+            candidateByCandidateID.ifPresent(candidate -> confirmationDTOS.add(ConfirmationDTO.domainToDTO(candidate)));
         } );
         return ResponseEntity.ok(confirmationDTOS);
     }
@@ -41,7 +41,10 @@ public class ConfirmationController {
         boolean confirm = confirmationService.confirm(confirmationDTO.getEmail(), LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM);
 
         if (confirm) {
-            return ResponseEntity.ok(ConfirmationDTO.mapToDTO(confirmationDTO.getEmail(), confirmationDTO.getAccommodationChoice(), confirmationDTO.getPayment()));
+            return candidateService.findCandidateByEmail(confirmationDTO.getEmail())
+                    .map(ConfirmationDTO::domainToDTO)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
         } else {
             return ResponseEntity.notFound().build();
         }

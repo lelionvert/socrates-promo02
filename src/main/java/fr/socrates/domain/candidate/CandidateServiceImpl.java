@@ -23,7 +23,7 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     private void checkThatCandidateDoesntExist(Candidate candidate) throws CandidateException.CandidateExistingException {
-        if (candidateRepository.findByEmail(candidate.getEmail().getEmail()).isPresent()) {
+        if (candidateRepository.findByEmail(candidate.getEmail()).isPresent()) {
             throw new CandidateException.CandidateExistingException("Candidate Already exist");
         }
     }
