@@ -61,11 +61,13 @@ public class CandidateControllerTest {
 
     @Test
     public void should_add_one_candidate_to_repository() throws Exception {
-        CandidateDTO candidateDTO = CandidateDTO.domainToDTO(Candidate.singleRoomWithEmail("test@test.fr"));
+        CandidateDTO candidateDTO = new CandidateDTO();
+        candidateDTO.setEmail("test@test.fr");
         this.mvc.perform(post("/candidates")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(candidateDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email", is("test@test.fr")));
+                .andExpect(jsonPath("$.email", is("test@test.fr")))
+                .andExpect(jsonPath("$.choice", is("Single Room")));
     }
 }

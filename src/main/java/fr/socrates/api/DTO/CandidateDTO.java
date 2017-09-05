@@ -3,6 +3,7 @@ package fr.socrates.api.DTO;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.Candidate.CandidateBuilder;
 import fr.socrates.domain.candidate.EMail;
+import fr.socrates.domain.common.AccommodationChoice;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -12,11 +13,9 @@ public class CandidateDTO {
     @NotNull
     private String email;
 
-    public CandidateDTO() {
-    }
+    private String choice;
 
-    private CandidateDTO(String emaildto) {
-        this.email = emaildto;
+    public CandidateDTO() {
     }
 
     public String getEmail() {
@@ -24,7 +23,10 @@ public class CandidateDTO {
     }
 
     public static CandidateDTO domainToDTO(Candidate candidate){
-        return new CandidateDTO(candidate.getEmail());
+        final CandidateDTO candidateDTO = new CandidateDTO();
+        candidateDTO.email = candidate.getEmail();
+        candidateDTO.choice = candidate.getAccommodationChoices().getFirstChoice().getAccommodationChoiceValue();
+        return candidateDTO;
     }
 
     public static Collection<CandidateDTO> domainToDTO(Collection<Candidate> candidates){
@@ -36,6 +38,19 @@ public class CandidateDTO {
     public static Candidate DTOToDomain(CandidateDTO candidateDTO) {
         return CandidateBuilder.aCandidate()
                 .withEmail(EMail.of(candidateDTO.getEmail()))
+                .withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM)
                 .build();
+    }
+
+    public String getChoice() {
+        return choice;
+    }
+
+    public void setChoice(String choice) {
+        this.choice = choice;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
