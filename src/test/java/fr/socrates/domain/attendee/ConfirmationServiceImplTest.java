@@ -48,15 +48,15 @@ public class ConfirmationServiceImplTest {
         assertThat(confirmationService.getAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
     }
 
-  @Test
-  public void should_not_confirm_a_candidate_twice() throws Exception {
-    final String email = "test@test.fr";
-    Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByEmail(email);
-    Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
-    assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isTrue();
-    assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isFalse();
-      assertThat(confirmationService.getAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
-  }
+    @Test
+    public void should_not_confirm_a_candidate_twice() throws Exception {
+        final String email = "test@test.fr";
+        Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByEmail(email);
+        Mockito.doReturn(Optional.of(Candidate.singleRoomWithEmail(email))).when(candidateRepository).findByCandidateID(new CandidateId(email));
+        assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isTrue();
+        assertThat(confirmationService.confirm(email, LocalDate.now(), Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM)).isFalse();
+        assertThat(confirmationService.getAttendee()).containsExactly(Candidate.singleRoomWithEmail(email));
+    }
 
     @Test
     public void should_save_confirmation_date() throws Exception {

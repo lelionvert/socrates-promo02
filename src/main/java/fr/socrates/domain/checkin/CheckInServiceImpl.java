@@ -29,7 +29,7 @@ public class CheckInServiceImpl implements CheckInService {
     @Override
     public boolean isCandidatePresentAt(CandidateId candidateId, LocalDateTime dateTime) {
         Optional<CheckIn> foundCheckIn = checkInRepository.getCheckInOf(candidateId);
-        return foundCheckIn.map(checkIn -> checkIn.isPresentAt(dateTime)).orElse(false);
+        return foundCheckIn.map(checkIn -> checkIn.wasBefore(dateTime)).orElse(false);
     }
 
 }
