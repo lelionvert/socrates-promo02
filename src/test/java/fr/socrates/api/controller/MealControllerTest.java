@@ -44,6 +44,7 @@ public class MealControllerTest {
         checkInService.addNewCheckIn(new CheckIn(Candidate.singleRoomWithEmail("john@pasdoe.fr").getCandidateId(), LocalDateTime.of(2017, 10, 9, 18, 00)));
     }
 
+    // TODO
     @Ignore
     @Test
     public void should_return_number_of_cold_meal() throws Exception {

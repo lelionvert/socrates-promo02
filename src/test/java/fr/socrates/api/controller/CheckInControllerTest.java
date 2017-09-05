@@ -40,6 +40,7 @@ public class CheckInControllerTest {
                 .build();
     }
 
+    // TODO
     @Ignore
     @Test
     public void should_add_one_checkin_to_repository() throws Exception {
