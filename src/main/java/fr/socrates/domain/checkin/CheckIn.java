@@ -20,4 +20,7 @@ public class CheckIn {
     public int getCheckInHour() {
         return checkInDate.getHour();
     }
+    public boolean wasBefore(LocalDateTime dateTime){
+        return checkInDate.isBefore(dateTime);
+    }
 }

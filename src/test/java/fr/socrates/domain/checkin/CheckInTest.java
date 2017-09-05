@@ -2,6 +2,7 @@ package fr.socrates.domain.checkin;
 
 import fr.socrates.common.FakePrinter;
 import fr.socrates.domain.CandidateId;
+import fr.socrates.domain.meal.MealTime;
 import fr.socrates.infra.repositories.InMemoryCheckInRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class CheckInTest {
     public void set_initialization() {
         CheckInRepository checkInRepository = new InMemoryCheckInRepository();
         FakePrinter printer = new FakePrinter();
-        checkInService = new CheckInServiceImpl(checkInRepository, printer);
+        checkInService = new CheckInServiceImpl(checkInRepository);
     }
 
     @Test
@@ -67,7 +68,23 @@ public class CheckInTest {
         assertThat(checkInService.countCheckinAfter(21)).isEqualTo(1);
     }
 
+    @Test
+    public void should_return_false_if_hour_of_arrival_of_attendee_is_after_twenty_one() {
+        CandidateId candidateId = new CandidateId("1");
+        CheckIn checkIn = new CheckIn(candidateId, dateTimeFirstDay(22, 0));
+        checkInService.addNewCheckIn(checkIn);
+        assertThat(checkInService.isCandidatePresentAt(candidateId, MealTime.THURSDAY_NIGHT.getDateTime())).isFalse();
+    }
+
+    @Test
+    public void should_return_true_if_hour_of_arrival_of_attendee_is_before_twenty_one() {
+        CandidateId candidateId = new CandidateId("1");
+        CheckIn checkIn = new CheckIn(candidateId, dateTimeFirstDay(20, 0));
+        checkInService.addNewCheckIn(checkIn);
+        assertThat(checkInService.isCandidatePresentAt(candidateId,MealTime.THURSDAY_NIGHT.getDateTime() )).isTrue();
+    }
+
     private LocalDateTime dateTimeFirstDay(int hour, int minutes) {
-        return LocalDateTime.of(2017, Month.OCTOBER, 20, hour, minutes);
+        return LocalDateTime.of(2017, Month.OCTOBER, 26, hour, minutes);
     }
 }

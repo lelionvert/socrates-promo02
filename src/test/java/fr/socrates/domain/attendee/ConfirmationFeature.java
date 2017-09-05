@@ -39,7 +39,7 @@ public class ConfirmationFeature {
         confirmationService.confirm("john@test.com", now, Payment.TRANSFER, AccommodationChoice.SINGLE_ROOM);
         confirmationService.confirm("patrick@test.com", now, Payment.AT_CHECKOUT, AccommodationChoice.DOUBLE_ROOM);
 
-        List<Confirmation> confirmations = confirmationService.getListConfirmations();
+        List<Confirmation> confirmations = confirmationService.getConfirmations();
 
         final Confirmation johnConfirmation = confirmations.get(0);
         Assertions.assertThat(johnConfirmation.toString()).isEqualTo("Confirmation{candidateId=" + john.getCandidateId() +

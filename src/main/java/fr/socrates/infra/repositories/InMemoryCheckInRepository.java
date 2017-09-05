@@ -4,10 +4,7 @@ import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.checkin.CheckInRepository;
 import fr.socrates.domain.CandidateId;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InMemoryCheckInRepository implements CheckInRepository {
     private final Map<CandidateId, CheckIn> checkIns;
@@ -17,12 +14,17 @@ public class InMemoryCheckInRepository implements CheckInRepository {
     }
 
     @Override
-    public boolean save(CheckIn checkin) {
-        return checkIns.put(checkin.getCandidateId(), checkin) != null;
+    public boolean save(CheckIn checkIn) {
+        return checkIns.put(checkIn.getCandidateId(), checkIn) != null;
     }
 
     @Override
     public List<CheckIn> getCheckIns() {
         return new ArrayList<>(checkIns.values());
+    }
+
+    @Override
+    public Optional<CheckIn> getCheckInOf(CandidateId candidateId) {
+        return  Optional.ofNullable(checkIns.get(candidateId));
     }
 }

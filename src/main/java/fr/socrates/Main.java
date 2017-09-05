@@ -57,9 +57,9 @@ class Main {
 
         SponsorService sponsorService = new SponsorServiceImpl(inMemorySponsorRepository);
         CandidateService candidateService = new CandidateServiceImpl(inMemoryCandidateRepository);
-        CheckInService checkInService = new CheckInServiceImpl(inMemoryCheckInRepository, consolePrinter);
-        MealService mealService = new MealServiceImpl(checkInService);
+        CheckInService checkInService = new CheckInServiceImpl(inMemoryCheckInRepository);
         ConfirmationService confirmationService = new ConfirmationServiceImpl(inMemoryCandidateRepository, inMemoryConfirmationRepository);
+        MealService mealService = new MealServiceImpl(checkInService, confirmationService);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -126,7 +126,7 @@ class Main {
                     break;
                 case EIGHT:
                     consolePrinter.print("Liste des confirmes :");
-                    consolePrinter.print(format(confirmationService.getListAttendee()));
+                    consolePrinter.print(format(confirmationService.getAttendee()));
                     consolePrinter.print(MENU_MESSAGE);
                     choice = scanner.next();
                     break;

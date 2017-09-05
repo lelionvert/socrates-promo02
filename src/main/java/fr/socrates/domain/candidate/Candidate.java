@@ -3,17 +3,30 @@ package fr.socrates.domain.candidate;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.common.AccommodationChoice;
 import fr.socrates.domain.common.AccommodationChoices;
+import fr.socrates.domain.meal.Diet;
 
-import static fr.socrates.domain.common.AccommodationChoices.*;
-import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder.*;
 import static fr.socrates.domain.candidate.Candidate.CandidateBuilder.aCandidate;
+import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder;
+import static fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices;
 
 public class Candidate {
     private final CandidateId candidateId;
     private final EMail email;
     private final AccommodationChoices accommodationChoices;
     private final ContactInformation contactInformation;
-    private ContactInformation contactInformations;
+    private final Diet diet;
+
+    Candidate(CandidateId candidateId, EMail email, ContactInformation contactInformation, AccommodationChoices accommodationChoices, Diet diet) {
+        this.candidateId = candidateId;
+        this.email = email;
+        this.contactInformation = contactInformation;
+        this.accommodationChoices = accommodationChoices;
+        this.diet = diet;
+    }
+
+    public Diet getDiet() {
+        return diet;
+    }
 
     public boolean hasEmail(String email) {
         return this.email.equals(EMail.of(email));
@@ -21,20 +34,6 @@ public class Candidate {
 
     public boolean hasCandidateID(CandidateId candidateId) {
         return this.candidateId.equals(candidateId);
-    }
-
-    private Candidate(CandidateId candidateId, EMail email, ContactInformation contactInformation, AccommodationChoices accommodationChoices) {
-        this.candidateId = candidateId;
-        this.email = email;
-        this.contactInformation = contactInformation;
-        this.accommodationChoices = accommodationChoices;
-    }
-
-    private Candidate(CandidateId candidateId, EMail email, AccommodationChoices accommodationChoices, PhoneNumber phoneNumber, String twitterAccount, ContactInformation contactInformation) {
-        this.candidateId = candidateId;
-        this.email = email;
-        this.accommodationChoices = accommodationChoices;
-        this.contactInformation = contactInformation;
     }
 
     public static Candidate singleRoomWithEmail(String email) {
@@ -88,15 +87,17 @@ public class Candidate {
         return accommodationChoices;
     }
 
-    public ContactInformation getContactInformations() {
-        return contactInformations;
+    public ContactInformation getContactInformation() {
+        return contactInformation;
     }
+
 
     public static final class CandidateBuilder {
         private CandidateId candidateId;
         private EMail email;
         private AccommodationChoices accommodationChoices = AccommodationChoicesBuilder.anAccommodationChoices().build();
         private ContactInformation contactInformation;
+        private Diet diet = Diet.NORMAL;
 
         private CandidateBuilder() {
         }
@@ -107,6 +108,11 @@ public class Candidate {
 
         public CandidateBuilder withCandidateId(CandidateId candidateId) {
             this.candidateId = candidateId;
+            return this;
+        }
+
+        public CandidateBuilder withDiet(Diet diet) {
+            this.diet = diet;
             return this;
         }
 
@@ -136,10 +142,19 @@ public class Candidate {
             if (email == null) {
                 throw new IllegalStateException("Email is mandatory");
             }
-            if (accommodationChoices.getFirstChoice()== null) {
+            if (accommodationChoices.getFirstChoice() == null) {
                 throw new IllegalStateException("First Choice is mandatory");
             }
-            return new Candidate(candidateId, email, contactInformation, accommodationChoices);
+            return new Candidate(candidateId, email, contactInformation, accommodationChoices, diet);
+        }
+
+        public static CandidateBuilder fromCandidate(Candidate candidate) {
+            return new CandidateBuilder()
+                    .withEmail(candidate.getEmail())
+                    .withDiet(candidate.getDiet())
+                    .withAccommodationChoices(candidate.getAccommodationChoices())
+                    .withCandidateId(candidate.getCandidateId())
+                    .withContactInformations(candidate.getContactInformation());
         }
     }
 }
