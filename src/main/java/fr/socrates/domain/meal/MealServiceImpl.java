@@ -22,27 +22,6 @@ public class MealServiceImpl implements MealService {
         return checkInService.countCheckinAfter(COLD_FOOD_HOUR);
     }
 
-
-    @Override
-    @Deprecated
-    public Map<MealTime, Map<Diet, Long>> getCoversByDiet() {
-        List<Candidate> attendees = confirmationService.getAttendee();
-        Map<MealTime, Map<Diet, Long>> covers = new HashMap<>();
-
-        for (MealTime mealTime : MealTime.values()) {
-            Map<Diet, Long> coversForMealTime = new HashMap<>();
-            for (Diet diet : Diet.values()) {
-                coversForMealTime.put(diet,
-                        attendees.stream()
-                                .map(Candidate::getDiet)
-                                .filter(attendeeDiet -> attendeeDiet.equals(diet))
-                                .count());
-            }
-            covers.put(mealTime, coversForMealTime);
-        }
-        return covers;
-    }
-
     @Override
     public Catering generateOrder() {
         List<Candidate> attendees = confirmationService.getAttendee();
