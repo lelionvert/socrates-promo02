@@ -9,6 +9,7 @@ import fr.socrates.infra.storage.repositories.InMemoryCandidateRepository;
 import fr.socrates.infra.storage.repositories.JpaCandidateRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -35,6 +36,7 @@ public class UpdateCandidateFeature {
     }
 
     @Test
+    @Ignore
     public void should_candidate_be_updated() throws Exception {
         final String emailCandidate = "toto@gmail.com";
         Candidate candidate = Candidate.CandidateBuilder.aCandidate()
