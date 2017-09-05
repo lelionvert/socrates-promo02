@@ -21,13 +21,16 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public void add(Candidate candidate) throws CandidateException {
-        checkThatCandidateDoesntExist(candidate);
-        saveCandidate(candidate);
+        if (!doesCandidateExists(candidate))
+            saveCandidate(candidate);
     }
 
-    private void checkThatCandidateDoesntExist(Candidate candidate) throws fr.socrates.domain.candidate.exceptions.CandidateException {
-        if (candidateRepository.findCandidateByEmail(candidate.getEmail()) != null) {
-            throw new fr.socrates.domain.candidate.exceptions.CandidateException.CandidateExistingException();
+    private boolean doesCandidateExists(Candidate candidate) {
+        try {
+            candidateRepository.findCandidateByEmail(candidate.getEmail());
+            return true;
+        } catch (CandidateException e) {
+            return false;
         }
     }
 
