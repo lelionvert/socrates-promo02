@@ -51,7 +51,9 @@ public class CandidateRepositoryAdaptor implements CandidateRepository {
     public Candidate addCandidate(Candidate candidate) throws AddCandidateException {
         if (candidate == null)
             throw new AddCandidateException();
-        return jpaCandidateRepository.save(CandidateEntity.fromDomain(candidate)).toDomain();
+        CandidateEntity s = CandidateEntity.fromDomain(candidate);
+        CandidateEntity save = jpaCandidateRepository.save(s);
+        return save.toDomain();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package fr.socrates.api.controller;
 
 import fr.socrates.api.DTO.ConfirmationDTO;
+import fr.socrates.domain.attendee.Confirmation;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.Payment;
 import fr.socrates.domain.candidate.Candidate;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,7 +31,8 @@ public class ConfirmationController {
     @GetMapping
     public ResponseEntity<Collection<ConfirmationDTO>> getConfirmations() throws CandidateException {
         ArrayList<ConfirmationDTO> confirmationDTOS = new ArrayList<>();
-        confirmationService.getListConfirmations().forEach(confirmation ->{
+        List<Confirmation> listConfirmations = confirmationService.getListConfirmations();
+        listConfirmations.forEach(confirmation ->{
             Optional<Candidate> candidateByCandidateID = null;
             try {
                 candidateByCandidateID = candidateService.findCandidateByCandidateID(confirmation.getCandidateId());
