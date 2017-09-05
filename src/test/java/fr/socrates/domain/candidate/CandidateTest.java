@@ -2,6 +2,7 @@ package fr.socrates.domain.candidate;
 
 import fr.socrates.domain.common.AccommodationChoice;
 import fr.socrates.domain.common.AccommodationChoices;
+import fr.socrates.domain.common.AccommodationChoices.AccommodationChoicesBuilder;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
@@ -42,8 +43,8 @@ public class CandidateTest {
                 .withTwitter(twitter)
                 .build();
 
-        AccommodationChoices accommodationChoices = AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices()
-                .withFirstChoice(typeRoom)
+        AccommodationChoices accommodationChoices = AccommodationChoicesBuilder.anAccommodationChoices()
+                .withAccommodationChoices(typeRoom)
                 .withRemarks(remarks)
                 .build();
 

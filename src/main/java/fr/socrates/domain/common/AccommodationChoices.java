@@ -42,12 +42,6 @@ public class AccommodationChoices {
         public AccommodationChoices build() {
             return new AccommodationChoices(accommodationChoices, remarks);
         }
-
-        public AccommodationChoicesBuilder withFirstChoice(AccommodationChoice firstChoice) {
-            accommodationChoices[0] = firstChoice;
-            return this;
-        }
-
     }
 
     @Override

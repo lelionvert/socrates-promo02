@@ -1,6 +1,8 @@
 package fr.socrates.api.DTO;
 
 import fr.socrates.domain.candidate.Candidate;
+import fr.socrates.domain.candidate.Candidate.CandidateBuilder;
+import fr.socrates.domain.candidate.EMail;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -13,7 +15,7 @@ public class CandidateDTO {
     public CandidateDTO() {
     }
 
-    public CandidateDTO(String emaildto) {
+    private CandidateDTO(String emaildto) {
         this.email = emaildto;
     }
 
@@ -32,6 +34,8 @@ public class CandidateDTO {
     }
 
     public static Candidate DTOToDomain(CandidateDTO candidateDTO) {
-        return Candidate.singleRoomWithEmail(candidateDTO.getEmail());
+        return CandidateBuilder.aCandidate()
+                .withEmail(EMail.of(candidateDTO.getEmail()))
+                .build();
     }
 }
