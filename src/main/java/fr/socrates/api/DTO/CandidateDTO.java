@@ -4,8 +4,10 @@ import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.Candidate.CandidateBuilder;
 import fr.socrates.domain.candidate.EMail;
 import fr.socrates.domain.common.AccommodationChoice;
+import fr.socrates.domain.common.AccommodationChoices;
 
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -13,7 +15,7 @@ public class CandidateDTO {
     @NotNull
     private String email;
 
-    private String choice;
+    private String[] choices;
 
     public CandidateDTO() {
     }
@@ -25,7 +27,9 @@ public class CandidateDTO {
     public static CandidateDTO domainToDTO(Candidate candidate){
         final CandidateDTO candidateDTO = new CandidateDTO();
         candidateDTO.email = candidate.getEmail();
-        candidateDTO.choice = candidate.getAccommodationChoices().getFirstChoice().getAccommodationChoiceValue();
+        candidateDTO.choices = Arrays.stream(candidate.getAccommodationChoices().getAccommodationChoices())
+                .map(AccommodationChoice::toString)
+                .toArray(String[]::new);
         return candidateDTO;
     }
 
@@ -38,16 +42,27 @@ public class CandidateDTO {
     public static Candidate DTOToDomain(CandidateDTO candidateDTO) {
         return CandidateBuilder.aCandidate()
                 .withEmail(EMail.of(candidateDTO.getEmail()))
-                .withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM)
+                .withAccommodationChoices(AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices()
+                        .withAccommodationChoices(Arrays
+                                .stream(candidateDTO.choices)
+                                .map(AccommodationChoice::valueOf)
+                                .toArray(AccommodationChoice[]::new))
+                        .build())
                 .build();
     }
 
-    public String getChoice() {
-        return choice;
+    public String[] getChoices() {
+        return choices;
     }
 
-    public void setChoice(String choice) {
-        this.choice = choice;
+    public void prout(AccommodationChoice... choices) {
+        this.choices = Arrays.stream(choices)
+                .map(AccommodationChoice::toString)
+                .toArray(String[]::new);
+    }
+
+    public void setChoices(String[] choices) {
+        this.choices = choices;
     }
 
     public void setEmail(String email) {

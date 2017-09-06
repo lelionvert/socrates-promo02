@@ -13,6 +13,9 @@ public class AccommodationChoices {
         this.remarks = remarks;
     }
 
+    public AccommodationChoice[] getAccommodationChoices() {
+        return accommodationChoices;
+    }
 
     public AccommodationChoice getFirstChoice() {
         return accommodationChoices[0];

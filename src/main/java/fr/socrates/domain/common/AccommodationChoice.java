@@ -11,15 +11,4 @@ public enum AccommodationChoice {
     AccommodationChoice(String accommodationChoiceValue) {
         this.accommodationChoiceValue = accommodationChoiceValue;
     }
-
-    public String getAccommodationChoiceValue() {
-        return accommodationChoiceValue;
-    }
-
-    @Override
-    public String toString() {
-        return "AccommodationChoice{" +
-                "accommodationChoiceValue='" + accommodationChoiceValue + '\'' +
-                '}';
-    }
 }
