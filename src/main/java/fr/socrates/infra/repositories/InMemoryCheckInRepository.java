@@ -3,9 +3,11 @@ package fr.socrates.infra.repositories;
 import fr.socrates.domain.checkin.CheckIn;
 import fr.socrates.domain.checkin.CheckInRepository;
 import fr.socrates.domain.CandidateId;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
 public class InMemoryCheckInRepository implements CheckInRepository {
     private final Map<CandidateId, CheckIn> checkIns;
 

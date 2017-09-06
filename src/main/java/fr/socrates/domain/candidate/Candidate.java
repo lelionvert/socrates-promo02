@@ -16,7 +16,19 @@ public class Candidate {
     private final ContactInformation contactInformation;
     private final Diet diet;
 
-    Candidate(CandidateId candidateId, EMail email, ContactInformation contactInformation, AccommodationChoices accommodationChoices, Diet diet) {
+    public String getEmail() {
+        return email.getEmail();
+    }
+
+    public boolean hasEmail(String email) {
+        return this.email.equals(EMail.of(email));
+    }
+
+    public boolean hasCandidateID(CandidateId candidateId) {
+        return this.candidateId.equals(candidateId);
+    }
+
+    private Candidate(CandidateId candidateId, EMail email, ContactInformation contactInformation, AccommodationChoices accommodationChoices, Diet diet) {
         this.candidateId = candidateId;
         this.email = email;
         this.contactInformation = contactInformation;
@@ -28,14 +40,7 @@ public class Candidate {
         return diet;
     }
 
-    public boolean hasEmail(String email) {
-        return this.email.equals(EMail.of(email));
-    }
-
-    public boolean hasCandidateID(CandidateId candidateId) {
-        return this.candidateId.equals(candidateId);
-    }
-
+    @Deprecated
     public static Candidate singleRoomWithEmail(String email) {
         return aCandidate()
                 .withCandidateId(new CandidateId(email))
@@ -73,14 +78,6 @@ public class Candidate {
 
     public CandidateId getCandidateId() {
         return candidateId;
-    }
-
-    public EMail getEmail() {
-        return email;
-    }
-
-    public String printDetail() {
-        return this.toString();
     }
 
     public AccommodationChoices getAccommodationChoices() {
@@ -150,7 +147,7 @@ public class Candidate {
 
         public static CandidateBuilder fromCandidate(Candidate candidate) {
             return new CandidateBuilder()
-                    .withEmail(candidate.getEmail())
+                    .withEmail(EMail.of(candidate.getEmail()))
                     .withDiet(candidate.getDiet())
                     .withAccommodationChoices(candidate.getAccommodationChoices())
                     .withCandidateId(candidate.getCandidateId())

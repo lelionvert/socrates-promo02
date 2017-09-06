@@ -32,7 +32,7 @@ public class CandidateServiceImplUpdateTest {
     @Test
     public void should_update_accommodation_choice_existing_candidate() throws Exception {
         final AccommodationChoices accommodationChoices = anAccommodationChoices()
-                .withFirstChoice(AccommodationChoice.DOUBLE_ROOM)
+                .withAccommodationChoices(AccommodationChoice.DOUBLE_ROOM)
                 .withRemarks("J'aime la moto").build();
 
 

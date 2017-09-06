@@ -13,6 +13,9 @@ public class AccommodationChoices {
         this.remarks = remarks;
     }
 
+    public AccommodationChoice[] getAccommodationChoices() {
+        return accommodationChoices;
+    }
 
     public AccommodationChoice getFirstChoice() {
         return accommodationChoices[0];
@@ -42,12 +45,6 @@ public class AccommodationChoices {
         public AccommodationChoices build() {
             return new AccommodationChoices(accommodationChoices, remarks);
         }
-
-        public AccommodationChoicesBuilder withFirstChoice(AccommodationChoice firstChoice) {
-            accommodationChoices[0] = firstChoice;
-            return this;
-        }
-
     }
 
     @Override

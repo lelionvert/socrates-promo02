@@ -4,6 +4,7 @@ import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateRepository;
 import fr.socrates.domain.candidate.ContactInformation;
+import fr.socrates.domain.candidate.EMail;
 import fr.socrates.domain.common.AccommodationChoices;
 import fr.socrates.domain.meal.Diet;
 import org.springframework.stereotype.Repository;
@@ -46,7 +47,7 @@ public class InMemoryCandidateRepository implements CandidateRepository {
             final Candidate candidateUpdated = Candidate.CandidateBuilder.aCandidate()
                     .withCandidateId(candidateToUpdate.getCandidateId())
                     .withAccommodationChoices(candidateToUpdate.getAccommodationChoices())
-                    .withEmail(candidateToUpdate.getEmail())
+                    .withEmail(EMail.of(candidateToUpdate.getEmail()))
                     .withContactInformations(contactInformation)
                     .build();
             candidateList.remove(candidateToUpdate);
@@ -63,7 +64,7 @@ public class InMemoryCandidateRepository implements CandidateRepository {
             final Candidate candidateUpdated = Candidate.CandidateBuilder.aCandidate()
                     .withCandidateId(candidateToUpdate.getCandidateId())
                     .withAccommodationChoices(accommodationChoices)
-                    .withEmail(candidateToUpdate.getEmail())
+                    .withEmail(EMail.of(candidateToUpdate.getEmail()))
                     .withContactInformations(candidateToUpdate.getContactInformation())
                     .build();
             candidateList.remove(candidateToUpdate);

@@ -4,6 +4,7 @@ import fr.socrates.SocratesApplication;
 import fr.socrates.api.DTO.CandidateDTO;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.CandidateService;
+import fr.socrates.domain.common.AccommodationChoice;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +54,7 @@ public class CandidateControllerTest {
     }
 
     @Test
-    public void should_return_one_candidate_as_json() throws Exception {
+    public void should_return_one_candidate_as_json_found_by_email() throws Exception {
         this.mvc.perform(get("/candidates/john@doe.fr"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email", is("john@doe.fr")));
@@ -61,11 +62,15 @@ public class CandidateControllerTest {
 
     @Test
     public void should_add_one_candidate_to_repository() throws Exception {
-        CandidateDTO candidateDTO = CandidateDTO.domainToDTO(Candidate.singleRoomWithEmail("test@test.fr"));
+        CandidateDTO candidateDTO = new CandidateDTO();
+        candidateDTO.setEmail("test@test.fr");
+        candidateDTO.prout(AccommodationChoice.DOUBLE_ROOM);
         this.mvc.perform(post("/candidates")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(candidateDTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email", is("test@test.fr")));
+                .andExpect(jsonPath("$.email", is("test@test.fr")))
+                .andExpect(jsonPath("$.choices", hasSize(1)))
+                .andExpect(jsonPath("$.choices[0]", is("DOUBLE_ROOM")));
     }
 }

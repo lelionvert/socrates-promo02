@@ -8,6 +8,6 @@ public class CandidateDao {
 
     public CandidateDao(Candidate candidate) {
         this.id = candidate.getCandidateId().getId();
-        this.email = candidate.getEmail().getEmail();
+        this.email = candidate.getEmail();
     }
 }
