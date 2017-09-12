@@ -1,6 +1,5 @@
 package fr.socrates.domain.checkin;
 
-import fr.socrates.common.FakePrinter;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.meal.MealTime;
 import fr.socrates.infra.repositories.InMemoryCheckInRepository;
@@ -10,7 +9,7 @@ import org.junit.Test;
 import java.time.LocalDateTime;
 import java.time.Month;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CheckInTest {
     private CheckInService checkInService;
@@ -18,7 +17,6 @@ public class CheckInTest {
     @Before
     public void set_initialization() {
         CheckInRepository checkInRepository = new InMemoryCheckInRepository();
-        FakePrinter printer = new FakePrinter();
         checkInService = new CheckInServiceImpl(checkInRepository);
     }
 
