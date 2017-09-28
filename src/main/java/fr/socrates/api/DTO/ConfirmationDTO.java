@@ -12,9 +12,9 @@ public class ConfirmationDTO {
     @NotNull
     private String email;
     @NotNull
-    private AccommodationChoice accommodationChoice;
+    private String accommodationChoice;
     @NotNull
-    private Payment payment;
+    private String payment;
 
 
     public ConfirmationDTO() {
@@ -22,19 +22,19 @@ public class ConfirmationDTO {
 
     public ConfirmationDTO(String email) {
         this.email = email;
-        this.accommodationChoice = AccommodationChoice.SINGLE_ROOM;
-        this.payment = Payment.TRANSFER;
+        this.accommodationChoice = AccommodationChoice.SINGLE_ROOM.toString();
+        this.payment = Payment.TRANSFER.toString();
     }
 
     public String getEmail() {
         return email;
     }
 
-    public AccommodationChoice getAccommodationChoice() {
+    public String getAccommodationChoice() {
         return accommodationChoice;
     }
 
-    public Payment getPayment() {
+    public String getPayment() {
         return payment;
     }
 

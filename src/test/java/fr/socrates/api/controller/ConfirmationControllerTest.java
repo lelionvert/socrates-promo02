@@ -71,6 +71,7 @@ public class ConfirmationControllerTest {
         candidateService.add(Candidate.singleRoomWithEmail("johndoe@dodo.fr"));
 
         ConfirmationDTO confirmationDTO = ConfirmationDTO.domainToDTO(candidate);
+
         this.mvc.perform(post("/confirmations")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(confirmationDTO)))

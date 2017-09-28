@@ -64,7 +64,7 @@ public class CandidateControllerTest {
     public void should_add_one_candidate_to_repository() throws Exception {
         CandidateDTO candidateDTO = new CandidateDTO();
         candidateDTO.setEmail("test@test.fr");
-        candidateDTO.prout(AccommodationChoice.DOUBLE_ROOM);
+        candidateDTO.setAccomodationChoice(AccommodationChoice.DOUBLE_ROOM);
         this.mvc.perform(post("/candidates")
                 .contentType(TestUtils.APPLICATION_JSON_UTF8)
                 .content(TestUtils.convertObjectToJsonBytes(candidateDTO)))

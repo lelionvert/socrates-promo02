@@ -16,8 +16,8 @@ public class InMemoryCheckInRepository implements CheckInRepository {
     }
 
     @Override
-    public boolean save(CheckIn checkIn) {
-        return checkIns.put(checkIn.getCandidateId(), checkIn) != null;
+    public CheckIn save(CheckIn checkIn) {
+        return checkIns.put(checkIn.getCandidateId(), checkIn);
     }
 
     @Override

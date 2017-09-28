@@ -106,14 +106,13 @@ public class ListSponsorTest {
             this.sponsors = sponsors;
         }
 
-        public void addSponsor(Sponsor sponsor) {
+        public Sponsor addSponsor(Sponsor sponsor) {
             sponsors.add(sponsor);
+            return sponsor;
         }
 
         public List<Sponsor> getSponsorsList() {
             return sponsors;
         }
-
-
     }
 }

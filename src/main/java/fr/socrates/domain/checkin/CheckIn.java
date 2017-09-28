@@ -13,6 +13,10 @@ public class CheckIn {
         this.checkInDate = checkInDate;
     }
 
+    public LocalDateTime getCheckInDate() {
+        return checkInDate;
+    }
+
     public CandidateId getCandidateId() {
         return candidateId;
     }
@@ -20,6 +24,7 @@ public class CheckIn {
     public int getCheckInHour() {
         return checkInDate.getHour();
     }
+
     public boolean wasBefore(LocalDateTime dateTime){
         return checkInDate.isBefore(dateTime);
     }

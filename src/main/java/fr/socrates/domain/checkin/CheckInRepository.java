@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CheckInRepository {
-    boolean save(CheckIn checkIn);
+    CheckIn save(CheckIn checkIn);
     List<CheckIn> getCheckIns();
     Optional<CheckIn> getCheckInOf(CandidateId candidateId);
 }

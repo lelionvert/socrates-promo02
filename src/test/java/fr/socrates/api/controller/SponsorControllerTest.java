@@ -90,15 +90,4 @@ public class SponsorControllerTest {
                 .content(TestUtils.convertObjectToJsonBytes(sponsorDTO)))
                 .andExpect(status().is4xxClientError());
     }
-
-    @Test
-    public void should_send_bad_request_when_siren_is_invalid2() throws Exception {
-        SponsorDTO sponsorDTO = SponsorDTO.domainToDTO(sponsor);
-        sponsorDTO.setSiren("123456789");
-        this.mvc.perform(post("/sponsors/")
-                .contentType(TestUtils.APPLICATION_JSON_UTF8)
-                .content(TestUtils.convertObjectToJsonBytes(sponsorDTO)))
-                .andExpect(status().is4xxClientError())
-                .andExpect(content().string("Invalid SIREN : 123456789"));
-    }
 }

@@ -13,8 +13,9 @@ public class InMemorySponsorRepository implements SponsorRepository {
     private final List<Sponsor> list = new ArrayList<>();
 
     @Override
-    public void addSponsor(Sponsor sponsor) {
+    public Sponsor addSponsor(Sponsor sponsor) {
         list.add(sponsor);
+        return sponsor;
     }
 
     @Override

@@ -3,6 +3,7 @@ package fr.socrates.domain.sponsor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SponsorServiceImpl implements SponsorService {
@@ -13,10 +14,11 @@ public class SponsorServiceImpl implements SponsorService {
     }
 
     @Override
-    public void addSponsor(Sponsor sponsor) {
-        if (!this.sponsorRepository.getSponsorsList().contains(sponsor)) {
-            this.sponsorRepository.addSponsor(sponsor);
-        }
+    public Optional<Sponsor> addSponsor(Sponsor sponsor) {
+        if (!this.sponsorRepository.getSponsorsList().contains(sponsor))
+            return Optional.of(this.sponsorRepository.addSponsor(sponsor));
+        else
+            return Optional.empty();
     }
 
     @Override

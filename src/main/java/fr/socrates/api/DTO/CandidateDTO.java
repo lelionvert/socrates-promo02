@@ -55,7 +55,7 @@ public class CandidateDTO {
         return choices;
     }
 
-    public void prout(AccommodationChoice... choices) {
+    public void setAccomodationChoice(AccommodationChoice... choices) {
         this.choices = Arrays.stream(choices)
                 .map(AccommodationChoice::toString)
                 .toArray(String[]::new);

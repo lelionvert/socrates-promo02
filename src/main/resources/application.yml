@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    username: learner
+    password: learn
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://postgres-lacombe.westeurope.cloudapp.azure.com:5432/playground-2?currentSchema=cyril
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE

@@ -24,7 +24,7 @@ public class CheckInServiceImpl implements CheckInService {
     }
 
     @Override
-    public boolean addNewCheckIn(CheckIn checkIn) {
+    public CheckIn addNewCheckIn(CheckIn checkIn) {
         return this.checkInRepository.save(checkIn);
     }
 

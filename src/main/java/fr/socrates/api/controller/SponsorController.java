@@ -1,6 +1,7 @@
 package fr.socrates.api.controller;
 
 import fr.socrates.api.DTO.SponsorDTO;
+import fr.socrates.domain.sponsor.Sponsor;
 import fr.socrates.domain.sponsor.SponsorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,12 +34,10 @@ public class SponsorController {
 
     @PostMapping
     public ResponseEntity addSponsor(@Valid @RequestBody SponsorDTO sponsorDTO) {
-        try {
-            sponsorService.addSponsor(SponsorDTO.dTOtoDomain(sponsorDTO));
-        } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        return ResponseEntity.ok().build();
+        Optional<Sponsor> createdSponsor = sponsorService.addSponsor(SponsorDTO.dTOtoDomain(sponsorDTO));
+        if (createdSponsor.isPresent())
+            return ResponseEntity.ok(SponsorDTO.domainToDTO(createdSponsor.get()));
+        return ResponseEntity.badRequest().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
