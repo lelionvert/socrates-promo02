@@ -41,8 +41,7 @@ public class Confirmation {
         Confirmation that = (Confirmation) o;
 
         if (!candidateId.equals(that.candidateId)) return false;
-        if (!confirmationDate.equals(that.confirmationDate)) return false;
-        return accommodationChoice == that.accommodationChoice && payment == that.payment;
+        return confirmationDate.equals(that.confirmationDate) && accommodationChoice == that.accommodationChoice && payment == that.payment;
     }
 
     @Override

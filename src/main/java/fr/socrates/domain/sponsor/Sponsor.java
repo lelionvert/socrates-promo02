@@ -85,9 +85,8 @@ public class Sponsor {
             return this;
         }
 
-        private SponsorBuilder withSIREN(Siren siren) {
+        private void withSIREN(Siren siren) {
             this.siren = siren;
-            return this;
         }
 
         public SponsorBuilder withSIREN(String siren) {
