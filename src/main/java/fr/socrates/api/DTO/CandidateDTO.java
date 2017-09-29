@@ -1,5 +1,6 @@
 package fr.socrates.api.DTO;
 
+import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.candidate.Candidate.CandidateBuilder;
 import fr.socrates.domain.candidate.EMail;
@@ -41,6 +42,7 @@ public class CandidateDTO {
 
     public static Candidate DTOToDomain(CandidateDTO candidateDTO) {
         return CandidateBuilder.aCandidate()
+                .withCandidateId(new CandidateId(candidateDTO.getEmail()))
                 .withEmail(EMail.of(candidateDTO.getEmail()))
                 .withAccommodationChoices(AccommodationChoices.AccommodationChoicesBuilder.anAccommodationChoices()
                         .withAccommodationChoices(Arrays

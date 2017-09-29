@@ -1,0 +1,104 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Socrates Demo",
+		"_postman_id": "89fd0f15-560f-5d35-08d1-8894672358ce",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Add sponsor",
+			"request": {
+				"url": "localhost:8080/sponsors",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"siren\": \"513205344\",\n\t\"siret\": \"51320534400031\",\n\t\"name\": \"Arolla\",\n\t\"contractRepresentative\": \"arolla@arolla.fr\",\n\t\"contact\": \"arolla@arolla.fr\",\n\t\"amount\": 100\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "2. Get sponsors",
+			"request": {
+				"url": "localhost:8080/sponsors",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "2. Add candidate",
+			"request": {
+				"url": "localhost:8080/candidates",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"test@test.fr\",\n\t\"choices\": [\"DOUBLE_ROOM\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "4. Get candidates",
+			"request": {
+				"url": "localhost:8080/candidates",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "5. Save confirmation",
+			"request": {
+				"url": "localhost:8080/confirmations",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"test@test.fr\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "6. Get confirmations",
+			"request": {
+				"url": "localhost:8080/confirmations",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
