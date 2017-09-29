@@ -40,9 +40,9 @@ public class InMemoryCandidateRepository implements CandidateRepository {
 
     @Override
     public void updateContactInfos(CandidateId candidateId, ContactInformation contactInformation) {
-        final Optional<Candidate> candidate = findByCandidateID(candidateId);
-        if (candidate.isPresent()) {
-            final Candidate candidateToUpdate = candidate.get();
+        final Optional<Candidate> foundCandidate = findByCandidateID(candidateId);
+        foundCandidate.ifPresent(candidate -> {
+            final Candidate candidateToUpdate = candidate;
 
             final Candidate candidateUpdated = Candidate.CandidateBuilder.aCandidate()
                     .withCandidateId(candidateToUpdate.getCandidateId())
@@ -52,14 +52,14 @@ public class InMemoryCandidateRepository implements CandidateRepository {
                     .build();
             candidateList.remove(candidateToUpdate);
             candidateList.add(candidateUpdated);
-        }
+        });
     }
 
     @Override
     public void updateAccommodationChoices(CandidateId candidateId, AccommodationChoices accommodationChoices) {
-        final Optional<Candidate> candidate = findByCandidateID(candidateId);
-        if (candidate.isPresent()) {
-            final Candidate candidateToUpdate = candidate.get();
+        final Optional<Candidate> foundCandidate = findByCandidateID(candidateId);
+        foundCandidate.ifPresent(candidate -> {
+            final Candidate candidateToUpdate = candidate;
 
             final Candidate candidateUpdated = Candidate.CandidateBuilder.aCandidate()
                     .withCandidateId(candidateToUpdate.getCandidateId())
@@ -69,15 +69,15 @@ public class InMemoryCandidateRepository implements CandidateRepository {
                     .build();
             candidateList.remove(candidateToUpdate);
             candidateList.add(candidateUpdated);
-        }
+        });
     }
 
     @Override
     public void updateDietOf(CandidateId candidateId, Diet diet) {
         Optional<Candidate> foundCandidate = candidateList.stream().filter(candidate -> candidate.hasCandidateID(candidateId)).findAny();
-        if (foundCandidate.isPresent()) {
-            candidateList.remove(foundCandidate.get());
-            candidateList.add(Candidate.CandidateBuilder.fromCandidate(foundCandidate.get()).withDiet(diet).build());
-        }
+        foundCandidate.ifPresent(candidate -> {
+            candidateList.remove(candidate);
+            candidateList.add(Candidate.CandidateBuilder.fromCandidate(candidate).withDiet(diet).build());
+        });
     }
 }

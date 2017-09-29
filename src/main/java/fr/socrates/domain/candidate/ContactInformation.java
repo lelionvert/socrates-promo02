@@ -1,8 +1,8 @@
 package fr.socrates.domain.candidate;
 
 public class ContactInformation {
-    private String twitter;
-    private PhoneNumber phoneNumber;
+    private final String twitter;
+    private final PhoneNumber phoneNumber;
 
     private ContactInformation(String twitter, PhoneNumber phoneNumber) {
         this.twitter = twitter;

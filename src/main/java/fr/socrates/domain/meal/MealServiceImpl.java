@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class MealServiceImpl implements MealService {
     private final CheckInService checkInService;
-    private ConfirmationService confirmationService;
+    private final ConfirmationService confirmationService;
     private static final int COLD_FOOD_HOUR = 21;
 
     public MealServiceImpl(CheckInService checkInService, ConfirmationService confirmationService) {
@@ -49,6 +49,6 @@ public class MealServiceImpl implements MealService {
 
     private Map<Diet, List<Candidate>> getMapDietPerListOfDiet(List<Candidate> attendees) {
         return attendees.stream()
-                .collect(Collectors.groupingBy(attendee -> attendee.getDiet()));
+                .collect(Collectors.groupingBy(Candidate::getDiet));
     }
 }

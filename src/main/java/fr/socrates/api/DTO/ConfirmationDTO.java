@@ -20,7 +20,7 @@ public class ConfirmationDTO {
     public ConfirmationDTO() {
     }
 
-    public ConfirmationDTO(String email) {
+    private ConfirmationDTO(String email) {
         this.email = email;
         this.accommodationChoice = AccommodationChoice.SINGLE_ROOM.toString();
         this.payment = Payment.TRANSFER.toString();

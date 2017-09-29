@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/sponsors")
 public class SponsorController {
-    private SponsorService sponsorService;
+    private final SponsorService sponsorService;
 
     public SponsorController(SponsorService sponsorService) {
         this.sponsorService = sponsorService;
@@ -35,9 +35,7 @@ public class SponsorController {
     @PostMapping
     public ResponseEntity addSponsor(@Valid @RequestBody SponsorDTO sponsorDTO) {
         Optional<Sponsor> createdSponsor = sponsorService.addSponsor(SponsorDTO.dTOtoDomain(sponsorDTO));
-        if (createdSponsor.isPresent())
-            return ResponseEntity.ok(SponsorDTO.domainToDTO(createdSponsor.get()));
-        return ResponseEntity.badRequest().build();
+        return createdSponsor.<ResponseEntity>map(sponsor -> ResponseEntity.ok(SponsorDTO.domainToDTO(sponsor))).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -17,6 +17,7 @@ import static org.mockito.Mockito.when;
 public class CandidateServiceImplTest {
     private CandidateService candidateService;
     @Mock
+    private
     CandidateRepository candidateRepository;
 
     @Before

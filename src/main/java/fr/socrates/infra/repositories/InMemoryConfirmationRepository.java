@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public class InMemoryConfirmationRepository implements ConfirmationRepository {
-    private List<Confirmation> listConfirmations;
+    private final List<Confirmation> listConfirmations;
 
     public InMemoryConfirmationRepository() {
         this.listConfirmations = new ArrayList<>();
@@ -31,7 +31,6 @@ public class InMemoryConfirmationRepository implements ConfirmationRepository {
     public boolean confirmationExists(Candidate candidate) {
         return listConfirmations
                 .stream()
-                .filter(confirmation -> candidate.hasCandidateID(confirmation.getCandidateId()))
-                .findFirst().isPresent();
+                .anyMatch(confirmation -> candidate.hasCandidateID(confirmation.getCandidateId()));
     }
 }

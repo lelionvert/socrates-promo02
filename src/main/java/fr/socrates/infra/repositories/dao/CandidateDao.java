@@ -2,12 +2,10 @@ package fr.socrates.infra.repositories.dao;
 
 import fr.socrates.domain.candidate.Candidate;
 
-public class CandidateDao {
-    private String id;
-    private String email;
+class CandidateDao {
 
-    public CandidateDao(Candidate candidate) {
-        this.id = candidate.getCandidateId().getId();
-        this.email = candidate.getEmail();
+  public CandidateDao(Candidate candidate) {
+    String id = candidate.getCandidateId().getId();
+    String email = candidate.getEmail();
     }
 }

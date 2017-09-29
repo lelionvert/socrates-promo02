@@ -1,8 +1,8 @@
 package fr.socrates.domain.meal;
 
-public class DietOrder {
-    private Diet diet;
-    private MealTime mealTime;
+class DietOrder {
+    private final Diet diet;
+    private final MealTime mealTime;
 
     public DietOrder(MealTime mealTime, Diet diet) {
         this.mealTime = mealTime;
@@ -24,8 +24,7 @@ public class DietOrder {
 
         DietOrder dietOrder = (DietOrder) o;
 
-        if (diet != dietOrder.diet) return false;
-        return mealTime == dietOrder.mealTime;
+        return diet == dietOrder.diet && mealTime == dietOrder.mealTime;
     }
 
     @Override

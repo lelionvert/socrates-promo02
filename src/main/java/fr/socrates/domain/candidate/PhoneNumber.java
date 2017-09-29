@@ -1,7 +1,7 @@
 package fr.socrates.domain.candidate;
 
 public class PhoneNumber {
-    private String phoneNumber;
+    private final String phoneNumber;
 
     private PhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;

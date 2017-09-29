@@ -1,6 +1,5 @@
 package fr.socrates.domain.meal;
 
-import fr.socrates.common.Printer;
 import fr.socrates.domain.CandidateId;
 import fr.socrates.domain.attendee.ConfirmationService;
 import fr.socrates.domain.attendee.ConfirmationServiceImpl;
@@ -20,7 +19,6 @@ import fr.socrates.infra.repositories.InMemoryConfirmationRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.LocalDate;
@@ -40,29 +38,20 @@ public class MealCateringFeature {
     private static final String LEO_DAGAN_FR = "leo@dagan.fr";
     private static final String KARA_DOC_FR = "kara@doc.fr";
     private static final String PERSE_VAL_FR = "perse@val.fr";
-    private Candidate johndoe;
-    private Candidate arthurleroi;
-    private Candidate rajeshkootrapoli;
-    private Candidate sheldoncooper;
-    private Candidate leonardhofstadter;
-    private Candidate howardwolowitz;
-    private Candidate leodagan;
-    private Candidate karadoc;
-    private Candidate perceval;
     private ConfirmationService confirmationService;
     private MealService mealService;
 
     @Before
     public void setUp() throws Exception {
-        johndoe = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("1")).withEmail(EMail.of(JOHN_DOE_FR)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
-        arthurleroi = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("2")).withEmail(EMail.of(ARTHUR_LEROI_FR)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
-        rajeshkootrapoli = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("3")).withEmail(EMail.of(RAJESH_KOOTRAPOLI_COM)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
-        sheldoncooper = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("4")).withEmail(EMail.of(SHELDON_COOPER_COM)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
-        leonardhofstadter = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("5")).withEmail(EMail.of(LEONARD_HOFSTADTER_COM)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
-        howardwolowitz = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("6")).withEmail(EMail.of(HOWARD_WOLOWITZ_COM)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
-        leodagan = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("7")).withEmail(EMail.of(LEO_DAGAN_FR)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
-        karadoc = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("8")).withEmail(EMail.of(KARA_DOC_FR)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
-        perceval = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("9")).withEmail(EMail.of(PERSE_VAL_FR)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
+        Candidate johndoe = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("1")).withEmail(EMail.of(JOHN_DOE_FR)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
+        Candidate arthurleroi = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("2")).withEmail(EMail.of(ARTHUR_LEROI_FR)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
+        Candidate rajeshkootrapoli = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("3")).withEmail(EMail.of(RAJESH_KOOTRAPOLI_COM)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
+        Candidate sheldoncooper = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("4")).withEmail(EMail.of(SHELDON_COOPER_COM)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
+        Candidate leonardhofstadter = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("5")).withEmail(EMail.of(LEONARD_HOFSTADTER_COM)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
+        Candidate howardwolowitz = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("6")).withEmail(EMail.of(HOWARD_WOLOWITZ_COM)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
+        Candidate leodagan = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("7")).withEmail(EMail.of(LEO_DAGAN_FR)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
+        Candidate karadoc = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("8")).withEmail(EMail.of(KARA_DOC_FR)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
+        Candidate perceval = CandidateBuilder.aCandidate().withCandidateId(new CandidateId("9")).withEmail(EMail.of(PERSE_VAL_FR)).withOneAccommodationChoice(AccommodationChoice.SINGLE_ROOM).build();
 
         InMemoryCandidateRepository candidateRepository = new InMemoryCandidateRepository();
         CandidateService candidateService = new CandidateServiceImpl(candidateRepository);

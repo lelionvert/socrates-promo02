@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequestMapping("/candidates")
 public class CandidateController {
 
-    private CandidateService candidateService;
+    private final CandidateService candidateService;
 
     public CandidateController(CandidateService candidateService) {
         this.candidateService = candidateService;
@@ -28,23 +28,16 @@ public class CandidateController {
 
     @GetMapping("/{id:.+}")
     public ResponseEntity getCandidate(@PathVariable String id) {
-        Optional<Candidate> candidate = candidateService.findCandidateByEmail(id);
-        if (candidate.isPresent())
-            return ResponseEntity.ok(CandidateDTO.domainToDTO(candidate.get()));
-        else
-            return ResponseEntity.noContent().build();
+        Optional<Candidate> foundCandidate = candidateService.findCandidateByEmail(id);
+        return foundCandidate.<ResponseEntity>map(candidate -> ResponseEntity.ok(CandidateDTO.domainToDTO(candidate))).orElseGet(() -> ResponseEntity.noContent().build());
     }
 
     @PostMapping
     public ResponseEntity createCandidate(@Valid @RequestBody CandidateDTO candidateDTO) {
         try {
             candidateService.add(CandidateDTO.DTOToDomain(candidateDTO));
-            Optional<Candidate> candidate = candidateService.findCandidateByEmail(candidateDTO.getEmail());
-            if (candidate.isPresent())
-                return ResponseEntity.ok(CandidateDTO.domainToDTO(candidate.get()));
-            else
-                return ResponseEntity.noContent().build();
-
+            Optional<Candidate> foundCandidate = candidateService.findCandidateByEmail(candidateDTO.getEmail());
+            return foundCandidate.<ResponseEntity>map(candidate -> ResponseEntity.ok(CandidateDTO.domainToDTO(candidate))).orElseGet(() -> ResponseEntity.noContent().build());
         } catch (CandidateException.CandidatePersisteDataException e) {
             return ResponseEntity.badRequest().build();
         } catch (CandidateException.CandidateExistingException e) {

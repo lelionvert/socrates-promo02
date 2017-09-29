@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Catering {
 
-    private Map<DietOrder, Quantity> coversByDietByDay;
+    private final Map<DietOrder, Quantity> coversByDietByDay;
 
     public Catering(Map<DietOrder, Quantity> coversByDietByDay) {
         this.coversByDietByDay = coversByDietByDay;

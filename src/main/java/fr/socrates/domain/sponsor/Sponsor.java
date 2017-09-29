@@ -9,7 +9,7 @@ public class Sponsor {
     private final Siren siren;
     private final String contractRepresentative;
     private final String contact;
-    private double amountOfSponsoring;
+    private final double amountOfSponsoring;
     private String id;
 
     private Sponsor(String name, Siren siren, String contractRepresentative, String contact, double amountOfSponsoring) {

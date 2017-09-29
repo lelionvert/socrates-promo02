@@ -1,6 +1,6 @@
 package fr.socrates.domain.meal;
 
-public interface MealService {
+interface MealService {
     long countColdMeal();
 
     Catering generateOrder();

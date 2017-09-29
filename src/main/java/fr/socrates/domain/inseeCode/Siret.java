@@ -7,9 +7,8 @@ import java.util.Optional;
 
 public class Siret {
     private final Siren siren;
-    private final String nic;
 
-    public Siret(@NotNull String siret) {
+  public Siret(@NotNull String siret) {
         final Optional<String> siretWithRightLength = Optional.of(siret)
                 .map(new WhitespaceRemover())
                 .filter(this::hasRightLength)
@@ -19,9 +18,9 @@ public class Siret {
                 .map(this::extractSiren)
                 .map(Siren::new)
                 .orElseThrow(() -> new IllegalStateException("Invalid SIRET : " + siret));
-        this.nic = siretWithRightLength
-                .map(this::extractNic)
-                .orElseThrow(() -> new IllegalStateException("Invalid SIRET : " + siret));
+    String nic = siretWithRightLength
+            .map(this::extractNic)
+            .orElseThrow(() -> new IllegalStateException("Invalid SIRET : " + siret));
     }
 
     private boolean hasRightLength(String s) {

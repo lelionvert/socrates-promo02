@@ -2,7 +2,7 @@ package fr.socrates.domain.meal;
 
 public class Quantity {
 
-    private  long quantity;
+    private final long quantity;
 
     private Quantity(long quantity) {
         this.quantity = quantity;

@@ -13,8 +13,8 @@ import java.util.Optional;
 
 @Service
 public class ConfirmationServiceImpl implements ConfirmationService {
-    private CandidateRepository candidateRepository;
-    private ConfirmationRepository confirmationRepository;
+    private final CandidateRepository candidateRepository;
+    private final ConfirmationRepository confirmationRepository;
 
     public ConfirmationServiceImpl(CandidateRepository candidateRepository, ConfirmationRepository confirmationRepository) {
         this.candidateRepository = candidateRepository;

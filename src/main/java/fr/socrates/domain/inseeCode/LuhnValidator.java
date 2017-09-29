@@ -13,7 +13,7 @@ import java.util.function.Predicate;
  * ---------------------------------------------
  * somme : 1+4+3+4+8+4+9+6+2+0+0+0+0+1+4+4=50
  */
-public class LuhnValidator implements Predicate<String> {
+class LuhnValidator implements Predicate<String> {
     public boolean test(String code) {
         int total = 0;
         int digit;

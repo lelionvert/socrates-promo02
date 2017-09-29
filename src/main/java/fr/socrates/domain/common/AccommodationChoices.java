@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 public class AccommodationChoices {
 
-    public static final int MAX_CHOICES = 4;
-    private AccommodationChoice[] accommodationChoices;
-    private String remarks;
+    private static final int MAX_CHOICES = 4;
+    private final AccommodationChoice[] accommodationChoices;
+    private final String remarks;
 
     private AccommodationChoices(AccommodationChoice[] accommodationChoices, String remarks) {
         this.accommodationChoices = accommodationChoices;

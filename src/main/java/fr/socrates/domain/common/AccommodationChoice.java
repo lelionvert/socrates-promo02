@@ -6,7 +6,7 @@ public enum AccommodationChoice {
     TRIPLE_ROOM("Triple Room"),
     NO_ACCOMMODATION("No Accommondation");
 
-    String accommodationChoiceValue;
+    final String accommodationChoiceValue;
 
     AccommodationChoice(String accommodationChoiceValue) {
         this.accommodationChoiceValue = accommodationChoiceValue;

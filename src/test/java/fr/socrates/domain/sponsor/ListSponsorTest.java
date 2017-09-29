@@ -11,7 +11,7 @@ public class ListSponsorTest {
 
     private List<Sponsor> sponsors;
 
-    private void init_list_of_sponsors() throws InvalidSponsorException {
+    private void init_list_of_sponsors() {
         Sponsor sponsor1 = new Sponsor.SponsorBuilder()
                 .withName("name")
                 .withSIRET("82322757400014")
@@ -97,11 +97,11 @@ public class ListSponsorTest {
     private class FakeSponsorRepository implements SponsorRepository {
         private final List<Sponsor> sponsors;
 
-        public FakeSponsorRepository() {
+        FakeSponsorRepository() {
             sponsors = new ArrayList<>();
         }
 
-        public FakeSponsorRepository(List<Sponsor> sponsors) {
+        FakeSponsorRepository(List<Sponsor> sponsors) {
 
             this.sponsors = sponsors;
         }

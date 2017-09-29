@@ -17,8 +17,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/confirmations")
 public class ConfirmationController {
-    private ConfirmationService confirmationService;
-    private CandidateService candidateService;
+    private final ConfirmationService confirmationService;
+    private final CandidateService candidateService;
 
     public ConfirmationController(ConfirmationService confirmationService, CandidateService candidateService) {
         this.confirmationService = confirmationService;
