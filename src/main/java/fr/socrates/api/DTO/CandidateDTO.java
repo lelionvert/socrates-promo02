@@ -6,6 +6,7 @@ import fr.socrates.domain.candidate.Candidate.CandidateBuilder;
 import fr.socrates.domain.candidate.EMail;
 import fr.socrates.domain.common.AccommodationChoice;
 import fr.socrates.domain.common.AccommodationChoices;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
@@ -14,8 +15,10 @@ import java.util.stream.Collectors;
 
 public class CandidateDTO {
     @NotNull
+    @ApiModelProperty(example = "test@test.net")
     private String email;
 
+    @ApiModelProperty(example = "SINGLE_ROOM, DOUBLE_ROOM")
     private String[] choices;
 
     public CandidateDTO() {
@@ -57,6 +60,7 @@ public class CandidateDTO {
         return choices;
     }
 
+    @ApiModelProperty(hidden = true)
     public void setAccomodationChoice(AccommodationChoice... choices) {
         this.choices = Arrays.stream(choices)
                 .map(AccommodationChoice::toString)

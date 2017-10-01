@@ -10,7 +10,6 @@ public class Sponsor {
     private final String contractRepresentative;
     private final String contact;
     private final double amountOfSponsoring;
-    private String id;
 
     private Sponsor(String name, Siren siren, String contractRepresentative, String contact, double amountOfSponsoring) {
         this.name = name;
@@ -40,10 +39,6 @@ public class Sponsor {
         return "Sponsor{" +
                 "contact='" + contact + '\'' +
                 '}';
-    }
-
-    public String getId() {
-        return id;
     }
 
     public Siren getSiren() {

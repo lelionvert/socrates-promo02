@@ -1,26 +1,14 @@
 package fr.socrates.api.DTO;
 
 public class SponsorDTOBuilder {
-    private String id;
     private String siren;
-    private String siret;
     private String name;
     private String contractRepresentative;
     private String contact;
     private double amount;
 
-    public SponsorDTOBuilder withId(String id) {
-        this.id = id;
-        return this;
-    }
-
     public SponsorDTOBuilder withSiren(String siren) {
         this.siren = siren;
-        return this;
-    }
-
-    public SponsorDTOBuilder withSiret(String siret) {
-        this.siret = siret;
         return this;
     }
 
@@ -45,6 +33,6 @@ public class SponsorDTOBuilder {
     }
 
     public SponsorDTO createSponsorDTO() {
-        return new SponsorDTO(id, siret, siren, name, contractRepresentative, contact, amount);
+        return new SponsorDTO(null, siren, name, contractRepresentative, contact, amount);
     }
 }

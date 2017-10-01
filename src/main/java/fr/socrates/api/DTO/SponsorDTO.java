@@ -1,22 +1,27 @@
 package fr.socrates.api.DTO;
 
 import fr.socrates.domain.sponsor.Sponsor;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class SponsorDTO {
-    private String id;
     @NotNull
     @Size(min = 9, max = 11)
+    @ApiModelProperty(example = "823227574")
     private String siren;
     @Size(min = 14, max = 14)
+    @ApiModelProperty(example = "82322757400014")
     private String siret;
     @NotNull
+    @ApiModelProperty(example = "La combe du Lion Vert")
     private String name;
     @NotNull
+    @ApiModelProperty(example = "Jane doe")
     private String contractRepresentative;
     @NotNull
+    @ApiModelProperty(example = "John doe")
     private String contact;
     @NotNull
     private double amount;
@@ -24,8 +29,7 @@ public class SponsorDTO {
     public SponsorDTO() {
     }
 
-    public SponsorDTO(String id, String siret, String siren, String name, String contractRepresentative, String contact, double amount) {
-        this.id = id;
+    public SponsorDTO(String siret, String siren, String name, String contractRepresentative, String contact, double amount) {
         this.siret = siret;
         this.siren = siren;
         this.name = name;
@@ -36,21 +40,12 @@ public class SponsorDTO {
 
     public static SponsorDTO domainToDTO(Sponsor sponsor) {
         return new SponsorDTOBuilder()
-                .withId(sponsor.getId())
                 .withSiren(sponsor.getSiren().getSiren())
                 .withName(sponsor.getName())
                 .withContractRepresentative(sponsor.getContractRepresentative())
                 .withContact(sponsor.getContact())
                 .withAmount(sponsor.getAmountOfSponsoring())
                 .createSponsorDTO();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getSiren() {

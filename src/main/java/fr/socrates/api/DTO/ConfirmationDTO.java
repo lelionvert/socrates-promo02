@@ -3,6 +3,8 @@ package fr.socrates.api.DTO;
 import fr.socrates.domain.attendee.Payment;
 import fr.socrates.domain.candidate.Candidate;
 import fr.socrates.domain.common.AccommodationChoice;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -10,10 +12,13 @@ import java.util.stream.Collectors;
 
 public class ConfirmationDTO {
     @NotNull
+    @ApiModelProperty(example = "test@test.net")
     private String email;
     @NotNull
+    @ApiModelProperty(hidden = true)
     private String accommodationChoice;
     @NotNull
+    @ApiModelProperty(hidden = true)
     private String payment;
 
 
